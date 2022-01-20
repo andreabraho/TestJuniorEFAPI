@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.APIModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -21,25 +22,70 @@ namespace TestJuniorEFAPI.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger,MyContext ctx)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, MyContext ctx)
         {
             _logger = logger;
             _ctx = ctx;
         }
 
-        [HttpGet]
-        public IEnumerable<Account> Get()
+        [Route("Get")]
+        public IActionResult Get()
         {
-            //var rng = new Random();
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
-            //    Date = DateTime.Now.AddDays(index),
-            //    TemperatureC = rng.Next(-20, 55),
-            //    Summary = Summaries[rng.Next(Summaries.Length)]
-            //})
-            //.ToArray();
 
-            return _ctx.Accounts.Include(x => x.Brand)/*.ThenInclude(x=>x.Products).ThenInclude(x=>x.InfoRequests).ThenInclude(x=>x.InfoRequestReplys)*/.Where(x=>x.Id==1);
+
+            //var productList = _ctx.Products
+            //    .Include(x => x.Product_Categories)
+            //        .ThenInclude(x => x.Category)
+            //    .Select(product => new ProductBla
+            //    {
+            //        Id = product.Id,
+            //        Name = product.Name,
+            //        ProductCategories = product.Product_Categories.Select(productCategory => new ProductCategoryBla
+            //        {
+            //            CategoryId = productCategory.CategoryId,
+            //            ProductId = productCategory.ProductId,
+            //            Category=productCategory.Category,
+            //        })
+            //    })
+            //    .ToList();
+
+
+
+            /*
+             Select C.Id,C.Name,Count(*) as ProdAsscociatedToCat
+            From Product as P Join Product_Category as PC ON P.Id=PC.ProductId
+		            JOIN Category As C ON PC.CategoryId=C.Id
+            WHERE P.BrandId=1
+            Group BY C.Id,C.Name 
+            */
+            
+            var query = from p in _ctx.Set<Product>()
+                        join pc in _ctx.Set<Product_Category>() on p.Id equals pc.ProductId
+                        join c in _ctx.Set<Category>() on pc.CategoryId equals c.Id
+                        where p.BrandId==1
+                        group p by c.Id
+            into g
+                        select new { g.Key, Count = g.Count() };
+                        
+                        
+
+            var t =query.ToList();
+            return Ok(query);
         }
+    }
+
+    public class ProductBla
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public IEnumerable<ProductCategoryBla> ProductCategories { get; set; } = new List<ProductCategoryBla>();
+    }
+
+    public class ProductCategoryBla
+    {
+        public int CategoryId { get; set; }
+        public int ProductId { get; set; }
+        public Category Category { get; set; }
     }
 }

@@ -23,7 +23,6 @@ namespace Domain
         {
 
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
         }
@@ -31,64 +30,61 @@ namespace Domain
         {
             modelBuilder.Entity<Account>(builder =>
             {
-                builder.HasKey(x=>x.Id);
+                builder.HasKey(x => x.Id);
                 builder.ToTable("Account");
 
                 builder.Property(x => x.Email).IsRequired().HasMaxLength(255);
                 builder.Property(x => x.Password).IsRequired().HasMaxLength(18);
                 builder.Property(x => x.AccountType).IsRequired();
 
-                //builder.HasOne(x => x.User)
-                //    .WithOne(x => x.Account)
-                //    .HasForeignKey<User>(x=>x.AccountId);
-                //builder.HasOne(x => x.Brand)
-                //.WithOne(x => x.Account)
-                //.HasForeignKey<Brand>(x => x.AccountId);
             });
 
             modelBuilder.Entity<Brand>(builder =>
             {
                 builder.HasKey(x => x.Id);
                 builder.ToTable("Brand");
-                builder.Property(x=>x.AccountId).IsRequired();
-                
+                builder.Property(x => x.AccountId).IsRequired();
 
-               builder.HasOne(x=>x.Account).WithOne(x=>x.Brand).HasForeignKey<Brand>(x=>x.AccountId);
+
+                builder.HasOne(x=>x.Account)
+                    .WithOne(x=>x.Brand)
+                    .HasForeignKey<Brand>(x=>x.AccountId);
+
             });
             modelBuilder.Entity<User>(builder =>
             {
                 builder.HasKey(x => x.Id);
                 builder.ToTable("User");
-                builder.Property(x=>x.Name).IsRequired().HasMaxLength(255);
-                builder.Property(x=>x.LastName).IsRequired().HasMaxLength(255);
-                builder.Property(x=>x.AccountId).IsRequired();
-                builder.HasOne(x => x.Account).WithOne(x => x.User).HasForeignKey<User>(x => x.AccountId);
+                builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
+                builder.Property(x => x.LastName).IsRequired().HasMaxLength(255);
+                builder.Property(x => x.AccountId).IsRequired().HasColumnName("AccountId");
 
-                //builder.HasOne(x=>x.Account)
-                //    .WithOne(x=>x.User)
-                //    .HasForeignKey<User>(x=>x.AccountId);
+                builder.HasOne(x => x.Account)
+                    .WithOne(x => x.User)
+                    .HasForeignKey<User>(x => x.AccountId);
+                
             });
             modelBuilder.Entity<Product>(builder =>
             {
-                
+
                 builder.HasKey(x => x.Id);
                 builder.ToTable("Product");
-                builder.Property(x => x.BrandId).IsRequired();
+                builder.Property(x => x.BrandId).IsRequired().HasColumnName("BrandId");
                 builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
                 builder.Property(x => x.ShortDescription).IsRequired().HasMaxLength(255);
                 builder.Property(x => x.Price)
                      .HasConversion<decimal>().IsRequired();
-                
-                
-                builder.HasOne(x=>x.Brand)
-                    .WithMany(x=>x.Products)
-                    .HasForeignKey(x=>x.BrandId);
-                builder.HasMany(x=>x.InfoRequests)
-                    .WithOne(x=>x.Product)
-                    .HasForeignKey(x=>x.ProductId);
-                builder.HasMany(x => x.Product_Categories)
+
+
+
+                builder.HasOne(x => x.Brand)
+                    .WithMany(x => x.Products)
+                    .HasForeignKey(x => x.BrandId);
+
+                builder.HasMany(x => x.InfoRequests)
                     .WithOne(x => x.Product)
                     .HasForeignKey(x => x.ProductId);
+
             });
             
             modelBuilder.Entity<Product_Category>(builder =>
@@ -97,12 +93,12 @@ namespace Domain
 
                 builder.HasKey(x => new { x.CategoryId, x.ProductId });
 
-                builder.HasOne(x => x.Product)
-                    .WithMany(x => x.Product_Categories)
-                    .HasForeignKey(x => x.ProductId);
-                builder.HasOne(x=>x.Category)
-                    .WithMany(x=>x.Product_Categories)
-                    .HasForeignKey(x=>x.CategoryId);
+                //builder.HasOne(x => x.Product)
+                //    .WithMany(x => x.Product_Categories)
+                //    .HasForeignKey(x => x.ProductId).HasConstraintName("FK_ProductCategory");
+                //builder.HasOne(x=>x.Category)
+                //    .WithMany(x=>x.Product_Categories)
+                //    .HasForeignKey(x=>x.CategoryId).HasConstraintName("FK_CategoryProduct");
             });
 
             modelBuilder.Entity<Category>(builder =>
@@ -111,9 +107,6 @@ namespace Domain
 
                 builder.Property(x=>x.Name).IsRequired();
 
-                builder.HasMany(x => x.Product_Categories)
-                    .WithOne(x => x.Category)
-                    .HasForeignKey(x => x.CategoryId);
             });
 
             modelBuilder.Entity<InfoRequest>(builder =>
@@ -133,12 +126,8 @@ namespace Domain
                     .WithMany(x=>x.InfoRequests)
                     .HasForeignKey(x=>x.UserId);
 
-                builder.HasOne(x => x.Product)
-                    .WithMany(x => x.InfoRequests)
-                    .HasForeignKey(x => x.ProductId);
-                //builder.HasOne(x => x.Nation)
-                //    .WithMany(x => x.InfoRequests)
-                //    .HasForeignKey(x => x.NationId);
+                
+                
 
             });
 

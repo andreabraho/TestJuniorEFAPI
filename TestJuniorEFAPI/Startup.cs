@@ -1,3 +1,5 @@
+using DataLayer.Interfaces;
+using DataLayer.Repository;
 using Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,9 +19,11 @@ namespace TestJuniorEFAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        IWebHostEnvironment _env;
+        public Startup(IConfiguration configuration,IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -31,8 +35,13 @@ namespace TestJuniorEFAPI
             services.AddDbContextPool<MyContext>(optionsBuilder =>
             {
                 string ConnectionString = Configuration.GetConnectionString("Default");
-                optionsBuilder.UseSqlServer(ConnectionString);
+                optionsBuilder.UseSqlServer(ConnectionString).EnableSensitiveDataLogging(_env.IsDevelopment());
             });
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
+
             services.AddControllers().AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }

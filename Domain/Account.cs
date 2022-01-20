@@ -9,9 +9,7 @@ namespace Domain
         public string Email { get; set; }
         public string Password { get; set; }
         public byte AccountType { get; set; }
-        public int UserId { get; set; }
         public User User { get; set; }
-        public int BrandId { get; set; }
         public Brand Brand { get; set; }
         public ICollection<InfoRequestReply> InfoRequestReplies { get; set; }
     }

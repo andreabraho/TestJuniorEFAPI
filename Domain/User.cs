@@ -10,7 +10,6 @@ namespace Domain
         public string LastName { get; set; }
         public int AccountId { get; set; }
         public Account Account { get; set; }
-        public ICollection<Product> Products { get; set; }
         public ICollection<InfoRequest> InfoRequests { get; set; }
     }
 }
