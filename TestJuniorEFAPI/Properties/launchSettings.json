@@ -20,7 +20,7 @@
     "TestJuniorEFAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "product/page/1/10",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

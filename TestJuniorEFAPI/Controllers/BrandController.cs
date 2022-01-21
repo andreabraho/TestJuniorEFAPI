@@ -49,7 +49,7 @@ namespace TestJuniorEFAPI.Controllers
             Group BY C.Id,C.Name 
             */
 
-            return Ok(_brandRepository.GetBrandDetail(id));
+            return Ok(_brandRepository.GetBrandDetailV3(id));
         }
 
     }

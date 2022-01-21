@@ -36,7 +36,7 @@ namespace DataLayer.Repository
                 }).ToList(),
                 countGuestInfoRequests=p.InfoRequests.Where(x=>x.UserId==null).Count(),
                 countUserInfoRequests=p.InfoRequests.Where(x=>x.UserId!=null).Count(),
-                infoRequestProducts=p.InfoRequests.Select(ir=>new InfoRequestProductModel
+                infoRequestProducts=p.InfoRequests.OrderByDescending(x=>x.InsertDate).Select(ir=>new InfoRequestProductModel
                 {
                     Id=ir.Id,
                     ReplyNumber=ir.InfoRequestReplys.Count(),
@@ -49,6 +49,42 @@ namespace DataLayer.Repository
 
 
             return x;
+        }
+        public ProductDetailModel GetProductDetailV2(int id)
+        {
+            
+            var query=_ctx.Products.AsQueryable();
+
+            var t =
+                from Products in query
+                let brand =Products.Brand
+                let ir=Products.InfoRequests
+                let pr=Products.Product_Categories
+                where Products.Id == id
+                select new ProductDetailModel
+                {
+                    BrandName=brand.BrandName,
+                    Id=Products.Id,
+                    Name= Products.Name,
+                    countGuestInfoRequests=ir.Where(x => x.UserId==null).Count(),
+                    countUserInfoRequests=ir.Where(x=>x.UserId!=null).Count(),
+                    productsCategory=pr.Select(c => new Category
+                    {
+                        Id = c.CategoryId,
+                        Name = c.Category.Name,
+
+                    }).ToList(),
+                    infoRequestProducts=ir.OrderByDescending(x => x.InsertDate).Select(ir => new InfoRequestProductModel
+                    {
+                        Id = ir.Id,
+                        ReplyNumber = ir.InfoRequestReplys.Count(),
+                        Name = ir.UserId == null ? ir.Name : ir.User.Name,
+                        LastName = ir.UserId == null ? ir.LastName : ir.User.LastName,
+                        DateLastReply = ir.InfoRequestReplys.Max(x => x.InsertDate),
+                    }).ToList()
+
+                };
+            return t.FirstOrDefault();
         }
     }
 }

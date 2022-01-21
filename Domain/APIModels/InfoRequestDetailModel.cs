@@ -12,7 +12,7 @@ namespace Domain.APIModels
         public string LastName { get; set; }    
         public string Email { get; set; }
         public string Location { get; set; }
-        public List<IRModelReply> iRModelReplies { get; set; }
+        public List<IRModelReply> IRModelReplies { get; set; }
     }
     public class ProductIRDetail
     {

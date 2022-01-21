@@ -10,6 +10,8 @@ namespace DataLayer.Interfaces
     {
         public BrandDetail GetBrandDetail(int id);
         public List<Brand> GetPageBrands(int page, int pageSize);
+        public BrandDetail GetBrandDetailV2(int id);
+        public BrandDetail GetBrandDetailV3(int id);
         public int GetCount();
     }
 }

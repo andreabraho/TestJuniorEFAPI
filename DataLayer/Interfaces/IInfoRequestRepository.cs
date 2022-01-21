@@ -9,6 +9,6 @@ namespace DataLayer.Interfaces
     public interface IInfoRequestRepository: IRepository<InfoRequest>
     {
         public InfoRequestDetailModel InfoRequestDetail(int id);
-
+        public InfoRequestDetailModel InfoRequestDetailV2(int id);
     }
 }

@@ -38,9 +38,14 @@ namespace TestJuniorEFAPI
                 optionsBuilder.UseSqlServer(ConnectionString).EnableSensitiveDataLogging(_env.IsDevelopment());
             });
 
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        
+
+
+
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
+            services.AddScoped<IInfoRequestRepository, InfoRequestRepository>();
 
             services.AddControllers().AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
