@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Domain
 {
+    /// <summary>
+    /// rappresents brand account type
+    /// </summary>
     public class Brand:EntityBase
     {
         public string BrandName { get; set; }

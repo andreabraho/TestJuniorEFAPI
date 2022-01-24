@@ -3,7 +3,7 @@
 namespace Domain.APIModels
 {
     /// <summary>
-    /// model used to create the object that will be returned in brand API Page/{page}{PageSize}
+    /// model used to create the object that will be returned in brand API brand/Page/{page}/{PageSize}
     /// </summary>
     public class BrandPageModel
     {
@@ -13,6 +13,9 @@ namespace Domain.APIModels
         public List<BrandForPage> Brands { get; set; } = new List<BrandForPage> { };
 
     }
+    /// <summary>
+    /// data of each brand needed in brands page
+    /// </summary>
     public class BrandForPage
     {
         public List<int> IdProducts { get; set; }=new List<int>();

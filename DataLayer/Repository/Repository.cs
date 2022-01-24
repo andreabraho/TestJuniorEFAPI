@@ -46,6 +46,8 @@ namespace DataLayer.Repository
             entities.Remove(entity);
             _ctx.SaveChanges();
         }
+
+
     }
 
 }

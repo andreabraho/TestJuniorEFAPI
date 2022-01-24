@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Domain.APIModels
 {
+    /// <summary>
+    /// Rappresents a class that contains all data neccessary for a brand detail page
+    /// model used to create the object that will be returned in Produc API brand/Detail/{id}
+    /// </summary>
     public class BrandDetail
     {
 
@@ -22,23 +26,65 @@ namespace Domain.APIModels
             ○ Nome del prodotto
             ○ Numero di richieste informazioni ricevute dal prodotto
          */
+        /// <summary>
+        /// brand id
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// brand name
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// total of products inserted by the brand
+        /// </summary>
         public int TotProducts { get; set; }
+        /// <summary>
+        /// total of all info requests recived by the brand
+        /// </summary>
         public int CountRequestFromBrandProducts { get; set; }
+        /// <summary>
+        /// list of categories associated to the brand
+        /// </summary>
         public List<CategoryBrandDetail> AssociatedCategory { get; set; }=new List<CategoryBrandDetail>();
+        /// <summary>
+        /// list of products associated to the brand
+        /// </summary>
         public List<ProductBrandDetail> Products { get; set; }=new List<ProductBrandDetail>();
     }
+    /// <summary>
+    /// data neccessary on the page fo each category
+    /// </summary>
     public class CategoryBrandDetail
     {
+        /// <summary>
+        /// category id
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// category name
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// number of products associated to the category of the brand
+        /// </summary>
         public int CountProdAssociatied { get; set; }
     }
+    /// <summary>
+    /// data neccessary on the page fo each product
+    /// </summary>
     public class ProductBrandDetail
     {
+        /// <summary>
+        /// id product
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// product name
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// number of info requests recived by the product
+        /// </summary>
         public int CountInfoRequest { get; set; }
     }
 }

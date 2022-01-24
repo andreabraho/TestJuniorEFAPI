@@ -20,9 +20,12 @@ namespace TestJuniorEFAPI.Controllers
         }
 
         [Route("Page/{page}/{pageSize}")]
-        public IActionResult GetProductPae(int page, int pageSize)
+        public IActionResult GetBrandPage(int page, int pageSize)
         {
-            
+            if(page <= 0 )
+                return NotFound("page not found");
+            if (pageSize <= 0)
+                return BadRequest("page size can't be lower or equal than 0");
             BrandPageModel brandPageModel = new BrandPageModel();
             brandPageModel.PageSize = pageSize;
             brandPageModel.Page = page;
@@ -40,15 +43,8 @@ namespace TestJuniorEFAPI.Controllers
         [Route("Detail/{id}")]
         public IActionResult GetBrandDetail(int id)
         {
-
-            /*
-             Select C.Id,C.Name,Count(*) as ProdAsscociatedToCat
-            From Product as P Join Product_Category as PC ON P.Id=PC.ProductId
-		            JOIN Category As C ON PC.CategoryId=C.Id
-            WHERE P.BrandId=1
-            Group BY C.Id,C.Name 
-            */
-
+            if(id <= 0)
+                return BadRequest("id not valid");
             return Ok(_brandRepository.GetBrandDetailV3(id));
         }
 

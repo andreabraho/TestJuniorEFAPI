@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Domain
 {
+    /// <summary>
+    /// rappresents an user account type
+    /// </summary>
     public class User : EntityBase
     {
         public string Name { get; set; }

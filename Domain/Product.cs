@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Domain
 {
+    /// <summary>
+    /// rappresent a product of the application
+    /// </summary>
     public class Product:EntityBase
     {
         public string Name { get; set; }

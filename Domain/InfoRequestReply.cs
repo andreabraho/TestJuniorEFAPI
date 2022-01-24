@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Domain
 {
+    /// <summary>
+    /// rappresent one reply to a info request it can be from a brand or a user
+    /// </summary>
     public class InfoRequestReply:EntityBase
     {
         public string ReplyText { get; set; }

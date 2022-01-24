@@ -21,8 +21,12 @@ namespace TestJuniorEFAPI.Controllers
         }
 
         [Route("Page/{page}/{pageSize}")]
-        public IActionResult GetProductPae(int page,int pageSize)
+        public IActionResult GetProductPage(int page,int pageSize)
         {
+            if(page<=0)
+                return NotFound("page not found");
+            if(pageSize <= 0)
+                return BadRequest("page size can't be lower or equal than 0");
             ProductPageModel  productPageModel = new ProductPageModel();
             productPageModel.PageSize = pageSize;
             productPageModel.Page = page;
@@ -36,10 +40,16 @@ namespace TestJuniorEFAPI.Controllers
             }).ToList();
             return Ok(productPageModel);
         }
+        /// <summary>
+        /// product detail page
+        /// </summary>
+        /// <param name="id">id of the product</param>
+        /// <returns></returns>
         [Route("Detail/{id}")]
         public IActionResult ProductDetail(int id)
         {
-
+            if (id <= 0)
+                return BadRequest("not vaid id");
             return Ok(_productRepository.GetProductDetail(id));
         }
     }

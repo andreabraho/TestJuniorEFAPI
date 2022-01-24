@@ -19,7 +19,8 @@ namespace TestJuniorEFAPI.Controllers
         [Route("Detail/{id}")]
         public IActionResult GetInfoRequestDetail(int id)
         {
-
+            if (id <= 0)
+                return BadRequest("id can't be lower or equal than 0");
             return Ok(_infoRequestRepository.InfoRequestDetailV2(id));
         }
 

@@ -16,13 +16,31 @@ namespace DataLayer.Repository
         {
             return _ctx.Products.Count();
         }
-
+        /// <summary>
+        /// get products for a page
+        /// </summary>
+        /// <param name="page">page wanted</param>
+        /// <param name="pageSize">page dimension</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">in case page or pageSize<=0</exception>
         public List<Product> GetPageProducts(int page, int pageSize)
         {
+            if(pageSize <= 0)
+                throw new ArgumentOutOfRangeException(nameof(pageSize));
+            if(page <= 0)
+                throw new ArgumentOutOfRangeException(nameof(page));
             return _ctx.Products.Skip(pageSize * (page-1)).Take(pageSize).ToList();
         }
+        /// <summary>
+        /// data for a product detail page
+        /// </summary>
+        /// <param name="id">id of the product</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">if id <=0 </exception>
         public ProductDetailModel GetProductDetail(int id)
         {
+            if(id <= 0)
+                throw   new ArgumentOutOfRangeException(nameof(id));
             var x=_ctx.Products.Where(p=>p.Id==id).Select(p=>new ProductDetailModel
             {
                 Id = p.Id,
@@ -50,9 +68,16 @@ namespace DataLayer.Repository
 
             return x;
         }
+        /// <summary>
+        /// data for a product detail page
+        /// </summary>
+        /// <param name="id">id of the product</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">if id <=0 </exception>
         public ProductDetailModel GetProductDetailV2(int id)
         {
-            
+            if (id <= 0)
+                throw new ArgumentOutOfRangeException(nameof(id));
             var query=_ctx.Products.AsQueryable();
 
             var t =

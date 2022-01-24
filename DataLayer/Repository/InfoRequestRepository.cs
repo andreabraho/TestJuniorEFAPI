@@ -11,8 +11,16 @@ namespace DataLayer.Repository
     public class InfoRequestRepository : Repository<InfoRequest>, IInfoRequestRepository
     {
         public InfoRequestRepository(MyContext context) : base(context) { }
+        /// <summary>
+        /// all neccessary data for a info request detail page
+        /// </summary>
+        /// <param name="id">id of the info request</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">id <=0</exception>
         public InfoRequestDetailModel InfoRequestDetail(int id)
         {
+            if(id<=0)
+                throw new ArgumentException(nameof(id));
             InfoRequestDetailModel x = _ctx.InfoRequests
                     .Where(x => x.Id == id)
                     .Select(ir => new InfoRequestDetailModel
@@ -38,7 +46,12 @@ namespace DataLayer.Repository
 
             return x;
         }
-
+        /// <summary>
+        /// all neccessary data for a info request detail page
+        /// </summary>
+        /// <param name="id">id of the info request</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">id <=0</exception>
         public InfoRequestDetailModel InfoRequestDetailV2(int id)
         {
             //InfoRequestDetailModel x = _ctx.InfoRequests
