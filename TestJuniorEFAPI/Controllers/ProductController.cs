@@ -19,7 +19,16 @@ namespace TestJuniorEFAPI.Controllers
             this._productRepository = productRepository;
             this._logger = logger;
         }
-
+        /// <summary>
+        /// product page 
+        /// </summary>
+        /// <param name="page">page needed</param>
+        /// <param name="pageSize">products per page</param>
+        /// <returns>
+        /// NotFound() in case of not valid page number
+        /// BadRequest() in case of a not valid pageSize
+        /// Ok() return data correctly
+        /// </returns>
         [Route("Page/{page}/{pageSize}")]
         public IActionResult GetProductPage(int page,int pageSize)
         {

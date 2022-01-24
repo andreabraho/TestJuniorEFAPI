@@ -16,6 +16,11 @@ namespace TestJuniorEFAPI.Controllers
             this._infoRequestRepository = infoRequestRepository;
             this._logger = logger;
         }
+        /// <summary>
+        /// api for brand detail 
+        /// </summary>
+        /// <param name="id">id of the brand</param>
+        /// <returns></returns>
         [Route("Detail/{id}")]
         public IActionResult GetInfoRequestDetail(int id)
         {

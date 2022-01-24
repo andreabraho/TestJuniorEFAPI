@@ -18,7 +18,15 @@ namespace TestJuniorEFAPI.Controllers
             _brandRepository = brandRepository;
             _logger = logger;
         }
-
+        /// <summary>
+        /// api for brand pagin
+        /// </summary>
+        /// <param name="page">number of page need</param>
+        /// <param name="pageSize">size of each page</param>
+        /// <returns>NotFound() in case a  not valid page input
+        ///         BadRequest() in case of a not valid pageSize
+        ///         Ok() return data needed
+        /// </returns>
         [Route("Page/{page}/{pageSize}")]
         public IActionResult GetBrandPage(int page, int pageSize)
         {
@@ -40,6 +48,14 @@ namespace TestJuniorEFAPI.Controllers
 
             return Ok(brandPageModel);
         }
+        /// <summary>
+        /// brand detail page
+        /// </summary>
+        /// <param name="id">id of the brand</param>
+        /// <returns>
+        /// BadRequest() in case of a not valid id
+        /// Ok () return data correctly
+        /// </returns>
         [Route("Detail/{id}")]
         public IActionResult GetBrandDetail(int id)
         {
