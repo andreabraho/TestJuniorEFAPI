@@ -7,7 +7,13 @@ il numero di pagina,
 categoria,
 ordinamento: 1 nome prodotto | 2 prezzo crescente | 3 prezzo decrescente
 */
-
+/*
+procedure to get a page of products
+@NumProducts=page size
+@NumPage=number of page needed
+@OrderBy 1for order by name 2for acending order 3 for descendind order other for no order
+@Category default 0 for no filter, category id for a filter on category
+*/
 
 CREATE OR ALTER PROCEDURE getPage   --easy mode
     @NumProducts INT,   
@@ -28,7 +34,13 @@ AS
 	OFFSET     @NumProducts*(@NumPage-1) ROWS       -- skip x rows
 	FETCH NEXT @NumProducts ROWS ONLY;				-- take x rows
 GO 
-
+/*
+procedure to get a page of products
+@NumProducts=page size
+@NumPage=number of page needed
+@OrderBy 1for order by name 2for acending order 3 for descendind order other for no order
+@Category default 0 for no filter, category id for a filter on category
+*/
 CREATE OR ALTER PROCEDURE getPageV2 --normal mode
     @NumProducts INT,   
     @NumPage INT,
