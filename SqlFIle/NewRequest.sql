@@ -19,8 +19,12 @@ CREATE OR ALTER PROCEDURE getPage   --easy mode
     @NumProducts INT,   
     @NumPage INT,
 	@OrderBy INT,
-	@Category INT
+	@Category INT=0
 AS   
+	if(@NumProducts<=0)
+		throw 50000,'page size can t be lower or equal than 0',1
+	if(@NumPage<=0)
+		throw 5000,'page number can t be lower or equal than 0',1
 
     Select *
 	From Product 
@@ -45,9 +49,12 @@ CREATE OR ALTER PROCEDURE getPageV2 --normal mode
     @NumProducts INT,   
     @NumPage INT,
 	@OrderBy INT,
-	@Category INT
+	@Category INT=0
 AS   
-
+	if(@NumProducts<=0)
+		throw 50000,'page size can t be lower or equal than 0',1
+	if(@NumPage<=0)
+		throw 5000,'page number can t be lower or equal than 0',1
     SELECT  *
 	FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY CASE @OrderBy
 												WHEN 1 THEN Name end,
@@ -141,12 +148,12 @@ Restituire il seguente elenco prodotti con ordine Custom:
 		Select top (100) Product.Id,Product.Name as NameProduct
 		From Product inner Join InfoRequest On Product.Id=InfoRequest.ProductId
 		Group By Product.Id,Product.Name
-		order by COUNT(*) Desc
+		order by COUNT(InfoRequest.Id) Desc
 		) AS T INNER JOIN Product as P ON T.Id=P.Id
 	),HighPrice10 AS(
 		Select top(10) *
 		From Product
-		Where Price>200 AND Price <500
+		Where Price>=200 AND Price <=500
 		order by Id
 	),LowRequested100 AS (
 		Select TOP(100)  P.Id,P.BrandId,P.Name,P.ShortDescription,P.Price,P.Description

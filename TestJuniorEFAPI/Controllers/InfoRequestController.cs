@@ -2,6 +2,7 @@
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace TestJuniorEFAPI.Controllers
 {
@@ -26,7 +27,7 @@ namespace TestJuniorEFAPI.Controllers
         {
             if (id <= 0)
                 return BadRequest("id can't be lower or equal than 0");
-            return Ok(_infoRequestRepository.InfoRequestDetailV2(id));
+            return Ok(_infoRequestRepository.InfoRequestDetailV2(id).ToList());
         }
 
 

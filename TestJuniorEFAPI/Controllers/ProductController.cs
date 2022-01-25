@@ -14,8 +14,8 @@ namespace TestJuniorEFAPI.Controllers
 
         ILogger<Product> _logger;
         private IProductRepository _productRepository;
-        public ProductController(ILogger<Product> logger,IProductRepository productRepository)
-        { 
+        public ProductController(ILogger<Product> logger, IProductRepository productRepository)
+        {
             this._productRepository = productRepository;
             this._logger = logger;
         }
@@ -30,22 +30,22 @@ namespace TestJuniorEFAPI.Controllers
         /// Ok() return data correctly
         /// </returns>
         [Route("Page/{page}/{pageSize}")]
-        public IActionResult GetProductPage(int page,int pageSize)
+        public IActionResult GetProductPage(int page, int pageSize)
         {
-            if(page<=0)
+            if (page <= 0)
                 return NotFound("page not found");
-            if(pageSize <= 0)
+            if (pageSize <= 0)
                 return BadRequest("page size can't be lower or equal than 0");
-            ProductPageModel  productPageModel = new ProductPageModel();
+            ProductPageModel productPageModel = new ProductPageModel();
             productPageModel.PageSize = pageSize;
             productPageModel.Page = page;
-            productPageModel.TotalProducts=_productRepository.GetCount();
-            productPageModel.Products = _productRepository.GetPageProducts(page, pageSize).Select(product=>new ProductForPage
+            productPageModel.TotalProducts = _productRepository.GetCount();
+            productPageModel.Products = _productRepository.GetPageProducts(page, pageSize).Select(product => new ProductForPage
             {
                 Id = product.Id,
                 Name = product.Name,
-                Image=product.GetFakeImage(),
-                ShortDescription=product.ShortDescription,
+                Image = product.GetFakeImage(),
+                ShortDescription = product.ShortDescription,
             }).ToList();
             return Ok(productPageModel);
         }
@@ -59,7 +59,7 @@ namespace TestJuniorEFAPI.Controllers
         {
             if (id <= 0)
                 return BadRequest("not vaid id");
-            return Ok(_productRepository.GetProductDetail(id));
+            return Ok(_productRepository.GetProductDetailV2(id));
         }
     }
 }

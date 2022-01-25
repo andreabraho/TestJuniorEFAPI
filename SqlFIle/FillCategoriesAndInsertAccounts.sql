@@ -44,17 +44,18 @@ Declare @name Varchar(255),
 		@email varchar(255),
 		@Counter INT=1,
 		@lastAccount INT,
-		@lastUser INT
+		@lastUser INT,
+		@irId INT
 
 DECLARE GuestUsers_cursor CURSOR FORWARD_ONLY FOR 
-	SELECT Name,LastName,Email
+	SELECT Id,Name,LastName,Email
 	From InfoRequest
 	Where UserId is NULL
 
 OPEN GuestUsers_cursor
 
 	FETCH NEXT FROM GuestUsers_cursor
-		INTO @name,@lastName,@email
+		INTO @irId,@name,@lastName,@email
 
 	IF(@@ROWCOUNT>0)
 	BEGIN
@@ -80,10 +81,11 @@ OPEN GuestUsers_cursor
 			BEGIN
 			UPDATE InfoRequest
 			Set UserId=(SELECT top (1) Id FROM Account Where Account.Email=@email)
-			Where Email=@email AND UserId is null
+			--Where Email=@email AND UserId is null performance problem
+			WHERE Id=@irId
 			END
 			FETCH NEXT FROM GuestUsers_cursor
-			INTO @name,@lastName,@email
+			INTO @irId,@name,@lastName,@email
 		END          
 		
 			

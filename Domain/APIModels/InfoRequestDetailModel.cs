@@ -21,7 +21,7 @@ namespace Domain.APIModels
         /// <summary>
         /// info request sender name
         /// </summary>
-        public string Name { get; set; }    
+        public string Name { get; set; }
         /// <summary>
         /// info request sender lastName
         /// </summary>

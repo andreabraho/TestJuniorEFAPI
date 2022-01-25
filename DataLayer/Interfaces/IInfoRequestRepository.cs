@@ -2,6 +2,7 @@
 using Domain.APIModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DataLayer.Interfaces
@@ -21,6 +22,6 @@ namespace DataLayer.Interfaces
         /// <param name="id">id of the info request</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">id <=0</exception>
-        public InfoRequestDetailModel InfoRequestDetailV2(int id);
+        public IQueryable<InfoRequestDetailModel> InfoRequestDetailV2(int id);
     }
 }

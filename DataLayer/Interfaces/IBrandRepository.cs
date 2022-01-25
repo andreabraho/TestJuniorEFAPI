@@ -2,6 +2,7 @@
 using Domain.APIModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DataLayer.Interfaces
@@ -9,7 +10,7 @@ namespace DataLayer.Interfaces
     public interface IBrandRepository : IRepository<Brand>
     {
         /// <summary>
-        /// rappresents neccessary data for a brand detail page
+        /// rappresents neccessary data for a brand detail pagbbbbbbbb
         /// </summary>
         /// <param name="id">id of the brand needed</param>
         /// <returns></returns>
@@ -37,7 +38,7 @@ namespace DataLayer.Interfaces
         /// <param name="id">id of the brand needed</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">in case of id lower or equal than 0</exception>
-        public BrandDetail GetBrandDetailV3(int id);
+        public IQueryable<BrandDetail> GetBrandDetailV3(int id);
         public int GetCount();
     }
 }

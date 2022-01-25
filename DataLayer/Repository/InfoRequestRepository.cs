@@ -19,7 +19,7 @@ namespace DataLayer.Repository
         /// <exception cref="ArgumentOutOfRangeException">id <=0</exception>
         public InfoRequestDetailModel InfoRequestDetail(int id)
         {
-            if(id<=0)
+            if (id <= 0)
                 throw new ArgumentException(nameof(id));
             InfoRequestDetailModel x = _ctx.InfoRequests
                     .Where(x => x.Id == id)
@@ -36,13 +36,13 @@ namespace DataLayer.Repository
                         LastName = ir.LastName,
                         Email = ir.Email,
                         Location = ir.City + "(" + ir.Cap + "), " + ir.Nation.Name,
-                        IRModelReplies = ir.InfoRequestReplys.OrderByDescending(x=>x.InsertDate).Select(r => new IRModelReply
+                        IRModelReplies = ir.InfoRequestReplys.OrderByDescending(x => x.InsertDate).Select(r => new IRModelReply
                         {
-                            Id=r.Id,
+                            Id = r.Id,
                             ReplyText = r.ReplyText,
-                            User=r.Account.AccountType==1?r.Account.Brand.BrandName:ir.Name+" "+ir.LastName,
+                            User = r.Account.AccountType == 1 ? r.Account.Brand.BrandName : ir.Name + " " + ir.LastName,
                         }).ToList(),
-                    }).FirstOrDefault(x=>x.Id==id);
+                    }).FirstOrDefault(x => x.Id == id);
 
             return x;
         }
@@ -52,43 +52,19 @@ namespace DataLayer.Repository
         /// <param name="id">id of the info request</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">id <=0</exception>
-        public InfoRequestDetailModel InfoRequestDetailV2(int id)
+        public IQueryable<InfoRequestDetailModel> InfoRequestDetailV2(int id)
         {
-            //InfoRequestDetailModel x = _ctx.InfoRequests
-            //        .Where(x => x.Id == id)
-            //        .Select(ir => new InfoRequestDetailModel
-            //        {
-            //            Id = ir.Id,
-            //            productIRDetail = new ProductIRDetail
-            //            {
-            //                Id = ir.Product.Id,
-            //                BrandName = ir.Product.Brand.BrandName,
-            //                Name = ir.Product.Name,
-            //            },
-            //            Name = ir.Name,
-            //            LastName = ir.LastName,
-            //            Email = ir.Email,
-            //            Location = ir.City + "(" + ir.Cap + "), " + ir.Nation.Name,
-            //            IRModelReplies = ir.InfoRequestReplys.OrderByDescending(x => x.InsertDate).Select(r => new IRModelReply
-            //            {
-            //                Id = r.Id,
-            //                ReplyText = r.ReplyText,
-            //                User = r.Account.AccountType == 1 ? r.Account.Brand.BrandName : ir.Name + " " + ir.LastName,
-            //            }).ToList(),
-            //        }).FirstOrDefault(x => x.Id == id);
-
-
-            //var query=_ctx.InfoRequests.AsQueryable();
-            //query=query.Where(x => x.Id == id);
+            if (id <= 0)
+                throw new ArgumentException(nameof(id));
 
             var query = _ctx.InfoRequests.AsQueryable();
 
             var infoRequestDetailModel =
                 from InfoRequests in query
                 let irr = InfoRequests.InfoRequestReplys
-                let p=InfoRequests.Product
+                let p = InfoRequests.Product
                 let b = p.Brand
-                let n=InfoRequests.Nation
+                let n = InfoRequests.Nation
                 //from InfoRequestReply in ir.InfoRequestReplys
                 where InfoRequests.Id == id
                 select new InfoRequestDetailModel
@@ -112,8 +88,8 @@ namespace DataLayer.Repository
                     }).ToList(),
                 };
 
-            return infoRequestDetailModel.FirstOrDefault();
-            
+            return infoRequestDetailModel;
+
         }
 
     }

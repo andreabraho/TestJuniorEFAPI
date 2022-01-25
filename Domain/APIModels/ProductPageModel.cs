@@ -2,9 +2,9 @@
 
 namespace Domain.APIModels
 {
-   /// <summary>
-   /// model used to create the object that will be returned in Produc API product/Page/{page}{PageSize}
-   /// </summary>
+    /// <summary>
+    /// model used to create the object that will be returned in Produc API product/Page/{page}{PageSize}
+    /// </summary>
     public class ProductPageModel
     {
         /// <summary>
@@ -22,7 +22,7 @@ namespace Domain.APIModels
         /// <summary>
         /// list of products for the page
         /// </summary>
-        public List<ProductForPage> Products { get; set; }=new List<ProductForPage> { };
+        public List<ProductForPage> Products { get; set; } = new List<ProductForPage> { };
     }
     /// <summary>
     /// data needed for each product for the product paging api

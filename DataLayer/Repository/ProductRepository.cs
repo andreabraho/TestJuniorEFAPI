@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DataLayer.Repository
 {
-    public class ProductRepository: Repository<Product>, IProductRepository
+    public class ProductRepository : Repository<Product>, IProductRepository
     {
         public ProductRepository(MyContext context) : base(context) { }
 
@@ -25,11 +25,11 @@ namespace DataLayer.Repository
         /// <exception cref="ArgumentOutOfRangeException">in case page or pageSize<=0</exception>
         public List<Product> GetPageProducts(int page, int pageSize)
         {
-            if(pageSize <= 0)
+            if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
-            if(page <= 0)
+            if (page <= 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
-            return _ctx.Products.Skip(pageSize * (page-1)).Take(pageSize).ToList();
+            return _ctx.Products.Skip(pageSize * (page - 1)).Take(pageSize).ToList();
         }
         /// <summary>
         /// data for a product detail page
@@ -39,31 +39,31 @@ namespace DataLayer.Repository
         /// <exception cref="ArgumentOutOfRangeException">if id <=0 </exception>
         public ProductDetailModel GetProductDetail(int id)
         {
-            if(id <= 0)
-                throw   new ArgumentOutOfRangeException(nameof(id));
-            var x=_ctx.Products.Where(p=>p.Id==id).Select(p=>new ProductDetailModel
+            if (id <= 0)
+                throw new ArgumentOutOfRangeException(nameof(id));
+            var x = _ctx.Products.Where(p => p.Id == id).Select(p => new ProductDetailModel
             {
                 Id = p.Id,
                 Name = p.Name,
-                BrandName=p.Brand.BrandName,
-                productsCategory=p.Product_Categories.Select(c=>new Category
+                BrandName = p.Brand.BrandName,
+                productsCategory = p.Product_Categories.Select(c => new Category
                 {
-                    Id=c.CategoryId,
-                    Name=c.Category.Name,
-                    
+                    Id = c.CategoryId,
+                    Name = c.Category.Name,
+
                 }).ToList(),
-                countGuestInfoRequests=p.InfoRequests.Where(x=>x.UserId==null).Count(),
-                countUserInfoRequests=p.InfoRequests.Where(x=>x.UserId!=null).Count(),
-                infoRequestProducts=p.InfoRequests.OrderByDescending(x=>x.InsertDate).Select(ir=>new InfoRequestProductModel
+                countGuestInfoRequests = p.InfoRequests.Where(x => x.UserId == null).Count(),
+                countUserInfoRequests = p.InfoRequests.Where(x => x.UserId != null).Count(),
+                infoRequestProducts = p.InfoRequests.OrderByDescending(x => x.InsertDate).Select(ir => new InfoRequestProductModel
                 {
-                    Id=ir.Id,
-                    ReplyNumber=ir.InfoRequestReplys.Count(),
-                    Name=ir.UserId==null?ir.Name:ir.User.Name,
-                    LastName= ir.UserId == null ? ir.LastName : ir.User.LastName,
-                    DateLastReply=ir.InfoRequestReplys.Max(x=>x.InsertDate),
+                    Id = ir.Id,
+                    ReplyNumber = ir.InfoRequestReplys.Count(),
+                    Name = ir.UserId == null ? ir.Name : ir.User.Name,
+                    LastName = ir.UserId == null ? ir.LastName : ir.User.LastName,
+                    DateLastReply = ir.InfoRequestReplys.Max(x => x.InsertDate),
                 }).ToList(),
-                
-            }).FirstOrDefault(x=>x.Id==id);
+
+            }).FirstOrDefault();
 
 
             return x;
@@ -78,28 +78,28 @@ namespace DataLayer.Repository
         {
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id));
-            var query=_ctx.Products.AsQueryable();
+            var query = _ctx.Products.AsQueryable();
 
             var t =
                 from Products in query
-                let brand =Products.Brand
-                let ir=Products.InfoRequests
-                let pr=Products.Product_Categories
+                let brand = Products.Brand
+                let ir = Products.InfoRequests
+                let pr = Products.Product_Categories
                 where Products.Id == id
                 select new ProductDetailModel
                 {
-                    BrandName=brand.BrandName,
-                    Id=Products.Id,
-                    Name= Products.Name,
-                    countGuestInfoRequests=ir.Where(x => x.UserId==null).Count(),
-                    countUserInfoRequests=ir.Where(x=>x.UserId!=null).Count(),
-                    productsCategory=pr.Select(c => new Category
+                    BrandName = brand.BrandName,
+                    Id = Products.Id,
+                    Name = Products.Name,
+                    countGuestInfoRequests = ir.Where(x => x.UserId == null).Count(),
+                    countUserInfoRequests = ir.Where(x => x.UserId != null).Count(),
+                    productsCategory = pr.Select(c => new Category
                     {
                         Id = c.CategoryId,
                         Name = c.Category.Name,
 
                     }).ToList(),
-                    infoRequestProducts=ir.OrderByDescending(x => x.InsertDate).Select(ir => new InfoRequestProductModel
+                    infoRequestProducts = ir.OrderByDescending(x => x.InsertDate).Select(ir => new InfoRequestProductModel
                     {
                         Id = ir.Id,
                         ReplyNumber = ir.InfoRequestReplys.Count(),

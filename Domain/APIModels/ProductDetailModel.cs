@@ -25,7 +25,7 @@ namespace Domain.APIModels
         /// <summary>
         /// categories associated to the product 
         /// </summary>
-        public List<Category> productsCategory  { get; set; }
+        public List<Category> productsCategory { get; set; }
         /// <summary>
         /// number of info requests recived from the profuct from guest users
         /// </summary>
@@ -64,6 +64,6 @@ namespace Domain.APIModels
         /// <summary>
         /// date of last reply of the info request
         /// </summary>
-        public DateTime DateLastReply   { get; set; }
+        public DateTime DateLastReply { get; set; }
     }
 }

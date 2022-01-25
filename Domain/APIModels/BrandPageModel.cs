@@ -18,7 +18,7 @@ namespace Domain.APIModels
     /// </summary>
     public class BrandForPage
     {
-        public List<int> IdProducts { get; set; }=new List<int>();
+        public List<int> IdProducts { get; set; } = new List<int>();
         public string Name { get; set; }
         public string Description { get; set; }
 

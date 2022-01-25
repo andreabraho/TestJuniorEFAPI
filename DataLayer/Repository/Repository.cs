@@ -19,9 +19,9 @@ namespace DataLayer.Repository
             this._ctx = context;
             entities = context.Set<T>();
         }
-        public IEnumerable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
-            return entities.AsEnumerable();
+            return entities.AsQueryable();
         }
         public T GetById(int id)
         {
@@ -45,6 +45,15 @@ namespace DataLayer.Repository
             T entity = entities.SingleOrDefault(s => s.Id == id);
             entities.Remove(entity);
             _ctx.SaveChanges();
+        }
+        public T Execute<T>(IQueryable<T> query)
+        {
+            return query.OfType<T>().FirstOrDefault();
+        }
+
+        public List<T> ExecuteList<T>(IQueryable<T> query)
+        {
+            return query.OfType<T>().ToList();
         }
 
 
