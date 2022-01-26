@@ -17,6 +17,6 @@ namespace Domain
         public byte AccountType { get; set; }
         public User User { get; set; }
         public Brand Brand { get; set; }
-        public ICollection<InfoRequestReply> InfoRequestReplies { get; set; }
+        public IEnumerable<InfoRequestReply> InfoRequestReplies { get; set; }
     }
 }

@@ -23,9 +23,9 @@ namespace DataLayer.Repository
         {
             return entities.AsQueryable();
         }
-        public T GetById(int id)
+        public IQueryable<T> GetById(int id)
         {
-            return entities.SingleOrDefault(s => s.Id == id);
+            return entities.Where(s => s.Id == id);
         }
         public void Insert(T entity)
         {

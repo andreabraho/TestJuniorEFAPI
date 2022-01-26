@@ -88,23 +88,23 @@ end
 /*
 ○ 100 Account, dei quali 50 Brand e 50 User;
 */
-Declare @BrandCreated INT =100
-Declare @UserCreated INT=100
+Declare @BrandCreated INT =50
+Declare @UserCreated INT=50
 
 /*------------------
 min and max products to be created for each brand*/
-Declare @MaxProduct INT =100
+Declare @MaxProduct INT =50
 Declare @MinProduct INT =10
 /*----------------------------------*/
 
-Declare @CategoryCreated INT=30
-Declare @NationCreated INT=30
+Declare @CategoryCreated INT=20
+Declare @NationCreated INT=20
 /*info request created for each product*/
-Declare @MaxInfoRequestCreated INT=30 
+Declare @MaxInfoRequestCreated INT=10
 /*max category that can be associated to a product*/
-Declare @MaxCatAssociatedToProduct INT = 10
+Declare @MaxCatAssociatedToProduct INT = 5
 /*max info request reply for each info request*/
-Declare @MaxInfoRequestReply INT =10
+Declare @MaxInfoRequestReply INT =3
 
 DECLARE @Counter INT 
 

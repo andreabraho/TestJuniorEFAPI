@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using Domain.APIModels;
+using ServicaLayer.ProductService;
 
 namespace TestJuniorEFAPI.Controllers
 {
@@ -13,53 +14,47 @@ namespace TestJuniorEFAPI.Controllers
     {
 
         ILogger<Product> _logger;
-        private IProductRepository _productRepository;
-        public ProductController(ILogger<Product> logger, IProductRepository productRepository)
+        private readonly IProductRepository _productRepository;
+        private readonly ProductService _productService;
+        public ProductController(ILogger<Product> logger, IProductRepository productRepository, ProductService productService)
         {
-            this._productRepository = productRepository;
-            this._logger = logger;
+            _productRepository = productRepository;
+            _logger = logger;
+            _productService = productService;
         }
         /// <summary>
         /// product page 
         /// </summary>
-        /// <param name="page">page needed</param>
-        /// <param name="pageSize">products per page</param>
+        /// <param name="page">option,default 1,page needed</param>
+        /// <param name="pageSize">optional,default 10,products per page</param>
         /// <returns>
         /// NotFound() in case of not valid page number
         /// BadRequest() in case of a not valid pageSize
         /// Ok() return data correctly
         /// </returns>
-        [Route("Page/{page}/{pageSize}")]
+        [Route("page/{page:int=1}/{pagesize:int=10}")]
         public IActionResult GetProductPage(int page, int pageSize)
         {
             if (page <= 0)
                 return NotFound("page not found");
-            if (pageSize <= 0)
-                return BadRequest("page size can't be lower or equal than 0");
-            ProductPageModel productPageModel = new ProductPageModel();
-            productPageModel.PageSize = pageSize;
-            productPageModel.Page = page;
-            productPageModel.TotalProducts = _productRepository.GetCount();
-            productPageModel.Products = _productRepository.GetPageProducts(page, pageSize).Select(product => new ProductForPage
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Image = product.GetFakeImage(),
-                ShortDescription = product.ShortDescription,
-            }).ToList();
-            return Ok(productPageModel);
+            if (pageSize <= 0 || pageSize>1000)
+                return BadRequest("page size can't be lower or equal than 0 or higher than 1000");
+            
+            return Ok(_productService.GetProductsForPage(page,pageSize));
         }
         /// <summary>
         /// product detail page
         /// </summary>
         /// <param name="id">id of the product</param>
-        /// <returns></returns>
+        /// <returns>
+        /// BadRequest in case of a not valid id
+        /// </returns>
         [Route("Detail/{id}")]
         public IActionResult ProductDetail(int id)
         {
             if (id <= 0)
                 return BadRequest("not vaid id");
-            return Ok(_productRepository.GetProductDetailV2(id));
+            return Ok(_productService.GetProductDetail(id));
         }
     }
 }

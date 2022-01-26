@@ -42,7 +42,7 @@ namespace Domain
         public Product Product { get; set; }
         public int NationId { get; set; }
         public Nation Nation { get; set; }
-        public ICollection<InfoRequestReply> InfoRequestReplys { get; set; }
+        public IEnumerable<InfoRequestReply> InfoRequestReplys { get; set; }
         public int? UserId { get; set; }
         public User User { get; set; }
     }

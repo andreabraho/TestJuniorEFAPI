@@ -15,8 +15,8 @@ namespace Domain
         public decimal Price { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
-        public ICollection<Product_Category> Product_Categories { get; set; }
-        public ICollection<InfoRequest> InfoRequests { get; set; }
+        public IEnumerable<ProductCategory> ProductCategories { get; set; }
+        public IEnumerable<InfoRequest> InfoRequests { get; set; }
         public string GetFakeImage() => "https://via.placeholder.com/728x90.png?text="+ShortDescription.Substring(0, ShortDescription.Length<10?ShortDescription.Length:10);
     }
 }

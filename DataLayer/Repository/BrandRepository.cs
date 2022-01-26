@@ -47,56 +47,7 @@ namespace DataLayer.Repository
         }
 
 
-        /// <summary>
-        /// rappresents neccessary data for a brand detail page
-        /// </summary>
-        /// <param name="id">id of the brand needed</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentOutOfRangeException">in case of id lower or equal than 0</exception>
-        public BrandDetail GetBrandDetail(int id)
-        {
-            if (id <= 0)
-                throw new ArgumentOutOfRangeException(nameof(id));
-
-            BrandDetail brandDetail = new BrandDetail();
-
-            var x = GetById(id);
-            brandDetail.Id = x.Id;
-            brandDetail.Name = x.BrandName;
-            brandDetail.TotProducts = GetNumProducts(id);
-            brandDetail.CountRequestFromBrandProducts = GetCountInfoRequestsOfAllproducts(id);
-
-
-            var query = from p in _ctx.Set<Product>()
-                        join pc in _ctx.Set<Product_Category>() on p.Id equals pc.ProductId
-                        join c in _ctx.Set<Category>() on pc.CategoryId equals c.Id
-                        where p.BrandId == id
-                        group p by c.Id
-            into g
-                        select new { g.Key, Count = g.Count() };
-
-            brandDetail.AssociatedCategory = query.Select(cat => new CategoryBrandDetail
-            {
-                Id = cat.Key,
-                Name = _ctx.Categories.SingleOrDefault(x => x.Id == cat.Key).Name,
-                CountProdAssociatied = cat.Count,
-            }).ToList();
-
-            var query2 = from p in _ctx.Set<Product>()
-                         join ir in _ctx.Set<InfoRequest>() on p.Id equals ir.ProductId
-                         where p.BrandId == id
-                         group p by p.Id
-            into g
-                         select new { g.Key, Count = g.Count() };
-            brandDetail.Products = query2.Select(p => new ProductBrandDetail
-            {
-                Id = p.Key,
-                CountInfoRequest = p.Count,
-                Name = _ctx.Products.SingleOrDefault(x => x.Id == p.Key).Name,
-            }).ToList();
-
-            return brandDetail;
-        }
+        
         /// <summary>
         /// rappresents neccessary data for a brand detail page
         /// </summary>
@@ -111,7 +62,7 @@ namespace DataLayer.Repository
             var brandDetail =
                 from Brands in query
                 let p = Brands.Products
-                let brandProdCat = Brands.Products.SelectMany(x => x.Product_Categories)
+                let brandProdCat = Brands.Products.SelectMany(x => x.ProductCategories)
                 where Brands.Id == id
                 select new BrandDetail
                 {
@@ -148,7 +99,7 @@ namespace DataLayer.Repository
             #endregion
             var queryx =
                     from p in _ctx.Set<Product>()
-                    join pc in _ctx.Set<Product_Category>() on p.Id equals pc.ProductId
+                    join pc in _ctx.Set<ProductCategory>() on p.Id equals pc.ProductId
                     join c in _ctx.Set<Category>() on pc.CategoryId equals c.Id
                     where p.BrandId == id
                     group new { c.Id, c.Name } by new { c.Id, c.Name }
@@ -201,7 +152,7 @@ namespace DataLayer.Repository
             var brandDetail =
                 from Brands in query
                 let p = Brands.Products
-                let brandProdCat = Brands.Products.SelectMany(x => x.Product_Categories)
+                let brandProdCat = Brands.Products.SelectMany(x => x.ProductCategories)
                 where Brands.Id == id
                 select new BrandDetail
                 {

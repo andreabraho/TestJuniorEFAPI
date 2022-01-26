@@ -9,13 +9,7 @@ namespace DataLayer.Interfaces
 {
     public interface IBrandRepository : IRepository<Brand>
     {
-        /// <summary>
-        /// rappresents neccessary data for a brand detail pagbbbbbbbb
-        /// </summary>
-        /// <param name="id">id of the brand needed</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentOutOfRangeException">in case of id lower or equal than 0</exception>
-        public BrandDetail GetBrandDetail(int id);
+
         /// <summary>
         /// get brands for one page
         /// </summary>

@@ -8,7 +8,7 @@ namespace DataLayer.Interfaces
     public interface IRepository<T> where T : EntityBase
     {
         IQueryable<T> GetAll();
-        T GetById(int id);
+        IQueryable<T> GetById(int id);
         void Insert(T entity);
         void Update(T entity);
         void Delete(int id);

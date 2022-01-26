@@ -45,11 +45,11 @@ namespace Domain.APIModels
         /// <summary>
         /// list of categories associated to the brand
         /// </summary>
-        public List<CategoryBrandDetail> AssociatedCategory { get; set; } = new List<CategoryBrandDetail>();
+        public IEnumerable<CategoryBrandDetail> AssociatedCategory { get; set; }
         /// <summary>
         /// list of products associated to the brand
         /// </summary>
-        public List<ProductBrandDetail> Products { get; set; } = new List<ProductBrandDetail>();
+        public IEnumerable<ProductBrandDetail> Products { get; set; }
     }
     /// <summary>
     /// data neccessary on the page fo each category

@@ -46,12 +46,7 @@ namespace DataLayer.Repository
                 Id = p.Id,
                 Name = p.Name,
                 BrandName = p.Brand.BrandName,
-                productsCategory = p.Product_Categories.Select(c => new Category
-                {
-                    Id = c.CategoryId,
-                    Name = c.Category.Name,
-
-                }).ToList(),
+                
                 countGuestInfoRequests = p.InfoRequests.Where(x => x.UserId == null).Count(),
                 countUserInfoRequests = p.InfoRequests.Where(x => x.UserId != null).Count(),
                 infoRequestProducts = p.InfoRequests.OrderByDescending(x => x.InsertDate).Select(ir => new InfoRequestProductModel
@@ -84,7 +79,7 @@ namespace DataLayer.Repository
                 from Products in query
                 let brand = Products.Brand
                 let ir = Products.InfoRequests
-                let pr = Products.Product_Categories
+                let pr = Products.ProductCategories
                 where Products.Id == id
                 select new ProductDetailModel
                 {
@@ -93,12 +88,7 @@ namespace DataLayer.Repository
                     Name = Products.Name,
                     countGuestInfoRequests = ir.Where(x => x.UserId == null).Count(),
                     countUserInfoRequests = ir.Where(x => x.UserId != null).Count(),
-                    productsCategory = pr.Select(c => new Category
-                    {
-                        Id = c.CategoryId,
-                        Name = c.Category.Name,
-
-                    }).ToList(),
+                    
                     infoRequestProducts = ir.OrderByDescending(x => x.InsertDate).Select(ir => new InfoRequestProductModel
                     {
                         Id = ir.Id,

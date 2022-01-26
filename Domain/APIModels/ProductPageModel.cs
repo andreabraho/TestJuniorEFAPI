@@ -19,10 +19,11 @@ namespace Domain.APIModels
         /// total number of products
         /// </summary>
         public int TotalProducts { get; set; }
+        public int TotalPages { get; set; }
         /// <summary>
         /// list of products for the page
         /// </summary>
-        public List<ProductForPage> Products { get; set; } = new List<ProductForPage> { };
+        public IEnumerable<ProductForPage> Products { get; set; } 
     }
     /// <summary>
     /// data needed for each product for the product paging api

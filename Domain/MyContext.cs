@@ -15,7 +15,7 @@ namespace Domain
         public virtual DbSet<InfoRequestReply> InfoRequestReplys { get; set; }
         public virtual DbSet<Nation> Nations { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Product_Category> Products_Categories { get; set; }
+        public virtual DbSet<ProductCategory> Products_Categories { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         public MyContext(DbContextOptions<MyContext> options)
@@ -87,7 +87,7 @@ namespace Domain
 
             });
             
-            modelBuilder.Entity<Product_Category>(builder =>
+            modelBuilder.Entity<ProductCategory>(builder =>
             {
                 builder.ToTable("Product_Category");
 

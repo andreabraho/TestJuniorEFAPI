@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using Domain.APIModels;
+using ServicaLayer.BrandService;
 
 namespace TestJuniorEFAPI.Controllers
 {
@@ -12,26 +13,27 @@ namespace TestJuniorEFAPI.Controllers
     public class BrandController : ControllerBase
     {
         private readonly ILogger<Brand> _logger;
-        private readonly IBrandRepository _brandRepository;
-        public BrandController(ILogger<Brand> logger, IBrandRepository brandRepository)
+        private readonly BrandService _brandService;
+        public BrandController(ILogger<Brand> logger, BrandService brandService)
         {
-            _brandRepository = brandRepository;
+            _brandService=brandService;
             _logger = logger;
         }
-        
-        [Route("Page/{page}/{pageSize}")]
+        /// <summary>
+        /// get all info needed for a brand page
+        /// </summary>
+        /// <param name="page">optional,default 1,type int,rappresents page needed </param>
+        /// <param name="pageSize">optional,default 10,type int,rappresents page dimensione</param>
+        /// <returns></returns>
+        [Route("Page/{page:int=1}/{pageSize:int=10}")]
         public IActionResult GetBrandPage(int page, int pageSize)
         {
             if (page <= 0)
                 return NotFound("page not found");
-            if (pageSize <= 0)
-                return BadRequest("page size can't be lower or equal than 0");
-            BrandPageModel brandPageModel = new BrandPageModel();
-            brandPageModel.PageSize = pageSize;
-            brandPageModel.Page = page;
-            brandPageModel.TotalBrand = _brandRepository.GetCount();
-
-            return Ok(brandPageModel);
+            if (pageSize <= 0|| pageSize>1000)
+                return BadRequest("page size can't be lower or equal than 0 or higher than 1000");
+            
+            return Ok(_brandService.GetBrandPage(page,pageSize));
         }
         /// <summary>
         /// brand detail page
@@ -47,7 +49,7 @@ namespace TestJuniorEFAPI.Controllers
             if (id <= 0)
                 return BadRequest("id not valid");
 
-            return Ok(_brandRepository.GetBrandDetailV3(id).FirstOrDefault());
+            return Ok(_brandService.GetBrandDetail(id));
         }
 
     }

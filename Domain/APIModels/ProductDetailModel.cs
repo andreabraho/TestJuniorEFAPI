@@ -25,7 +25,7 @@ namespace Domain.APIModels
         /// <summary>
         /// categories associated to the product 
         /// </summary>
-        public List<Category> productsCategory { get; set; }
+        public IEnumerable<CategoryProductModel> productsCategory { get; set; }
         /// <summary>
         /// number of info requests recived from the profuct from guest users
         /// </summary>
@@ -37,7 +37,7 @@ namespace Domain.APIModels
         /// <summary>
         /// list of info requests recived from the product
         /// </summary>
-        public List<InfoRequestProductModel> infoRequestProducts { get; set; } = new List<InfoRequestProductModel>();
+        public IEnumerable<InfoRequestProductModel> infoRequestProducts { get; set; }
 
     }
     /// <summary>
@@ -65,5 +65,10 @@ namespace Domain.APIModels
         /// date of last reply of the info request
         /// </summary>
         public DateTime DateLastReply { get; set; }
+    }
+    public class CategoryProductModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

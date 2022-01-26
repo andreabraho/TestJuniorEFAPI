@@ -37,7 +37,7 @@ namespace Domain.APIModels
         /// <summary>
         /// list of all replies of the info request
         /// </summary>
-        public List<IRModelReply> IRModelReplies { get; set; }
+        public IEnumerable<IRModelReply> IRModelReplies { get; set; }
     }
     /// <summary>
     /// product data needed for the info request detail page

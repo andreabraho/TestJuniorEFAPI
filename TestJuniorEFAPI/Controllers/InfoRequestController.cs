@@ -2,6 +2,7 @@
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ServicaLayer.InfoRequestService;
 using System.Linq;
 
 namespace TestJuniorEFAPI.Controllers
@@ -10,12 +11,12 @@ namespace TestJuniorEFAPI.Controllers
     [Route("[controller]")]
     public class InfoRequestController : ControllerBase
     {
-        ILogger<InfoRequest> _logger;
-        private IInfoRequestRepository _infoRequestRepository;
-        public InfoRequestController(ILogger<InfoRequest> logger, IInfoRequestRepository infoRequestRepository)
+        private readonly ILogger<InfoRequest> _logger;
+        private readonly InfoRequestService _infoRequestService;
+        public InfoRequestController(ILogger<InfoRequest> logger, InfoRequestService infoRequestService)
         {
-            this._infoRequestRepository = infoRequestRepository;
-            this._logger = logger;
+            _infoRequestService = infoRequestService;
+            _logger = logger;
         }
         /// <summary>
         /// api for brand detail 
@@ -27,7 +28,7 @@ namespace TestJuniorEFAPI.Controllers
         {
             if (id <= 0)
                 return BadRequest("id can't be lower or equal than 0");
-            return Ok(_infoRequestRepository.InfoRequestDetailV2(id).ToList());
+            return Ok(_infoRequestService.GetInfoRequestDetail(id));
         }
 
 

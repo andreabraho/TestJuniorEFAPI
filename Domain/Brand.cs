@@ -13,6 +13,6 @@ namespace Domain
         public string Description   { get; set; }
         public int AccountId { get; set; }
         public Account Account { get; set; }
-        public ICollection<Product> Products { get; set; }  
+        public IEnumerable<Product> Products { get; set; }  
     }
 }

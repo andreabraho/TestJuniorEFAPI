@@ -10,7 +10,8 @@ namespace Domain.APIModels
         public int Page { get; set; }
         public int PageSize { get; set; }
         public int TotalBrand { get; set; }
-        public List<BrandForPage> Brands { get; set; } = new List<BrandForPage> { };
+        public IEnumerable<BrandForPage> Brands { get; set; }
+        public int TotalPages { get; set; }
 
     }
     /// <summary>
@@ -18,9 +19,13 @@ namespace Domain.APIModels
     /// </summary>
     public class BrandForPage
     {
-        public List<int> IdProducts { get; set; } = new List<int>();
+        public IEnumerable<ProductForBrandPage> IdProducts { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
+    }
+    public class ProductForBrandPage
+    {
+        public int Id { get; set; }
     }
 }
