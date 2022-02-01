@@ -22,6 +22,8 @@ namespace TestJuniorEFAPI
 {
     public class Startup
     {
+        private readonly string  _MyAllowSpecificOrigins = "https://localhost:5002/";
+
         IWebHostEnvironment _env;
         public Startup(IConfiguration configuration,IWebHostEnvironment env)
         {
@@ -41,11 +43,19 @@ namespace TestJuniorEFAPI
                 optionsBuilder.UseSqlServer(ConnectionString).EnableSensitiveDataLogging(_env.IsDevelopment());
             });
 
-        
 
 
-
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("VueCorsPolicy", builder =>
+                {
+                    builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+                });
+            });
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IInfoRequestRepository, InfoRequestRepository>();
@@ -67,6 +77,8 @@ namespace TestJuniorEFAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseCors("VueCorsPolicy");
 
             app.UseAuthorization();
 

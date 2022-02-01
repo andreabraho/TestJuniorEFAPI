@@ -23,7 +23,7 @@ namespace ServicaLayer.ProductService
         /// <param name="pageSize">optional,default 10,type int,rappresents page dimension</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public ProductPageModel GetProductsForPage(int page,int pageSize)
+        public ProductPageModel GetProductsForPage2(int page,int pageSize)
         {
             if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
@@ -48,7 +48,7 @@ namespace ServicaLayer.ProductService
 
             return productPageModel; 
         }
-        public ProductPageModel GetProductsForPage2(int page,int pageSize)//test
+        public ProductPageModel GetProductsForPage(int page,int pageSize)//in progress
         {
             if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
