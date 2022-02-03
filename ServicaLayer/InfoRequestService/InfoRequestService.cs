@@ -16,7 +16,30 @@ namespace ServicaLayer.InfoRequestService
         {
             _infoRequestRepository=infoRequestRepository;
         }
+        public IQueryable GetPage()
+        {
+            var t = _infoRequestRepository.GetAll().Select(ir => new
+            {
+                ir.Id,
+                User = new
+                {
+                    ir.Name,
+                    ir.LastName,
+                    ir.PhoneNumber,
+                    ir.Email,
+                    ir.City,
+                    ir.Cap,
+                },
+                ir.RequestText,
+                ir.InsertDate,
+                ir.ProductId,
+                ProductName = ir.Product.Name,
+                BrandId = ir.Product.BrandId,
+                BrandName = ir.Product.Brand.BrandName
+            });
 
+            return t;
+        }
         public InfoRequestDetailModel GetInfoRequestDetail(int id)
         {
             if (id <= 0)

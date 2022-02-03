@@ -18,6 +18,12 @@ namespace TestJuniorEFAPI.Controllers
             _infoRequestService = infoRequestService;
             _logger = logger;
         }
+        [Route("page")]
+        public IActionResult GetPage()
+        {
+            return Ok(_infoRequestService.GetPage());
+
+        }
         /// <summary>
         /// api for brand detail 
         /// </summary>
