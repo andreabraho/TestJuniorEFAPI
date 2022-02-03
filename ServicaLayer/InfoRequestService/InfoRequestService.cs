@@ -1,11 +1,12 @@
 ﻿using DataLayer.Interfaces;
 using Domain;
-using Domain.APIModels;
+using ServicaLayer.InfoRequestService.Model;
 using ServicaLayer.InfoRequestService.QueryObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 
 namespace ServicaLayer.InfoRequestService
 {
@@ -16,30 +17,42 @@ namespace ServicaLayer.InfoRequestService
         {
             _infoRequestRepository=infoRequestRepository;
         }
-        public IQueryable GetPage()
+        public InfoRequestPageModel GetPage(int page, int pageSize,int idBrand=0,string productNameSearch=null,bool isAsc=true)
         {
-            var t = _infoRequestRepository.GetAll().Select(ir => new
-            {
-                ir.Id,
-                User = new
-                {
-                    ir.Name,
-                    ir.LastName,
-                    ir.PhoneNumber,
-                    ir.Email,
-                    ir.City,
-                    ir.Cap,
-                },
-                ir.RequestText,
-                ir.InsertDate,
-                ir.ProductId,
-                ProductName = ir.Product.Name,
-                BrandId = ir.Product.BrandId,
-                BrandName = ir.Product.Brand.BrandName
-            });
 
-            return t;
+            if (pageSize <= 0)
+                throw new ArgumentOutOfRangeException(nameof(pageSize));
+            if (page <= 0)
+                throw new ArgumentOutOfRangeException(nameof(page));
+
+            var pageModel = new InfoRequestPageModel
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalinfoRequests = _infoRequestRepository.GetAll().Count(),
+
+            };
+
+            var query = _infoRequestRepository.GetAll();
+            if(idBrand != 0)
+                query = query.Where(x => x.Product.BrandId==idBrand);
+            if(productNameSearch !=null)
+                query = query.Where(x => x.Product.Name.Contains(productNameSearch));
+
+            if (isAsc)
+                query = query.OrderBy(x => x.InsertDate);
+            else
+                query = query.OrderByDescending(x => x.InsertDate);
+
+            pageModel.infoRequests = query.Skip(pageSize * (page - 1)).Take(pageSize).MapIrForPaging();
+
+            pageModel.TotalPages = CalculateTotalPages(pageModel.TotalinfoRequests, pageSize);
+
+            return pageModel;
         }
+
+
+
         public InfoRequestDetailModel GetInfoRequestDetail(int id)
         {
             if (id <= 0)
@@ -68,6 +81,31 @@ namespace ServicaLayer.InfoRequestService
 
             return query.FirstOrDefault();
         }
+
+
+        private int CalculateTotalPages(int totalItems, int pageSize)
+        {
+            if (totalItems % pageSize == 0)
+                return totalItems / pageSize;
+            else
+                return (totalItems / pageSize) + 1;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //test not working ---------------------------------------------------------------------------------------------------
         public InfoRequestDetailModel GetInfoRequestDetail2(int id)//in progress
         {
             if (id <= 0)

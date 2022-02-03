@@ -1,6 +1,5 @@
 ﻿using DataLayer.Interfaces;
 using Domain;
-using Domain.APIModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;

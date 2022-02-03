@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.APIModels
+namespace ServicaLayer.InfoRequestService.Model
 {
     /// <summary>
     /// all data needed in info request detail page

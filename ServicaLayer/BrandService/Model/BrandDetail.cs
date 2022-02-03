@@ -1,7 +1,6 @@
-﻿using Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Domain.APIModels
+namespace ServicaLayer.BrandService.Model
 {
     /// <summary>
     /// Rappresents a class that contains all data neccessary for a brand detail page

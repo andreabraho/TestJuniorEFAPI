@@ -1,5 +1,4 @@
 ﻿using Domain;
-using Domain.APIModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

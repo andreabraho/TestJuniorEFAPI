@@ -3,7 +3,6 @@ using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
-using Domain.APIModels;
 using ServicaLayer.BrandService;
 
 namespace TestJuniorEFAPI.Controllers
@@ -14,6 +13,7 @@ namespace TestJuniorEFAPI.Controllers
     {
         private readonly ILogger<Brand> _logger;
         private readonly BrandService _brandService;
+        
         public BrandController(ILogger<Brand> logger, BrandService brandService)
         {
             _brandService=brandService;
@@ -51,6 +51,12 @@ namespace TestJuniorEFAPI.Controllers
 
             return Ok(_brandService.GetBrandDetail(id));
         }
+
+
+
+
+
+
 
     }
 }

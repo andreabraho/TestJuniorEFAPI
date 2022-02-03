@@ -1,5 +1,5 @@
 ﻿using Domain;
-using Domain.APIModels;
+using ServicaLayer.BrandService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

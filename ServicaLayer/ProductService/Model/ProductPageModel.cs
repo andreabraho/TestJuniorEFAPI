@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Domain;
+using System.Collections.Generic;
 
-namespace Domain.APIModels
+namespace ServicaLayer.ProductService.Model
 {
     /// <summary>
     /// model used to create the object that will be returned in Produc API product/Page/{page}{PageSize}
@@ -23,7 +24,7 @@ namespace Domain.APIModels
         /// <summary>
         /// list of products for the page
         /// </summary>
-        public IEnumerable<ProductForPage> Products { get; set; } 
+        public IEnumerable<ProductForPage> Products { get; set; }
     }
     /// <summary>
     /// data needed for each product for the product paging api
@@ -43,5 +44,10 @@ namespace Domain.APIModels
         /// product short description
         /// </summary>
         public string ShortDescription { get; set; }
+        public int BrandId { get; set; }
+        public string BrandName { get; set; }
+        public decimal Price { get; set; }
+
+        public ICollection<Category> Categories { get; set; }
     }
 }

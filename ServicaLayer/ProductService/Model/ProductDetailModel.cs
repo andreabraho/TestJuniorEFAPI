@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.APIModels
+namespace ServicaLayer.ProductService.Model
 {
     /// <summary>
     /// data needed in product detail page

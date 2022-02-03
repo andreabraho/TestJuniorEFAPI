@@ -1,5 +1,5 @@
 ﻿using Domain;
-using Domain.APIModels;
+using ServicaLayer.BrandService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +13,10 @@ namespace ServicaLayer.BrandService.QueryObjects
         {
             return brands.Select(brand => new BrandForPage
             {
-                IdProducts = brand.Products.AsQueryable().MapProductForPBrandPage(),
+                Id = brand.Id,
                 Name = brand.BrandName,
                 Description = brand.Description,
+                //IdProducts = brand.Products.AsQueryable().MapProductForPBrandPage(),
             });
         }
         public static IQueryable<ProductForBrandPage> MapProductForPBrandPage(this IQueryable<Product> products)

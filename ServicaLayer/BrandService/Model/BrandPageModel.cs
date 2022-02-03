@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Domain.APIModels
+namespace ServicaLayer.BrandService.Model
 {
     /// <summary>
     /// model used to create the object that will be returned in brand API brand/Page/{page}/{PageSize}
@@ -19,7 +19,8 @@ namespace Domain.APIModels
     /// </summary>
     public class BrandForPage
     {
-        public IEnumerable<ProductForBrandPage> IdProducts { get; set; }
+        public int Id { get; set; }
+        //public IEnumerable<ProductForBrandPage> IdProducts { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 

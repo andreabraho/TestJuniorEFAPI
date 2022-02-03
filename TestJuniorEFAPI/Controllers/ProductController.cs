@@ -3,8 +3,11 @@ using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
-using Domain.APIModels;
 using ServicaLayer.ProductService;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using static TestJuniorEFAPI.Controllers.test;
 
 namespace TestJuniorEFAPI.Controllers
 {
@@ -35,15 +38,18 @@ namespace TestJuniorEFAPI.Controllers
         /// Ok() return data correctly
         /// </returns>
         /// 
-        [Route("page/{page:int=1}/{pagesize:int=10}")]
-        public IActionResult GetProductPage(int page, int pageSize)
+        [Route("page/{page:int}/{pagesize:int}/{brandid:int=0}/{orderby:int=0}/{isasc:bool=false}")]
+        public IActionResult GetProductPageAsync(int page, int pageSize,int brandId,int orderBy,bool isAsc)
         {
             if (page <= 0)
                 return NotFound("page not found");
             if (pageSize <= 0 || pageSize>1000)
                 return BadRequest("page size can't be lower or equal than 0 or higher than 1000");
-            
-            return Ok(_productService.GetProductsForPage2(page,pageSize));
+            if(brandId < 0)
+                return BadRequest("there are no brand with id lower than 0");
+
+
+            return Ok( _productService.GetProductsForPage(page,pageSize,brandId,orderBy,isAsc));
         }
         /// <summary>
         /// product detail page
@@ -53,11 +59,130 @@ namespace TestJuniorEFAPI.Controllers
         /// BadRequest in case of a not valid id
         /// </returns>
         [Route("Detail/{id}")]
-        public IActionResult ProductDetail(int id)
+        public IActionResult ProductDetailAsync(int id)
         {
             if (id <= 0)
                 return BadRequest("not vaid id");
             return Ok(_productService.GetProductDetail(id));
         }
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [Route("test")]
+        public IActionResult testAsync()
+        {
+            int page = 1;
+            int pageSize = 10;
+            var query =  new
+            {
+                PageSize = pageSize,
+                Page = page,
+                TotalProducts = _productRepository.GetAll().Count(),
+                Products = _productRepository.GetAll().OrderByDescending(x => x.Id).Skip(pageSize * (page - 1)).Take(pageSize).MapProductsForPage(),
+            };
+            var productPageModel = query;
+
+            //var productPageModel = query.ToList();
+            return Ok(query);
+        }
     }
+    public static class test
+    {
+        public static IQueryable<ProductForPage2> MapProductsForPage(this IQueryable<Product> products)
+        {
+            return products.Select(product => new ProductForPage2
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Image = product.GetFakeImage(),
+                ShortDescription = product.ShortDescription,
+                
+            });
+        }
+        public class ProductPageModel2
+        {
+            /// <summary>
+            /// page needed
+            /// </summary>
+            public int Page { get; set; }
+            /// <summary>
+            /// number of products for each page
+            /// </summary>
+            public int PageSize { get; set; }
+            /// <summary>
+            /// total number of products
+            /// </summary>
+            public int TotalProducts { get; set; }
+            public int TotalPages { get; set; }
+            /// <summary>
+            /// list of products for the page
+            /// </summary>
+            public IQueryable<ProductForPage2> Products { get; set; }
+        }
+        /// <summary>
+        /// data needed for each product for the product paging api
+        /// </summary>
+        public class ProductForPage2
+        {
+            public int Id { get; set; }
+            /// <summary>
+            /// product name
+            /// </summary>
+            public string Name { get; set; }
+            /// <summary>
+            /// product image link
+            /// </summary>
+            public string Image { get; set; }
+            /// <summary>
+            /// product short description
+            /// </summary>
+            public string ShortDescription { get; set; }
+        }
+    }
+   
+    
 }
