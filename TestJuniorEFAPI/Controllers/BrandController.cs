@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using ServicaLayer.BrandService;
 using System.Threading.Tasks;
+using DataLayer.Repository;
+using System.Collections.Generic;
 
 namespace TestJuniorEFAPI.Controllers
 {
@@ -53,11 +55,21 @@ namespace TestJuniorEFAPI.Controllers
             return Ok( await _brandService.GetBrandDetail(id));
         }
 
+        public async Task<IActionResult> InsertBrand(TestModel testModel)
+        {
 
 
+            return Ok();
+        }
 
 
+        
 
 
+    }
+    public class TestModel//TODO MOVEEEEEEEe
+    {
+        public Brand Brand { get; set; }
+        public List<ProdWithCat> prodsWithCats { get; set; } 
     }
 }

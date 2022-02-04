@@ -194,7 +194,7 @@ namespace TestJuniorEFAPI.Controllers
         }
     }
    
-    public class InsertModel
+    public class InsertModel//TODO MOVE
     {
         public Product Product { get; set; }
         public int[] Categories { get; set; }

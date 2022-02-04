@@ -41,7 +41,7 @@ namespace DataLayer.Repository
             {
                 foreach (var cat in cats)
                 {
-                    _ctx.Products_Categories.Add(new ProductCategory { CategoryId = cat, ProductId = product.Id });
+                   await _ctx.Products_Categories.AddAsync(new ProductCategory { CategoryId = cat, ProductId = product.Id });
                 }
                 await _ctx.SaveChangesAsync();
                 if (await _ctx.SaveChangesAsync() <= 0)
