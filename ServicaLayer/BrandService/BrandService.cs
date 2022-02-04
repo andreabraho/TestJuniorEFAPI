@@ -70,9 +70,17 @@ namespace ServicaLayer.BrandService
 
         }
 
-        public async Task<bool> InsertBrand(Brand brand, ProdWithCat[] prodsWithCat)
+        public async Task<bool> InsertBrand(Account account,Brand brand, ProdWithCat[] prodsWithCat)
         {
-            return await _brandRepository.InsertWithProducts(brand, prodsWithCat);
+            if(account == null)
+                throw new ArgumentNullException(nameof(account));
+            if(brand == null)
+                throw new ArgumentNullException(nameof(brand));
+            if(prodsWithCat == null)
+                throw new ArgumentNullException(nameof(prodsWithCat));
+
+
+            return await _brandRepository.InsertWithProducts(account,brand, prodsWithCat);
         }
 
 

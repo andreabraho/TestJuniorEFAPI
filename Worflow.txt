@@ -1,8 +1,8 @@
 back-end workflow
 1.fix api Search(add filter and order) 	V
 2.check and fix detail api		V
-3.api for creating data
-4.api for edit data
+3.api for creating data 		V
+4.api for edit data			
 5.api for deleting data
 
 6.test api?

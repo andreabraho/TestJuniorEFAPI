@@ -54,12 +54,13 @@ namespace TestJuniorEFAPI.Controllers
 
             return Ok( await _brandService.GetBrandDetail(id));
         }
-
+        [HttpPost("Insert")]
         public async Task<IActionResult> InsertBrand(TestModel testModel)
         {
 
-
-            return Ok();
+            if(await _brandService.InsertBrand(testModel.Account,testModel.Brand,testModel.prodsWithCats))
+                return Ok();
+            return NoContent();
         }
 
 
@@ -69,7 +70,8 @@ namespace TestJuniorEFAPI.Controllers
     }
     public class TestModel//TODO MOVEEEEEEEe
     {
+        public Account Account { get; set; }
         public Brand Brand { get; set; }
-        public List<ProdWithCat> prodsWithCats { get; set; } 
+        public ProdWithCat[] prodsWithCats { get; set; } 
     }
 }
