@@ -54,6 +54,11 @@ namespace TestJuniorEFAPI.Controllers
 
             return Ok( await _brandService.GetBrandDetail(id));
         }
+        /// <summary>
+        /// inserts brand with and array of products each one with different categories
+        /// </summary>
+        /// <param name="testModel">model containing all needed data to insert the brand with products </param>
+        /// <returns></returns>
         [HttpPost("Insert")]
         public async Task<IActionResult> InsertBrand(TestModel testModel)
         {
@@ -62,8 +67,21 @@ namespace TestJuniorEFAPI.Controllers
                 return Ok();
             return NoContent();
         }
+        /// <summary>
+        /// deletes the brand and all data related to him
+        /// </summary>
+        /// <param name="id">brand id</param>
+        /// <returns></returns>
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> DeleteBrandAndRelations(int id)
+        {
+            if (id <= 0)
+                return BadRequest();
+            if(await _brandService.DeleteAll(id))
+                return Ok();
 
-
+            return NoContent();
+        }
         
 
 

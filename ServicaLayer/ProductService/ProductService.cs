@@ -96,14 +96,35 @@ namespace ServicaLayer.ProductService
         }
 
 
-        
+        /// <summary>
+        /// insert a product and categories associated to him
+        /// </summary>
+        /// <param name="product">product</param>
+        /// <param name="categories">list of in rappresenting the categories associated</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">null input</exception>
         public async Task<bool> AddProduct(Product product,int[] categories)
         {
+            if(product == null)
+                throw new ArgumentNullException(nameof(product));
+            if(categories == null) 
+                throw new ArgumentNullException(nameof(categories));
             
-                
             return await _productRepository.InsertWithCat(product, categories);
 
+        }
+        /// <summary>
+        /// delete a product and all data related
+        /// </summary>
+        /// <param name="id">product id</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"> id not valid</exception>
+        public async Task<bool> DeleteProduct(int id)
+        {
+            if(id<=0)
+                throw new ArgumentException(nameof(id));
 
+            return await _productRepository.DeleteAll(id);
         }
 
 

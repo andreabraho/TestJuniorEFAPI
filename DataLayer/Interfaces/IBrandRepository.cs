@@ -11,6 +11,8 @@ namespace DataLayer.Interfaces
     public interface IBrandRepository : IRepository<Brand>
     {
         public Task<bool> InsertWithProducts(Account account,Brand brand, ProdWithCat[] products);
-        
+        public Task<bool> DeleteAll(int id);
+
+
     }
 }

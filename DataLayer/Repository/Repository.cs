@@ -45,7 +45,7 @@ namespace DataLayer.Repository
         {
 
             T entity = entities.SingleOrDefault(s => s.Id == id);
-            entities.Remove(entity);
+            entity.IsDeleted = true;
             return await _ctx.SaveChangesAsync();
         }
         

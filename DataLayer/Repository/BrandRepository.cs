@@ -69,8 +69,38 @@ namespace DataLayer.Repository
             return result;
         }
 
+        /// <summary>
+        /// soft delete a brand and all data related to him
+        /// </summary>
+        /// <param name="id">brand id</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">id not valid</exception>
+        public async Task<bool> DeleteAll(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentOutOfRangeException(nameof(id), "id can't be lower or equal than 0");
+            
+            var result = true;
+
+
+            foreach (var irr in _ctx.InfoRequestReplys.Where(x => x.InfoRequest.Product.BrandId==id))
+                irr.IsDeleted = true;
+            foreach (var ir in _ctx.InfoRequests.Where(x => x.Product.BrandId==id))
+                ir.IsDeleted = true;
+            foreach(var p in _ctx.Products.Where(x=>x.BrandId==id))
+                p.IsDeleted = true;
+
+            await _ctx.SaveChangesAsync();
+
+            await DeleteAsync(id);
+
+
+
+            return result;
+        }
+
     }
-    public class ProdWithCat
+    public class ProdWithCat//TODO MOVEEEEE
     {
         public Product Product { get; set; }
         public int[] CategoriesIds  { get; set; }

@@ -67,8 +67,13 @@ namespace TestJuniorEFAPI.Controllers
                 return BadRequest("not vaid id");
             return Ok(await _productService.GetProductDetail(id));
         }
+        /// <summary>
+        /// insert a product with categories associated
+        /// </summary>
+        /// <param name="insertModel">model containing all data needed</param>
+        /// <returns></returns>
         [HttpPost("Insert")]
-        async public Task<IActionResult> InserProduct(InsertModel insertModel)
+        async public Task<IActionResult> InserProductAsync(InsertModel insertModel)
         {
             var result=await _productService.AddProduct(insertModel.Product,insertModel.Categories);
             if(result)
@@ -76,8 +81,19 @@ namespace TestJuniorEFAPI.Controllers
             else
                 return NoContent();
         }
-
-
+        /// <summary>
+        /// deletes a product and all data in rlation with him
+        /// </summary>
+        /// <param name="id">id of the product</param>
+        /// <returns></returns>
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> DeleteProductAsync(int id)
+        {
+            if(await _productService.DeleteProduct(id))
+                return Ok();
+            else 
+                return NotFound();
+        }
 
 
 

@@ -37,17 +37,46 @@ namespace DataLayer.Repository
 
 
 
-            if(cats.Length > 0 && result)//if there are cat and the product was inserted
+            if(cats.Length > 0 && result)//if there are categories and the product was inserted
             {
                 foreach (var cat in cats)
                 {
                    await _ctx.Products_Categories.AddAsync(new ProductCategory { CategoryId = cat, ProductId = product.Id });
                 }
                 await _ctx.SaveChangesAsync();
-                if (await _ctx.SaveChangesAsync() <= 0)
-                    result = false;
+                
             }
            
+            return result;
+        }
+
+        /// <summary>
+        /// soft delete a product and all data related to him
+        /// </summary>
+        /// <param name="id">product id</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">id not valid</exception>
+        public async Task<bool> DeleteAll(int id)
+        {
+            if(id <= 0)
+                throw new ArgumentOutOfRangeException(nameof(id),"id can't be lower or equal than 0");
+
+            
+
+            foreach (var pc in _ctx.Products_Categories.Where(x => x.ProductId == id))//deletes product categories
+                pc.IsDeleted = true;
+            foreach (var irr in _ctx.InfoRequestReplys.Where(x => x.InfoRequest.ProductId == id))//delete infoRequestReply
+                irr.IsDeleted = true;
+            foreach (var ir in _ctx.InfoRequests.Where(x=>x.ProductId==id))//delete infoRequest
+                ir.IsDeleted = true;
+
+            await _ctx.SaveChangesAsync();
+
+            await this.DeleteAsync(id);
+
+
+            var result = true;
+
             return result;
         }
     }

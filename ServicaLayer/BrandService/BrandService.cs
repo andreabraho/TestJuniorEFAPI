@@ -84,7 +84,13 @@ namespace ServicaLayer.BrandService
         }
 
 
+        public async Task<bool> DeleteAll(int id)
+        {
+            if(id<=0)
+                throw new ArgumentOutOfRangeException(nameof(id));
 
+            return await _brandRepository.DeleteAll(id);
+        }
 
 
 

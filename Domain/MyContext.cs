@@ -30,6 +30,7 @@ namespace Domain
         {
             modelBuilder.Entity<Account>(builder =>
             {
+                builder.HasQueryFilter(x => !x.IsDeleted);
                 builder.HasKey(x => x.Id);
                 builder.ToTable("Account");
 
@@ -41,6 +42,8 @@ namespace Domain
 
             modelBuilder.Entity<Brand>(builder =>
             {
+                builder.HasQueryFilter(x => !x.IsDeleted);
+
                 builder.HasKey(x => x.Id);
                 builder.ToTable("Brand");
                 builder.Property(x => x.AccountId).IsRequired();
@@ -53,6 +56,8 @@ namespace Domain
             });
             modelBuilder.Entity<User>(builder =>
             {
+                builder.HasQueryFilter(x => !x.IsDeleted);
+
                 builder.HasKey(x => x.Id);
                 builder.ToTable("User");
                 builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
@@ -66,6 +71,7 @@ namespace Domain
             });
             modelBuilder.Entity<Product>(builder =>
             {
+                builder.HasQueryFilter(x => !x.IsDeleted);
 
                 builder.HasKey(x => x.Id);
                 builder.ToTable("Product");
@@ -89,6 +95,8 @@ namespace Domain
             
             modelBuilder.Entity<ProductCategory>(builder =>
             {
+                builder.HasQueryFilter(x => !x.IsDeleted);
+
                 builder.ToTable("Product_Category");
 
                 builder.HasKey(x => new { x.CategoryId, x.ProductId });
@@ -103,6 +111,8 @@ namespace Domain
 
             modelBuilder.Entity<Category>(builder =>
             {
+                builder.HasQueryFilter(x => !x.IsDeleted);
+
                 builder.ToTable("Category");
 
                 builder.Property(x=>x.Name).IsRequired();
@@ -111,6 +121,8 @@ namespace Domain
 
             modelBuilder.Entity<InfoRequest>(builder =>
             {
+                builder.HasQueryFilter(x => !x.IsDeleted);
+
                 builder.ToTable("InfoRequest");
                 builder.Property(x => x.City).HasColumnName("Citta").HasMaxLength(189);
                 builder.Property(x=>x.UserId).IsRequired(false).HasColumnName("UserId");
@@ -133,6 +145,8 @@ namespace Domain
 
             modelBuilder.Entity<InfoRequestReply>(builder =>
             {
+                builder.HasQueryFilter(x => !x.IsDeleted);
+
                 builder.ToTable("InfoRequestReply");
 
 
@@ -146,6 +160,8 @@ namespace Domain
             });
             modelBuilder.Entity<Nation>(builder =>
             {
+                builder.HasQueryFilter(x => !x.IsDeleted);
+
                 builder.ToTable("Nation");
 
                 builder.Property(x=>x.Name).IsRequired();
