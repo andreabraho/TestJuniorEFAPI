@@ -32,9 +32,11 @@ namespace TestJuniorEFAPI.Controllers
         /// </summary>
         /// <param name="page">option,default 1,page needed</param>
         /// <param name="pageSize">optional,default 10,products per page</param>
+        /// <param name="brandId">optional,default 10,filter on brand</param>
         /// <returns>
         /// NotFound() in case of not valid page number
         /// BadRequest() in case of a not valid pageSize
+        /// BadRequest() in case of a not valid brand id
         /// Ok() return data correctly
         /// </returns>
         /// 
@@ -65,7 +67,15 @@ namespace TestJuniorEFAPI.Controllers
                 return BadRequest("not vaid id");
             return Ok(await _productService.GetProductDetail(id));
         }
-       
+        [HttpPost("Insert")]
+        async public Task<IActionResult> InserProduct(InsertModel insertModel)
+        {
+            var result=await _productService.AddProduct(insertModel.Product,insertModel.Categories);
+            if(result)
+                return Ok();
+            else
+                return NoContent();
+        }
 
 
 
@@ -184,5 +194,9 @@ namespace TestJuniorEFAPI.Controllers
         }
     }
    
-    
+    public class InsertModel
+    {
+        public Product Product { get; set; }
+        public int[] Categories { get; set; }
+    }
 }

@@ -14,8 +14,8 @@ namespace ServicaLayer.ProductService
 {
     public class ProductService
     {
-        private readonly IRepository<Product> _productRepository;
-        public ProductService(IRepository<Product> productRepository)
+        private readonly IProductRepository _productRepository;
+        public ProductService(IProductRepository productRepository)
         {
             _productRepository=productRepository;
         }
@@ -96,7 +96,15 @@ namespace ServicaLayer.ProductService
         }
 
 
+        
+        public async Task<bool> AddProduct(Product product,int[] categories)
+        {
+            
+                
+            return await _productRepository.InsertWithCat(product, categories);
 
+
+        }
 
 
 

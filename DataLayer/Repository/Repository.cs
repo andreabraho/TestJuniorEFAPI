@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataLayer.Repository
 {
@@ -27,34 +28,27 @@ namespace DataLayer.Repository
         {
             return entities.Where(s => s.Id == id);
         }
-        public void Insert(T entity)
+        public async Task<int> Insert(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
 
             entities.Add(entity);
-            _ctx.SaveChanges();
+            
+            return await _ctx.SaveChangesAsync();
         }
-        public void Update(T entity)
+        public async Task<int> Update(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
-            _ctx.SaveChanges();
+            return await _ctx.SaveChangesAsync();
         }
-        public void Delete(int id)
+        public async Task<int> DeleteAsync(int id)
         {
 
             T entity = entities.SingleOrDefault(s => s.Id == id);
             entities.Remove(entity);
-            _ctx.SaveChanges();
+            return await _ctx.SaveChangesAsync();
         }
-        public T Execute<T>(IQueryable<T> query)
-        {
-            return query.OfType<T>().FirstOrDefault();
-        }
-
-        public List<T> ExecuteList<T>(IQueryable<T> query)
-        {
-            return query.OfType<T>().ToList();
-        }
+        
 
 
     }
