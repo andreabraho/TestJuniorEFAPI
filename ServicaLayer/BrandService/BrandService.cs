@@ -69,7 +69,14 @@ namespace ServicaLayer.BrandService
             return await query.FirstOrDefaultAsync();
 
         }
-
+        /// <summary>
+        /// insert a brand with his account and all his products with categories
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="brand"></param>
+        /// <param name="prodsWithCat">products and list of categories id associated</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">account, brand , prods array null</exception>
         public async Task<bool> InsertBrand(Account account,Brand brand, ProdWithCat[] prodsWithCat)
         {
             if(account == null)
@@ -83,7 +90,12 @@ namespace ServicaLayer.BrandService
             return await _brandRepository.InsertWithProducts(account,brand, prodsWithCat);
         }
 
-
+        /// <summary>
+        /// deletes a brand and all related data
+        /// </summary>
+        /// <param name="id">id brand</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">id not valid</exception>
         public async Task<bool> DeleteAll(int id)
         {
             if(id<=0)
@@ -91,7 +103,18 @@ namespace ServicaLayer.BrandService
 
             return await _brandRepository.DeleteAll(id);
         }
+        public async Task<bool> EditBrand(Brand brand)
+        {
+            Brand BrandFromRepo=_brandRepository.GetById(brand.Id).FirstOrDefault();
+            if (BrandFromRepo == null)
+                return false;
+            BrandFromRepo.BrandName = brand.BrandName;
 
+            if (await _brandRepository.Update(BrandFromRepo) > 0)
+                return true;
+
+            return false;
+        }
 
 
 
