@@ -1,12 +1,13 @@
 ﻿using DataLayer.Interfaces;
 using Domain;
+using Microsoft.EntityFrameworkCore;
 using ServicaLayer.InfoRequestService.Model;
 using ServicaLayer.InfoRequestService.QueryObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 
 namespace ServicaLayer.InfoRequestService
 {
@@ -50,7 +51,7 @@ namespace ServicaLayer.InfoRequestService
 
 
 
-        public InfoRequestDetailModel GetInfoRequestDetail(int id)
+        async public Task<InfoRequestDetailModel> GetInfoRequestDetail(int id)
         {
             if (id <= 0)
                 throw new ArgumentException(nameof(id));
@@ -76,7 +77,7 @@ namespace ServicaLayer.InfoRequestService
                 }),
             });
 
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
 
 

@@ -21,7 +21,7 @@ namespace ServicaLayer.ProductService.QueryObjects
                 BrandId = product.BrandId,
                 BrandName = product.Brand.BrandName,
                 Categories = product.ProductCategories.Select(c => c.Category).ToList(),
-                Price=product.Price,
+                Price = product.Price,
             });
 
 

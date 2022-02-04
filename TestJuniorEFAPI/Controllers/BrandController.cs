@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using ServicaLayer.BrandService;
+using System.Threading.Tasks;
 
 namespace TestJuniorEFAPI.Controllers
 {
@@ -44,12 +45,12 @@ namespace TestJuniorEFAPI.Controllers
         /// Ok () return data correctly
         /// </returns>
         [Route("Detail/{id}")]
-        public IActionResult GetBrandDetail(int id)
+        async public Task<IActionResult> GetBrandDetail(int id)
         {
             if (id <= 0)
                 return BadRequest("id not valid");
 
-            return Ok(_brandService.GetBrandDetail(id));
+            return Ok( await _brandService.GetBrandDetail(id));
         }
 
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ServicaLayer.InfoRequestService;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TestJuniorEFAPI.Controllers
 {
@@ -37,11 +38,11 @@ namespace TestJuniorEFAPI.Controllers
         /// <param name="id">id of the brand</param>
         /// <returns></returns>
         [Route("Detail/{id}")]
-        public IActionResult GetInfoRequestDetail(int id)
+        async public Task<IActionResult> GetInfoRequestDetail(int id)
         {
             if (id <= 0)
                 return BadRequest("id can't be lower or equal than 0");
-            return Ok(_infoRequestService.GetInfoRequestDetail(id));
+            return Ok(await _infoRequestService.GetInfoRequestDetail(id));
         }
 
 

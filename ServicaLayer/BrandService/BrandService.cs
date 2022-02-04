@@ -1,11 +1,13 @@
 ﻿using DataLayer.Interfaces;
 using Domain;
+using Microsoft.EntityFrameworkCore;
 using ServicaLayer.BrandService.Model;
 using ServicaLayer.BrandService.QueryObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ServicaLayer.BrandService
 {
@@ -37,7 +39,7 @@ namespace ServicaLayer.BrandService
             return brandPageModel;
         }
         
-        public BrandDetail GetBrandDetail(int id)
+        async public Task<BrandDetail> GetBrandDetail(int id)
         {
             
             var query = _brandRepository.GetById(id).Select(b => new BrandDetail
@@ -62,7 +64,7 @@ namespace ServicaLayer.BrandService
 
             });
 
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
 
         }
 

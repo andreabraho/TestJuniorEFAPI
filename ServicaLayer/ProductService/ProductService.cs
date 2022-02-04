@@ -64,7 +64,7 @@ namespace ServicaLayer.ProductService
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         
-        public ProductDetailModel GetProductDetail(int id)
+        async public Task<ProductDetailModel> GetProductDetail(int id)
         {
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id));
@@ -90,9 +90,14 @@ namespace ServicaLayer.ProductService
                     DateLastReply = ir.InfoRequestReplys.Max(x => x.InsertDate),
                 }),
             });
-            var x = query.FirstOrDefault(x=>x.Id==id);
-            return x;
+            var productDetail = await query.FirstOrDefaultAsync();
+            return productDetail;
         }
+
+
+
+
+
 
 
 

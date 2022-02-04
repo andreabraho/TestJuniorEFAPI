@@ -59,11 +59,11 @@ namespace TestJuniorEFAPI.Controllers
         /// BadRequest in case of a not valid id
         /// </returns>
         [Route("Detail/{id}")]
-        public IActionResult ProductDetailAsync(int id)
+        async public Task<IActionResult> ProductDetailAsync(int id)
         {
             if (id <= 0)
                 return BadRequest("not vaid id");
-            return Ok(_productService.GetProductDetail(id));
+            return Ok(await _productService.GetProductDetail(id));
         }
        
 
