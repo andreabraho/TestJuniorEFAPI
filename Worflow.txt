@@ -1,0 +1,20 @@
+back-end workflow
+1.fix api Search(add filter and order) 
+2.fix detail api (add missing data)
+3.api for creating data
+4.api for edit data
+5.api for deleting data
+
+6.test api?
+
+front-end
+0.create repository
+1.serach pages
+2.detail pages
+3.create ages
+4.edit pages
+5.delete buttons
+
+6. testing
+
+3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333

@@ -34,17 +34,14 @@ namespace ServicaLayer.InfoRequestService
             };
 
             var query = _infoRequestRepository.GetAll();
-            if(idBrand != 0)
-                query = query.Where(x => x.Product.BrandId==idBrand);
-            if(productNameSearch !=null)
-                query = query.Where(x => x.Product.Name.Contains(productNameSearch));
 
-            if (isAsc)
-                query = query.OrderBy(x => x.InsertDate);
-            else
-                query = query.OrderByDescending(x => x.InsertDate);
+            query = query.FilterIR(idBrand, productNameSearch);
+           
+            query = query.OrderInfoRequest(isAsc);
 
-            pageModel.infoRequests = query.Skip(pageSize * (page - 1)).Take(pageSize).MapIrForPaging();
+            query=query.PageInfoRequests(page,pageSize);
+
+            pageModel.infoRequests = query.MapIrForPaging();
 
             pageModel.TotalPages = CalculateTotalPages(pageModel.TotalinfoRequests, pageSize);
 

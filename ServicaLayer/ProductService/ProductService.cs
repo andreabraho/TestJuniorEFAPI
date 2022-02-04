@@ -35,7 +35,6 @@ namespace ServicaLayer.ProductService
             if(brandId < 0)
                 throw new ArgumentOutOfRangeException(nameof(brandId));
 
-
             var productPageModel =  new ProductPageModel
             {
                 PageSize = pageSize,
@@ -45,41 +44,13 @@ namespace ServicaLayer.ProductService
             };
             var query = _productRepository.GetAll();
 
-            if(brandId > 0)
-            {
-                query = query.Where(x => x.BrandId == brandId);
-            }
+            query = query.FilterProducts(brandId);
 
-            switch (orderBy)
-            {
-                case 1:
-                    if(isAsc)
-                        query=query.OrderBy(x=>x.Brand.BrandName);
-                    else
-                        query = query.OrderByDescending(x => x.Brand.BrandName);
-                    break;
-                case 2:
-                    if (isAsc)
-                        query = query.OrderBy(x => x.Name);
-                    else
-                        query = query.OrderByDescending(x => x.Name);
-                    break ;
-                case 3:
-                    if(isAsc)
-                        query=query.OrderBy(x=>x.Price);
-                    else
-                        query = query.OrderByDescending(x => x.Price);
-                    break ;
-                default:
-                    query = query.OrderBy(x => x.Brand.BrandName).ThenBy(x => x.Name);
-                    break;
-            }
+            query=query.OrderForPage(orderBy,isAsc);
 
-            query = query.Skip(pageSize * (page - 1)).Take(pageSize);
-
+            query = query.Paging(page, pageSize);
 
             productPageModel.Products = query.MapProductsForPage();
-            
 
             productPageModel.TotalPages = CalculateTotalPages(productPageModel.TotalProducts, pageSize);
 
