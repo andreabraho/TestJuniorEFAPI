@@ -27,7 +27,7 @@ namespace ServicaLayer.ProductService
         /// <param name="brandId">optional,default 0,type int,if default does nothing , if different filters on brands</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public ProductPageModel GetProductsForPage(int page,int pageSize,int brandId=0,int orderBy=1,bool isAsc=true)
+        public ProductPageDTO GetProductsForPage(int page,int pageSize,int brandId=0,int orderBy=1,bool isAsc=true)
         {
             if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
@@ -36,7 +36,7 @@ namespace ServicaLayer.ProductService
             if(brandId < 0)
                 throw new ArgumentOutOfRangeException(nameof(brandId));
 
-            var productPageModel =  new ProductPageModel
+            var productPageModel =  new ProductPageDTO
             {
                 PageSize = pageSize,
                 Page = page,
@@ -65,24 +65,24 @@ namespace ServicaLayer.ProductService
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         
-        async public Task<ProductDetailModel> GetProductDetail(int id)
+        async public Task<ProductDetailDTO> GetProductDetail(int id)
         {
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id));
 
-            var query = _productRepository.GetById(id).Select(p => new ProductDetailModel
+            var query = _productRepository.GetById(id).Select(p => new ProductDetailDTO
             {
                 Id = p.Id,
                 Name = p.Name,
                 BrandName = p.Brand.BrandName,
-                productsCategory = p.ProductCategories.Select(c => new CategoryProductModel
+                productsCategory = p.ProductCategories.Select(c => new CategoryProductDTO
                 {
                     Id = c.CategoryId,
                     Name = c.Category.Name,
                 }),
                 countGuestInfoRequests = p.InfoRequests.Where(x => x.UserId == null).Count(),
                 countUserInfoRequests = p.InfoRequests.Where(x => x.UserId != null).Count(),
-                infoRequestProducts = p.InfoRequests.OrderByDescending(x => x.InsertDate).Select(ir => new InfoRequestProductModel
+                infoRequestProducts = p.InfoRequests.OrderByDescending(x => x.InsertDate).Select(ir => new InfoRequestProductDTO
                 {
                     Id = ir.Id,
                     ReplyNumber = ir.InfoRequestReplys.Count(),
@@ -121,14 +121,14 @@ namespace ServicaLayer.ProductService
 
         //test not working-----------------------------------------------------------------------------------------------
 
-        public async Task<ProductPageModel> GetProductsForPage2(int page, int pageSize)//in progress
+        public async Task<ProductPageDTO> GetProductsForPage2(int page, int pageSize)//in progress
         {
             if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             if (page <= 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
 
-            var query = _productRepository.GetAll().Select(x => new ProductPageModel
+            var query = _productRepository.GetAll().Select(x => new ProductPageDTO
             {
                 PageSize = pageSize,
                 Page = page,
@@ -140,7 +140,7 @@ namespace ServicaLayer.ProductService
 
             return productPageModel;
         }
-        public ProductDetailModel GetProductDetail2(int id)//in progress
+        public ProductDetailDTO GetProductDetail2(int id)//in progress
         {
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id));

@@ -6,7 +6,7 @@ namespace ServicaLayer.ProductService.Model
     /// <summary>
     /// model used to create the object that will be returned in Produc API product/Page/{page}{PageSize}
     /// </summary>
-    public class ProductPageModel
+    public class ProductPageDTO
     {
         /// <summary>
         /// page needed
@@ -24,12 +24,12 @@ namespace ServicaLayer.ProductService.Model
         /// <summary>
         /// list of products for the page
         /// </summary>
-        public IEnumerable<ProductForPage> Products { get; set; }
+        public IEnumerable<ProductForPageDTO> Products { get; set; }
     }
     /// <summary>
     /// data needed for each product for the product paging api
     /// </summary>
-    public class ProductForPage
+    public class ProductForPageDTO
     {
         public int Id { get; set; }
         /// <summary>

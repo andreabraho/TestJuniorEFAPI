@@ -19,7 +19,7 @@ namespace ServicaLayer.InfoRequestService
         {
             _infoRequestRepository=infoRequestRepository;
         }
-        public InfoRequestPageModel GetPage(int page, int pageSize,int idBrand=0,string productNameSearch=null,bool isAsc=true)
+        public InfoRequestPageDTO GetPage(int page, int pageSize,int idBrand=0,string productNameSearch=null,bool isAsc=true)
         {
 
             if (pageSize <= 0)
@@ -27,7 +27,7 @@ namespace ServicaLayer.InfoRequestService
             if (page <= 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
 
-            var pageModel = new InfoRequestPageModel
+            var pageModel = new InfoRequestPageDTO
             {
                 Page = page,
                 PageSize = pageSize,
@@ -52,15 +52,15 @@ namespace ServicaLayer.InfoRequestService
 
 
 
-        async public Task<InfoRequestDetailModel> GetInfoRequestDetail(int id)
+        async public Task<InfoRequestDetailDTO> GetInfoRequestDetail(int id)
         {
             if (id <= 0)
                 throw new ArgumentException(nameof(id));
 
-            var query = _infoRequestRepository.GetById(id).Select(ir => new InfoRequestDetailModel
+            var query = _infoRequestRepository.GetById(id).Select(ir => new InfoRequestDetailDTO
             {
                 Id = ir.Id,
-                productIRDetail = new ProductIRDetail
+                productIRDetail = new ProductIRDetailDTO
                 {
                     Id = ir.Product.Id,
                     BrandName = ir.Product.Brand.BrandName,
@@ -70,7 +70,7 @@ namespace ServicaLayer.InfoRequestService
                 LastName = ir.LastName,
                 Email = ir.Email,
                 Location = ir.City + "(" + ir.Cap + "), " + ir.Nation.Name,
-                IRModelReplies = ir.InfoRequestReplys.OrderByDescending(x => x.InsertDate).Select(r => new IRModelReply
+                IRModelReplies = ir.InfoRequestReplys.OrderByDescending(x => x.InsertDate).Select(r => new IRModelReplyDTO
                 {
                     Id = r.Id,
                     ReplyText = r.ReplyText,
@@ -105,7 +105,7 @@ namespace ServicaLayer.InfoRequestService
 
 
         //test not working ---------------------------------------------------------------------------------------------------
-        public InfoRequestDetailModel GetInfoRequestDetail2(int id)//in progress
+        public InfoRequestDetailDTO GetInfoRequestDetail2(int id)//in progress
         {
             if (id <= 0)
                 throw new ArgumentException(nameof(id));

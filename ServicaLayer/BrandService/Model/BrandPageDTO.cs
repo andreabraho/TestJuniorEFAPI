@@ -5,19 +5,19 @@ namespace ServicaLayer.BrandService.Model
     /// <summary>
     /// model used to create the object that will be returned in brand API brand/Page/{page}/{PageSize}
     /// </summary>
-    public class BrandPageModel
+    public class BrandPageDTO
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
         public int TotalBrand { get; set; }
-        public IEnumerable<BrandForPage> Brands { get; set; }
+        public IEnumerable<BrandForPageDTO> Brands { get; set; }
         public int TotalPages { get; set; }
 
     }
     /// <summary>
     /// data of each brand needed in brands page
     /// </summary>
-    public class BrandForPage
+    public class BrandForPageDTO
     {
         public int Id { get; set; }
         //public IEnumerable<ProductForBrandPage> IdProducts { get; set; }
@@ -25,7 +25,7 @@ namespace ServicaLayer.BrandService.Model
         public string Description { get; set; }
 
     }
-    public class ProductForBrandPage
+    public class ProductForBrandPageDTO
     {
         public int Id { get; set; }
     }

@@ -9,9 +9,9 @@ namespace ServicaLayer.BrandService.QueryObjects
 {
     public static class BrandForDetailPageModel
     {
-        public static IQueryable<ProductBrandDetail> MapProductsForBrandDetail(this IQueryable<Product> products)
+        public static IQueryable<ProductBrandDetailDTO> MapProductsForBrandDetail(this IQueryable<Product> products)
         {
-            return products.Select(product => new ProductBrandDetail
+            return products.Select(product => new ProductBrandDetailDTO
             {
                 Id = product.Id,
                 CountInfoRequest = product.InfoRequests.Count(),

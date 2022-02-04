@@ -8,7 +8,7 @@ namespace ServicaLayer.InfoRequestService.Model
     /// all data needed in info request detail page
     /// model used to create the object that will be returned in Produc API InfoRequest/Detail/{id}
     /// </summary>
-    public class InfoRequestDetailModel
+    public class InfoRequestDetailDTO
     {
         /// <summary>
         /// info request id
@@ -17,7 +17,7 @@ namespace ServicaLayer.InfoRequestService.Model
         /// <summary>
         /// all data of the product subject of the info request
         /// </summary>
-        public ProductIRDetail productIRDetail { get; set; }
+        public ProductIRDetailDTO productIRDetail { get; set; }
         /// <summary>
         /// info request sender name
         /// </summary>
@@ -37,12 +37,12 @@ namespace ServicaLayer.InfoRequestService.Model
         /// <summary>
         /// list of all replies of the info request
         /// </summary>
-        public IEnumerable<IRModelReply> IRModelReplies { get; set; }
+        public IEnumerable<IRModelReplyDTO> IRModelReplies { get; set; }
     }
     /// <summary>
     /// product data needed for the info request detail page
     /// </summary>
-    public class ProductIRDetail
+    public class ProductIRDetailDTO
     {
         /// <summary>
         /// product id
@@ -58,7 +58,7 @@ namespace ServicaLayer.InfoRequestService.Model
     /// <summary>
     /// info request reply data needed for info request detail page
     /// </summary>
-    public class IRModelReply
+    public class IRModelReplyDTO
     {
         /// <summary>
         /// info request reply id

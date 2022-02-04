@@ -21,13 +21,13 @@ namespace ServicaLayer.BrandService
             _brandRepository = brandRepository;
             _categoryRepository = categoryRepository;
         }
-        public BrandPageModel GetBrandPage(int page, int pageSize)
+        public BrandPageDTO GetBrandPage(int page, int pageSize)
         {
             if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             if (page <= 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
-            var brandPageModel = new BrandPageModel
+            var brandPageModel = new BrandPageDTO
             {
                 Brands = _brandRepository.GetAll().OrderByDescending(x => x.Id).Page(page,pageSize).MapBrandForBrandPage(),
                 Page = page,
@@ -40,23 +40,23 @@ namespace ServicaLayer.BrandService
             return brandPageModel;
         }
         
-        async public Task<BrandDetail> GetBrandDetail(int id)
+        async public Task<BrandDetailDTO> GetBrandDetail(int id)
         {
             
-            var query = _brandRepository.GetById(id).Select(b => new BrandDetail
+            var query = _brandRepository.GetById(id).Select(b => new BrandDetailDTO
             {
                 Id = b.Id,
                 Name = b.BrandName,
                 CountRequestFromBrandProducts = b.Products.SelectMany(x => x.InfoRequests).Count(),
                 TotProducts = b.Products.Count(),
-                Products = b.Products.Select(product => new ProductBrandDetail
+                Products = b.Products.Select(product => new ProductBrandDetailDTO
                 {
                     Id = product.Id,
                     CountInfoRequest = product.InfoRequests.Count(),
                     Name = product.Name,
 
                 }),
-                AssociatedCategory = _categoryRepository.GetAll().Where(x => b.Products.SelectMany(c => c.ProductCategories).Select(b => b.CategoryId).Contains(x.Id)).Select(ca => new CategoryBrandDetail
+                AssociatedCategory = _categoryRepository.GetAll().Where(x => b.Products.SelectMany(c => c.ProductCategories).Select(b => b.CategoryId).Contains(x.Id)).Select(ca => new CategoryBrandDetailDTO
                 {
                     Id = ca.Id,
                     Name = ca.Name,
@@ -99,37 +99,37 @@ namespace ServicaLayer.BrandService
 
 
         //test not working ---------------------------------------------------------------------------------------------
-        public BrandPageModel GetBrandPage2(int page, int pageSize)//in progress
+        public BrandPageDTO GetBrandPage2(int page, int pageSize)//in progress
         {
             if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             if (page <= 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
-            var query = _brandRepository.GetAll().Select(b => new BrandPageModel
+            var query = _brandRepository.GetAll().Select(b => new BrandPageDTO
             {
                 Brands = _brandRepository.GetAll().OrderByDescending(x => x.Id).Skip(pageSize * (page - 1)).Take(pageSize).MapBrandForBrandPage(),
                 Page = page,
                 PageSize = pageSize,
                 TotalBrand = _brandRepository.GetAll().Count(),
             });
-            BrandPageModel brandPageModel = query.FirstOrDefault();
+            BrandPageDTO brandPageModel = query.FirstOrDefault();
 
             brandPageModel.TotalPages = CalculateTotalPages(brandPageModel.TotalBrand, pageSize);
 
             return brandPageModel;
         }
 
-        public BrandDetail GetBrandDetail2(int id)//in progress
+        public BrandDetailDTO GetBrandDetail2(int id)//in progress
         {
             
-            var query = _brandRepository.GetById(id).Select(b => new BrandDetail
+            var query = _brandRepository.GetById(id).Select(b => new BrandDetailDTO
             {
                 Id = b.Id,
                 Name = b.BrandName,
                 CountRequestFromBrandProducts = b.Products.SelectMany(x => x.InfoRequests).Count(),
                 TotProducts = b.Products.Count(),
                 Products = b.Products.AsQueryable<Product>().MapProductsForBrandDetail(),
-                AssociatedCategory = _categoryRepository.GetAll().Where(x => b.Products.SelectMany(c => c.ProductCategories).Select(b => b.CategoryId).Contains(x.Id)).Select(ca => new CategoryBrandDetail
+                AssociatedCategory = _categoryRepository.GetAll().Where(x => b.Products.SelectMany(c => c.ProductCategories).Select(b => b.CategoryId).Contains(x.Id)).Select(ca => new CategoryBrandDetailDTO
                 {
                     Id = ca.Id,
                     Name = ca.Name,

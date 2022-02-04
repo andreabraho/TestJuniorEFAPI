@@ -9,9 +9,9 @@ namespace ServicaLayer.ProductService.QueryObjects
 {
     public static class ProductForDetailPageModel
     {
-        public static IQueryable<ProductDetailModel> MapProductForProductDetail(this IQueryable<Product> product)
+        public static IQueryable<ProductDetailDTO> MapProductForProductDetail(this IQueryable<Product> product)
         {
-            return product.Select(p => new ProductDetailModel
+            return product.Select(p => new ProductDetailDTO
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -22,17 +22,17 @@ namespace ServicaLayer.ProductService.QueryObjects
                 infoRequestProducts = p.InfoRequests.AsQueryable().OrderByDescending(x => x.InsertDate).MapIRForProductDetail(),//error generation
             });
         }
-        public static IQueryable<CategoryProductModel> MapCategoryForProductDetail(this IQueryable<ProductCategory> categories)
+        public static IQueryable<CategoryProductDTO> MapCategoryForProductDetail(this IQueryable<ProductCategory> categories)
         {
-            return categories.Select(c => new CategoryProductModel
+            return categories.Select(c => new CategoryProductDTO
             {
                 Id = c.CategoryId,
                 Name = c.Category.Name,
             });
         }
-        public static IQueryable<InfoRequestProductModel> MapIRForProductDetail (this IQueryable<InfoRequest> infoRequests)
+        public static IQueryable<InfoRequestProductDTO> MapIRForProductDetail (this IQueryable<InfoRequest> infoRequests)
         {
-            return infoRequests.Select(ir => new InfoRequestProductModel
+            return infoRequests.Select(ir => new InfoRequestProductDTO
             {
                 Id = ir.Id,
                 ReplyNumber = ir.InfoRequestReplys.Count(),

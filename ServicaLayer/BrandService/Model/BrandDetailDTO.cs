@@ -6,25 +6,9 @@ namespace ServicaLayer.BrandService.Model
     /// Rappresents a class that contains all data neccessary for a brand detail page
     /// model used to create the object that will be returned in Produc API brand/Detail/{id}
     /// </summary>
-    public class BrandDetail
+    public class BrandDetailDTO
     {
 
-        /*
-         Dettaglio Brand
-        L’api prenderà in input l’id di un Brand e restituirà i seguenti dati
-        ● Id Brand
-        ● Nome del Brand
-        ● Numero totale dei Prodotti del Brand
-        ● Numero totale delle Richieste informazioni ricevute da tutti i prodotti del Brand
-        ● Elenco delle categorie associate ai prodotti del Brand, con i seguenti dati:
-            ○ Id Categoria
-            ○ Nome Categoria
-            ○ Numero di prodotti associati alla categoria
-        ● Elenco dei Prodotti con i seguenti dati: (paginazione da gestire lato client)
-            ○ Id Prodotto
-            ○ Nome del prodotto
-            ○ Numero di richieste informazioni ricevute dal prodotto
-         */
         /// <summary>
         /// brand id
         /// </summary>
@@ -44,16 +28,16 @@ namespace ServicaLayer.BrandService.Model
         /// <summary>
         /// list of categories associated to the brand
         /// </summary>
-        public IEnumerable<CategoryBrandDetail> AssociatedCategory { get; set; }
+        public IEnumerable<CategoryBrandDetailDTO> AssociatedCategory { get; set; }
         /// <summary>
         /// list of products associated to the brand
         /// </summary>
-        public IEnumerable<ProductBrandDetail> Products { get; set; }
+        public IEnumerable<ProductBrandDetailDTO> Products { get; set; }
     }
     /// <summary>
     /// data neccessary on the page fo each category
     /// </summary>
-    public class CategoryBrandDetail
+    public class CategoryBrandDetailDTO
     {
         /// <summary>
         /// category id
@@ -71,7 +55,7 @@ namespace ServicaLayer.BrandService.Model
     /// <summary>
     /// data neccessary on the page fo each product
     /// </summary>
-    public class ProductBrandDetail
+    public class ProductBrandDetailDTO
     {
         /// <summary>
         /// id product

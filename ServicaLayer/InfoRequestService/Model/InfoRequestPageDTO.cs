@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ServicaLayer.InfoRequestService.Model
 {
-    public class InfoRequestPageModel
+    public class InfoRequestPageDTO
     {
         /// <summary>
         /// page needed

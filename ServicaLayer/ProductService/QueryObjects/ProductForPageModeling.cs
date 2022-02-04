@@ -10,9 +10,9 @@ namespace ServicaLayer.ProductService.QueryObjects
     public static class ProductForPageModeling
     {
 
-        public static IQueryable<ProductForPage> MapProductsForPage(this IQueryable<Product> products)
+        public static IQueryable<ProductForPageDTO> MapProductsForPage(this IQueryable<Product> products)
         {
-            return products.Select(product => new ProductForPage
+            return products.Select(product => new ProductForPageDTO
             {
                 Id = product.Id,
                 Name = product.Name,

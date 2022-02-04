@@ -9,9 +9,9 @@ namespace ServicaLayer.BrandService.QueryObjects
 {
     public static class BrandForPageModeling
     {
-        public static IQueryable<BrandForPage> MapBrandForBrandPage(this IQueryable<Brand> brands)
+        public static IQueryable<BrandForPageDTO> MapBrandForBrandPage(this IQueryable<Brand> brands)
         {
-            return brands.Select(brand => new BrandForPage
+            return brands.Select(brand => new BrandForPageDTO
             {
                 Id = brand.Id,
                 Name = brand.BrandName,
@@ -19,9 +19,9 @@ namespace ServicaLayer.BrandService.QueryObjects
                 //IdProducts = brand.Products.AsQueryable().MapProductForPBrandPage(),
             });
         }
-        public static IQueryable<ProductForBrandPage> MapProductForPBrandPage(this IQueryable<Product> products)
+        public static IQueryable<ProductForBrandPageDTO> MapProductForPBrandPage(this IQueryable<Product> products)
         {
-            return products.Select(p => new ProductForBrandPage
+            return products.Select(p => new ProductForBrandPageDTO
             {
                 Id = p.Id,
             });

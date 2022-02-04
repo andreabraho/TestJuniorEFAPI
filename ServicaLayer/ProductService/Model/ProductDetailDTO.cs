@@ -8,7 +8,7 @@ namespace ServicaLayer.ProductService.Model
     /// data needed in product detail page
     /// model used to create the object that will be returned in Produc API Product/Detail/{id}
     /// </summary>
-    public class ProductDetailModel
+    public class ProductDetailDTO
     {
         /// <summary>
         /// product id
@@ -25,7 +25,7 @@ namespace ServicaLayer.ProductService.Model
         /// <summary>
         /// categories associated to the product 
         /// </summary>
-        public IEnumerable<CategoryProductModel> productsCategory { get; set; }
+        public IEnumerable<CategoryProductDTO> productsCategory { get; set; }
         /// <summary>
         /// number of info requests recived from the profuct from guest users
         /// </summary>
@@ -37,13 +37,13 @@ namespace ServicaLayer.ProductService.Model
         /// <summary>
         /// list of info requests recived from the product
         /// </summary>
-        public IEnumerable<InfoRequestProductModel> infoRequestProducts { get; set; }
+        public IEnumerable<InfoRequestProductDTO> infoRequestProducts { get; set; }
 
     }
     /// <summary>
     /// info request data neccessary for product detail page
     /// </summary>
-    public class InfoRequestProductModel
+    public class InfoRequestProductDTO
     {
         /// <summary>
         /// info request id
@@ -66,7 +66,7 @@ namespace ServicaLayer.ProductService.Model
         /// </summary>
         public DateTime DateLastReply { get; set; }
     }
-    public class CategoryProductModel
+    public class CategoryProductDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

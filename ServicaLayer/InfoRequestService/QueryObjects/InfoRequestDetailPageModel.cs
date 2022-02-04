@@ -9,12 +9,12 @@ namespace ServicaLayer.InfoRequestService.QueryObjects
 {
     public static class InfoRequestDetailPageModel
     {
-        public static IQueryable<InfoRequestDetailModel> MapIRForDetailPage(this IQueryable<InfoRequest> infoRequest)
+        public static IQueryable<InfoRequestDetailDTO> MapIRForDetailPage(this IQueryable<InfoRequest> infoRequest)
         {
-            return infoRequest.Select(ir => new InfoRequestDetailModel
+            return infoRequest.Select(ir => new InfoRequestDetailDTO
             {
                 Id = ir.Id,
-                productIRDetail = new ProductIRDetail
+                productIRDetail = new ProductIRDetailDTO
                 {
                     Id = ir.Product.Id,
                     BrandName = ir.Product.Brand.BrandName,
@@ -27,9 +27,9 @@ namespace ServicaLayer.InfoRequestService.QueryObjects
                 IRModelReplies = ir.InfoRequestReplys.OrderByDescending(x => x.InsertDate).AsQueryable().MapInfoReplysForIRDetail(ir),
             });
         }
-        public static IQueryable<IRModelReply> MapInfoReplysForIRDetail(this IQueryable<InfoRequestReply> irReplys,InfoRequest ir)
+        public static IQueryable<IRModelReplyDTO> MapInfoReplysForIRDetail(this IQueryable<InfoRequestReply> irReplys,InfoRequest ir)
         {
-            return irReplys.Select(r => new IRModelReply
+            return irReplys.Select(r => new IRModelReplyDTO
             {
                 Id = r.Id,
                 ReplyText = r.ReplyText,
