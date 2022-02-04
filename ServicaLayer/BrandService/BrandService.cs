@@ -1,4 +1,5 @@
 ﻿using DataLayer.Interfaces;
+using DataLayer.QueryObjects;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using ServicaLayer.BrandService.Model;
@@ -28,7 +29,7 @@ namespace ServicaLayer.BrandService
                 throw new ArgumentOutOfRangeException(nameof(page));
             var brandPageModel = new BrandPageModel
             {
-                Brands = _brandRepository.GetAll().OrderByDescending(x => x.Id).Skip(pageSize * (page - 1)).Take(pageSize).MapBrandForBrandPage(),
+                Brands = _brandRepository.GetAll().OrderByDescending(x => x.Id).Page(page,pageSize).MapBrandForBrandPage(),
                 Page = page,
                 PageSize = pageSize,
                 TotalBrand = _brandRepository.GetAll().Count(),

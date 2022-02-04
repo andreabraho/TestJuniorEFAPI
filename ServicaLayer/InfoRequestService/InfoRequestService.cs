@@ -1,4 +1,5 @@
 ﻿using DataLayer.Interfaces;
+using DataLayer.QueryObjects;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using ServicaLayer.InfoRequestService.Model;
@@ -40,7 +41,7 @@ namespace ServicaLayer.InfoRequestService
            
             query = query.OrderInfoRequest(isAsc);
 
-            query=query.PageInfoRequests(page,pageSize);
+            query=query.Page(page,pageSize);
 
             pageModel.infoRequests = query.MapIrForPaging();
 

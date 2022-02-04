@@ -1,4 +1,5 @@
 ﻿using DataLayer.Interfaces;
+using DataLayer.QueryObjects;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using ServicaLayer.ProductService.Model;
@@ -48,7 +49,7 @@ namespace ServicaLayer.ProductService
 
             query=query.OrderForPage(orderBy,isAsc);
 
-            query = query.Paging(page, pageSize);
+            query = query.Page(page, pageSize);
 
             productPageModel.Products = query.MapProductsForPage();
 
