@@ -2,8 +2,8 @@ import Repository from "./Repository";
 
 const resource = "/product";
 export default {
-  getPage(page,pageSize) {
-    return Repository.get(`${resource}/page/${page}/${pageSize}`);
+  getPage(page,pageSize,brandId=0,orderBy=0,isAsc=false) {
+    return Repository.get(`${resource}/page/${page}/${pageSize}/${brandId}/${orderBy}/${isAsc}`);
   },
 
   getProduct(productId) {

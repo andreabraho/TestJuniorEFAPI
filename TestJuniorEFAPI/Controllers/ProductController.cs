@@ -7,7 +7,6 @@ using ServicaLayer.ProductService;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using static TestJuniorEFAPI.Controllers.test;
 using Domain.ModelsForApi;
 
 namespace TestJuniorEFAPI.Controllers

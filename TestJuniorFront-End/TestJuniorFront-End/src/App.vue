@@ -1,7 +1,7 @@
 <template>
   <div id="app" >
     <nav class="navbar navbar-light bg-dark sticky-top">
-        <span class="navbar-brand text-light ml-2">Fixed top</span>
+        <span class="navbar-brand text-light ml-2">Company name</span>
     </nav>
     
 
@@ -45,7 +45,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
@@ -69,5 +69,14 @@ a:hover {
 .active {
     text-decoration: none;
     color: rgb(17, 0, 255);
+}
+.mw-10{
+        max-width: 10%;
+    }
+.mw-40{
+    max-width: 40%;
+}
+.mw-30{
+    max-width: 30%;
 }
 </style>

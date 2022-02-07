@@ -16,9 +16,11 @@ namespace ServicaLayer.ProductService
     public class ProductService
     {
         private readonly IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository)
+        private readonly IBrandRepository _brandRepository;
+        public ProductService(IProductRepository productRepository,IBrandRepository brandRepository)
         {
             _productRepository=productRepository;
+            _brandRepository=brandRepository;
         }
         /// <summary>
         /// get all info needed for a brand list page
@@ -37,11 +39,16 @@ namespace ServicaLayer.ProductService
             if(brandId < 0)
                 throw new ArgumentOutOfRangeException(nameof(brandId));
 
-            var productPageModel =  new ProductPageDTO
+            var productPageModel = new ProductPageDTO
             {
                 PageSize = pageSize,
                 Page = page,
-                TotalProducts = _productRepository.GetAll().Count(),
+                TotalProducts = _productRepository.GetAll().FilterProducts(brandId).Count(),
+                Brands = _brandRepository.GetAll().Select(b => new BrandForPageDTO
+                {
+                    Id = b.Id,
+                    Name = b.BrandName
+                })
                 
             };
             var query = _productRepository.GetAll();
@@ -156,9 +163,9 @@ namespace ServicaLayer.ProductService
 
                     product.ProductCategories = categories;
                 
-                product.Name = prodCat.Product.Name;
-                product.Description = prodCat.Product.Description;
-                product.ShortDescription = prodCat.Product.ShortDescription;
+                product.Name = prodCat.Product.Name??"";
+                product.Description = prodCat.Product.Description??"";
+                product.ShortDescription = prodCat.Product.ShortDescription??"";
                 product.Price=prodCat.Product.Price;
 
                 //product.BrandId = prodCat.Product.BrandId;//todo CAN BE UPDATED?

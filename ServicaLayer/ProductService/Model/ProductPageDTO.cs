@@ -25,6 +25,7 @@ namespace ServicaLayer.ProductService.Model
         /// list of products for the page
         /// </summary>
         public IEnumerable<ProductForPageDTO> Products { get; set; }
+        public IEnumerable<BrandForPageDTO> Brands { get; set; }
     }
     /// <summary>
     /// data needed for each product for the product paging api
@@ -49,5 +50,10 @@ namespace ServicaLayer.ProductService.Model
         public decimal Price { get; set; }
 
         public ICollection<Category> Categories { get; set; }
+    }
+    public class BrandForPageDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

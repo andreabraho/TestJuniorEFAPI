@@ -22,12 +22,12 @@ namespace DataLayer.QueryObjects
             this IQueryable<T> query,
             int page, int pageSize)
         {
-            if (pageSize == 0)
+            if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException
-                    (nameof(pageSize), "pageSize cannot be zero.");
+                    (nameof(pageSize), "pageSize cannot be lower or equal than zero.");
             if (page <=0)
                 throw new ArgumentOutOfRangeException
-                    (nameof(page), "page cannot be lower or equal thanzero.");
+                    (nameof(page), "page cannot be lower or equal than zero.");
 
             
             query = query
