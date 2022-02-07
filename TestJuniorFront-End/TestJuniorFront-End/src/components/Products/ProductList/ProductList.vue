@@ -50,6 +50,9 @@ export default {
       page: 1,
       pageSize: 10,
       pageData: null,
+      /**
+       * variable used to load the compoents whenever tha data are ready
+       */
       isLoadingProducts: true,
       brandSelected:0,
       orderBy:0,
@@ -57,6 +60,9 @@ export default {
     };
   },
   methods: {
+    /**
+     * called at the creation of the component loads the page neccessary data
+     */
     async load() {
       this.isLoadingProducts = true;
       const { data } = await ProductRepository.getPage(
@@ -72,6 +78,9 @@ export default {
       console.log(data)
 
     },
+    /**
+     * function that updates the page data whenever search/filter/order data changes
+     */
     async update() {
 
       const { data } = await ProductRepository.getPage(
@@ -86,12 +95,11 @@ export default {
       await this.$refs.pagingComponent.selectPages();
 
     },
-    async setPage(val) {
-      this.page = val;
-      await this.update();
-    },
-    
-    
+    /**
+     * method that updated the brand filter 
+     * and update the data in the page
+     * triggered by event from child components
+     */
     async selectNewBrand(id){
       this.brandSelected=id
       this.page=1
@@ -100,12 +108,22 @@ export default {
 
 
     },
+    /**
+     * method that updated the order filter 
+     * and update the data in the page
+     * triggered by event from child components
+     */
     async chageOrder(orderBy,isAsc){
       this.orderBy=orderBy
       this.isAsc=isAsc
       this.page=1
       await this.update()
     },
+    /**
+     * method that updated the page nuber
+     * and update the data in the page
+     * triggered by event from child components
+     */
     async changePage(num){
       this.page=num
       await this.update();
