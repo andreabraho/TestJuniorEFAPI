@@ -20,18 +20,17 @@
          
         </div>
         <div class="d-flex justify-content-center" v-if="!isLoadingProducts">
-          <button type="button" 
-                  class="ml-1" 
-                  @click="previousPage()"
-                  :class="[page==1?'disabled btn btn-outline-secondary':'btn btn-outline-primary']">Indietro</button>
           
           
+          <page-buttons 
+          :page="page"
+          :maxPages="pageData.totalPages"
+          @changePage="changePage"
+          ref="pagingComponent"
+          ></page-buttons>
 
 
-          <button type="button" 
-                  class="ml-1" 
-                  @click="nextPage()"
-                  :class="[page==pageData.totalPages?'disabled btn btn-outline-secondary':'btn btn-outline-primary']">Avanti</button>
+          
         </div>
         
       </div>
@@ -74,6 +73,7 @@ export default {
 
     },
     async update() {
+
       const { data } = await ProductRepository.getPage(
         this.page,
         this.pageSize,
@@ -82,23 +82,15 @@ export default {
         this.isAsc
       );
       this.pageData = data;
+
+      this.$refs.pagingComponent.selectPages();
+
     },
     async setPage(val) {
       this.page = val;
       this.update();
     },
-    async nextPage() {
-      if (this.page < this.pageData.totalPages) {
-        this.page = this.page + 1;
-        this.update();
-      }
-    },
-    async previousPage() {
-      if (this.page > 1) {
-        this.page = this.page - 1;
-        this.update();
-      }
-    },
+    
     
     selectNewBrand(id){
       this.brandSelected=id
@@ -111,6 +103,10 @@ export default {
       this.isAsc=isAsc
       this.page=1
       this.update()
+    },
+    changePage(num){
+      this.page=num
+      this.update();
     }
   },
   computed: {},

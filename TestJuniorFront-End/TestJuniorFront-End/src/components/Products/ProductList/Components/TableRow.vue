@@ -3,7 +3,9 @@
         <div class="col-2 ">{{item.brandName}}</div>
         <div class="col-5 "><p><b>{{item.name}}</b> | {{item.shortDescription}}</p></div>
         <div class="col-3 ">
-          <span v-for="cat in item.categories" :key="cat.id">
+          <span v-for="cat in item.categories" 
+          :key="cat.id"
+          class="rounded-pill bg-primary text-light cat-pill m-1 ">
               {{cat.name}}
           </span>
         </div>
@@ -32,6 +34,9 @@ export default {
     }
     .on-hover:hover{
         background-color: rgb(219, 217, 217);
+    }
+    .cat-pill{
+        padding: 3px 3px 3px 3px;
     }
 
 </style>

@@ -1,11 +1,17 @@
 <template>
-  <div>
-
-      
-
-
-
-
+  <div >
+        <button type="button" 
+                  class="ml-1" 
+                  @click="previousPage()"
+                  :class="[page==1?'disabled btn btn-outline-secondary':'btn btn-outline-primary']">Indietro</button>
+        <button class="btn btn-outline-primary"
+                v-for="num in pages" 
+                :key="num"
+                @click="changePage(num)">{{num}}</button>
+        <button type="button" 
+                class="ml-1" 
+                @click="nextPage()"
+                :class="[page==maxPages?'disabled btn btn-outline-secondary':'btn btn-outline-primary']">Avanti</button>
   </div>
 
 </template>
@@ -29,14 +35,52 @@ export default {
     },
     methods:{
         selectPages(){
-
+            if(this.maxPages<=5){
+                this.pages=[]
+                for(let i=1;i<=this.maxPages;i++)
+                {
+                    
+                    this.pages.push(i)
+                }
+            }else{
+                if(this.page<=3)
+                    this.pages=[1,2,3,4,5]
+                else
+                    if(this.page>=this.maxPages-3)
+                        this.pages=[this.maxPages-5,this.maxPages-4,this.maxPages-3,this.maxPages-2,this.maxPages-1]
+                    else{
+                        this.pages=[this.page-2,this.page-1,this.page,this.page+1,this.page+2]
+                    }
+            }
             
-            
 
+        },
+        changePage(num){
+            this.page=num
+            this.$emit("changePage",this.page)
+            this.selectPages()
+        },
+        async nextPage() {
+            if (this.page < this.maxPages) {
+                this.page = this.page + 1;
+                this.$emit("changePage",this.page)
+                this.selectPages()
+            }
 
+        },
+        async previousPage() {
 
+            if (this.page > 1) {
+                this.page = this.page - 1;
+                this.$emit("changePage",this.page)
+                this.selectPages()
 
-        }
+            }
+
+        },
+    },
+    mounted(){
+        this.selectPages()
     }
 }
 </script>
