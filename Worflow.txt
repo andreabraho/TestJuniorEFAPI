@@ -1,4 +1,4 @@
-back-end workflow
+----back-end workflow----
 1.fix api Search(add filter and order) 	V
 2.check and fix detail api		V
 3.api for creating data 		V
@@ -7,9 +7,9 @@ back-end workflow
 
 6.test api?
 
-front-end
+----front-end-----
 0.create repository
-1.serach pages
+1.serach pages				V
 2.detail pages
 3.create ages
 4.edit pages

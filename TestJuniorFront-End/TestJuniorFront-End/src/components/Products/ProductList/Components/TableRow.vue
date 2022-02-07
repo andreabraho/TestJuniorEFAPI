@@ -36,7 +36,7 @@ export default {
         background-color: rgb(219, 217, 217);
     }
     .cat-pill{
-        padding: 3px 3px 3px 3px;
+        padding: 1px 3px 0px 3px;
     }
 
 </style>

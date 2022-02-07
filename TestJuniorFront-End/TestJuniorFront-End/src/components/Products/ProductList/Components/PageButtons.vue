@@ -1,13 +1,15 @@
 <template>
-  <div >
+  <div class="mt-5">
         <button type="button" 
-                  class="ml-1" 
+                  class="ml-1 me-1" 
                   @click="previousPage()"
                   :class="[page==1?'disabled btn btn-outline-secondary':'btn btn-outline-primary']">Indietro</button>
-        <button class="btn btn-outline-primary"
+        <button class="btn btn-outline-primary me-1"
                 v-for="num in pages" 
                 :key="num"
-                @click="changePage(num)">{{num}}</button>
+                @click="changePage(num)"
+                :class="[num==page?'active':'']"
+                >{{num}}</button>
         <button type="button" 
                 class="ml-1" 
                 @click="nextPage()"
@@ -35,8 +37,9 @@ export default {
     },
     methods:{
         selectPages(){
+            this.pages=[]
+
             if(this.maxPages<=5){
-                this.pages=[]
                 for(let i=1;i<=this.maxPages;i++)
                 {
                     

@@ -19,7 +19,7 @@
                     @chageOrder="chageOrder"></my-table>
          
         </div>
-        <div class="d-flex justify-content-center" v-if="!isLoadingProducts">
+        <div class="d-flex justify-content-center" >
           
           
           <page-buttons 
@@ -83,30 +83,32 @@ export default {
       );
       this.pageData = data;
 
-      this.$refs.pagingComponent.selectPages();
+      await this.$refs.pagingComponent.selectPages();
 
     },
     async setPage(val) {
       this.page = val;
-      this.update();
+      await this.update();
     },
     
     
-    selectNewBrand(id){
+    async selectNewBrand(id){
       this.brandSelected=id
       this.page=1
-      this.update()
+      await this.update()
+      this.$refs.pagingComponent.selectPages();
+
 
     },
-    chageOrder(orderBy,isAsc){
+    async chageOrder(orderBy,isAsc){
       this.orderBy=orderBy
       this.isAsc=isAsc
       this.page=1
-      this.update()
+      await this.update()
     },
-    changePage(num){
+    async changePage(num){
       this.page=num
-      this.update();
+      await this.update();
     }
   },
   computed: {},
