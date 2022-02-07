@@ -63,12 +63,29 @@ namespace DataLayer.Repository
 
             
 
-            foreach (var pc in _ctx.Products_Categories.Where(x => x.ProductId == id))//deletes product categories
-                pc.IsDeleted = true;
-            foreach (var irr in _ctx.InfoRequestReplys.Where(x => x.InfoRequest.ProductId == id))//delete infoRequestReply
-                irr.IsDeleted = true;
-            foreach (var ir in _ctx.InfoRequests.Where(x=>x.ProductId==id))//delete infoRequest
-                ir.IsDeleted = true;
+            //foreach (var pc in _ctx.Products_Categories.Where(x => x.ProductId == id))//deletes product categories
+            //    pc.IsDeleted = true;
+            //foreach (var irr in _ctx.InfoRequestReplys.Where(x => x.InfoRequest.ProductId == id))//delete infoRequestReply
+            //    irr.IsDeleted = true;
+            //foreach (var ir in _ctx.InfoRequests.Where(x=>x.ProductId==id))//delete infoRequest
+            //    ir.IsDeleted = true;
+
+            await _ctx.Database.ExecuteSqlRawAsync(@"UPDATE InfoRequestReply  
+                                                        SET InfoRequestReply.IsDeleted=1 
+                                                        FROM InfoRequestReply as irr 
+                                                            join InfoRequest as ir On irr.InfoRequestId=ir.Id 
+                                                            join Product as p On ir.ProductId=p.Id 
+                                                        WHERE p.Id=" + id
+                                                        );
+            await _ctx.Database.ExecuteSqlRawAsync(@"UPDATE InfoRequest
+                                                        SET InfoRequest.IsDeleted=1
+                                                        FROM InfoRequest as ir join Product as p On ir.ProductId=p.Id
+                                                        WHERE p.Id=" + id
+                                                        );
+
+            await _ctx.Database.ExecuteSqlRawAsync(@"UPDATE Product_Category
+                                                        SET IsDeleted=1
+                                                        WHERE ProductId=" + id);
 
             await _ctx.SaveChangesAsync();
 

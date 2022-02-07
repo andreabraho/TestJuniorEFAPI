@@ -82,19 +82,39 @@ namespace DataLayer.Repository
             
             var result = true;
 
+            //toooooo many query
+            //foreach (var irr in _ctx.InfoRequestReplys.Where(x => x.InfoRequest.Product.BrandId == id))
+            //{
+            //    irr.IsDeleted = true;
+            //    //irr.InfoRequest.IsDeleted = true;
+            //    //irr.InfoRequest.Product.IsDeleted = true;
+            //}
+            //foreach (var ir in _ctx.InfoRequests.Where(x => x.Product.BrandId==id))
+            //    ir.IsDeleted = true;
+            //foreach(var p in _ctx.Products.Where(x=>x.BrandId==id))
+            //    p.IsDeleted = true;
 
-            foreach (var irr in _ctx.InfoRequestReplys.Where(x => x.InfoRequest.Product.BrandId==id))
-                irr.IsDeleted = true;
-            foreach (var ir in _ctx.InfoRequests.Where(x => x.Product.BrandId==id))
-                ir.IsDeleted = true;
-            foreach(var p in _ctx.Products.Where(x=>x.BrandId==id))
-                p.IsDeleted = true;
 
+            await _ctx.Database.ExecuteSqlRawAsync(@"update InfoRequestReply  
+                                                        Set InfoRequestReply.IsDeleted=1 
+                                                        From InfoRequestReply as irr 
+                                                            join InfoRequest as ir On irr.InfoRequestId=ir.Id 
+                                                            join Product as p On ir.ProductId=p.Id 
+                                                        where p.BrandId="+id
+                                                        );
+            await _ctx.Database.ExecuteSqlRawAsync(@"update InfoRequest
+                                                        Set InfoRequest.IsDeleted=1
+                                                        From InfoRequest as ir join Product as p On ir.ProductId=p.Id
+                                                        where p.BrandId="+id
+                                                        );
+            await _ctx.Database.ExecuteSqlRawAsync(@"update Product
+                                                        Set IsDeleted=1
+                                                        where BrandId=
+                                                        "+id);
+            
             await _ctx.SaveChangesAsync();
 
             await DeleteAsync(id);
-
-
 
             return result;
         }
