@@ -1,5 +1,6 @@
 ﻿using DataLayer.Repository;
 using Domain;
+using Domain.ModelsForApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;

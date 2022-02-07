@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using static TestJuniorEFAPI.Controllers.test;
+using Domain.ModelsForApi;
 
 namespace TestJuniorEFAPI.Controllers
 {
@@ -70,12 +71,12 @@ namespace TestJuniorEFAPI.Controllers
         /// <summary>
         /// insert a product with categories associated
         /// </summary>
-        /// <param name="insertModel">model containing all data needed</param>
+        /// <param name="prodWCat">model containing all data needed</param>
         /// <returns></returns>
         [HttpPost("Insert")]
-        async public Task<IActionResult> InserProductAsync(InsertModel insertModel)
+        async public Task<IActionResult> InserProductAsync(ProdWithCat prodWCat)
         {
-            var result=await _productService.AddProduct(insertModel.Product,insertModel.Categories);
+            var result=await _productService.AddProduct(prodWCat.Product,prodWCat.CategoriesIds);
             if(result)
                 return Ok();
             else
@@ -94,7 +95,18 @@ namespace TestJuniorEFAPI.Controllers
             else 
                 return NotFound();
         }
-
+        /// <summary>
+        /// update a product data and his categories
+        /// </summary>
+        /// <param name="prodWCat">model that contains a product and an array of categories ids</param>
+        /// <returns></returns>
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateProductAsync(ProdWithCat prodWCat)
+        {
+            if(await _productService.UpdateProduct(prodWCat))
+                return Ok();
+            return NotFound();
+        }
 
 
 
@@ -210,9 +222,4 @@ namespace TestJuniorEFAPI.Controllers
         }
     }
    
-    public class InsertModel//TODO MOVE
-    {
-        public Product Product { get; set; }
-        public int[] Categories { get; set; }
-    }
 }

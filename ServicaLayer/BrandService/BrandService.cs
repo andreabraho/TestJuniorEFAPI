@@ -2,6 +2,7 @@
 using DataLayer.QueryObjects;
 using DataLayer.Repository;
 using Domain;
+using Domain.ModelsForApi;
 using Microsoft.EntityFrameworkCore;
 using ServicaLayer.BrandService.Model;
 using ServicaLayer.BrandService.QueryObjects;
@@ -107,7 +108,8 @@ namespace ServicaLayer.BrandService
         {
             Brand BrandFromRepo=_brandRepository.GetById(brand.Id).FirstOrDefault();
             if (BrandFromRepo == null)
-                return false;
+                throw new NullReferenceException("id not valid");
+
             BrandFromRepo.BrandName = brand.BrandName;
 
             if (await _brandRepository.Update(BrandFromRepo) > 0)

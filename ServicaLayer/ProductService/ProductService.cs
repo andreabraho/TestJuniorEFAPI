@@ -1,6 +1,7 @@
 ﻿using DataLayer.Interfaces;
 using DataLayer.QueryObjects;
 using Domain;
+using Domain.ModelsForApi;
 using Microsoft.EntityFrameworkCore;
 using ServicaLayer.ProductService.Model;
 using ServicaLayer.ProductService.QueryObjects;
@@ -125,6 +126,48 @@ namespace ServicaLayer.ProductService
                 throw new ArgumentException(nameof(id));
 
             return await _productRepository.DeleteAll(id);
+        }
+        /// <summary>
+        /// update product data and his categories
+        /// </summary>
+        /// <param name="prodCat">modl that contains a product and an array of categories ids</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">prodCat null</exception>
+        /// <exception cref="ArgumentNullException">product null</exception>
+        /// <exception cref="ArgumentNullException">categoryIds array null</exception>
+        public async Task<bool> UpdateProduct(ProdWithCat prodCat)
+        {
+            if(prodCat == null)
+                throw new ArgumentNullException(nameof(prodCat));
+            if(prodCat.Product==null)
+                throw new ArgumentNullException(nameof(prodCat.Product));
+            if(prodCat.CategoriesIds==null)
+                throw new ArgumentNullException(nameof(prodCat.CategoriesIds));
+            
+            var product = await _productRepository.GetById(prodCat.Product.Id).FirstOrDefaultAsync();
+            if (product != null)
+            {
+                
+                    List<ProductCategory> categories = prodCat.CategoriesIds.Select(x => new ProductCategory
+                    {
+                        CategoryId = x,
+                        ProductId = prodCat.Product.Id
+                    }).ToList();
+
+                    product.ProductCategories = categories;
+                
+                product.Name = prodCat.Product.Name;
+                product.Description = prodCat.Product.Description;
+                product.ShortDescription = prodCat.Product.ShortDescription;
+                product.Price=prodCat.Product.Price;
+
+                //product.BrandId = prodCat.Product.BrandId;//todo CAN BE UPDATED?
+                if(await _productRepository.Update(product)>0)
+                    return true;
+            }
+
+
+            return false;
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using DataLayer.Interfaces;
 using Domain;
+using Domain.ModelsForApi;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
@@ -120,9 +121,5 @@ namespace DataLayer.Repository
         }
 
     }
-    public class ProdWithCat//TODO MOVEEEEE
-    {
-        public Product Product { get; set; }
-        public int[] CategoriesIds  { get; set; }
-    }
+    
 }

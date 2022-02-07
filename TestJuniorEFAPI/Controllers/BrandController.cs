@@ -7,6 +7,7 @@ using ServicaLayer.BrandService;
 using System.Threading.Tasks;
 using DataLayer.Repository;
 using System.Collections.Generic;
+using Domain.ModelsForApi;
 
 namespace TestJuniorEFAPI.Controllers
 {
@@ -60,7 +61,7 @@ namespace TestJuniorEFAPI.Controllers
         /// <param name="testModel">model containing all needed data to insert the brand with products </param>
         /// <returns></returns>
         [HttpPost("Insert")]
-        public async Task<IActionResult> InsertBrand(TestModel testModel)
+        public async Task<IActionResult> InsertBrand(BrandInsertApiModel testModel)
         {
 
             if(await _brandService.InsertBrand(testModel.Account,testModel.Brand,testModel.prodsWithCats))
@@ -97,10 +98,5 @@ namespace TestJuniorEFAPI.Controllers
 
 
     }
-    public class TestModel//TODO MOVEEEEEEEe
-    {
-        public Account Account { get; set; }
-        public Brand Brand { get; set; }
-        public ProdWithCat[] prodsWithCats { get; set; } 
-    }
+    
 }
