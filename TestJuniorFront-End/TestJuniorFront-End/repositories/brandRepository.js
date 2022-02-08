@@ -6,7 +6,7 @@ export default {
     return Repository.get(`${resource}/page/${page}/${pageSize}`);
   },
 
-  getProduct(brandId) {
+  getBrand(brandId) {
     return Repository.get(`${resource}/detail/${brandId}`);
   },
 

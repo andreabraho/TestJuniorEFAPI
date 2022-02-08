@@ -8,13 +8,13 @@
 6.test api?
 
 ----front-end-----
-0.create repository
+0.create repository			V
 1.serach pages				V
 2.detail pages
 3.create ages
 4.edit pages
 5.delete buttons
 
-6. testing
+6. testing?
 
 3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
