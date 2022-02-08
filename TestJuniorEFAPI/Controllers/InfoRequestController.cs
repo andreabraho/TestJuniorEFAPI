@@ -28,7 +28,8 @@ namespace TestJuniorEFAPI.Controllers
                 return BadRequest("page size can't be lower or equal than 0 or higher than 1000");
             if (brandId < 0)
                 return BadRequest("there are no brand with id lower than 0");
-
+            if (prodNameSearch == "null")
+                prodNameSearch = null;
             return Ok(_infoRequestService.GetPage(page,pageSize,brandId,prodNameSearch,isAsc));
 
         }

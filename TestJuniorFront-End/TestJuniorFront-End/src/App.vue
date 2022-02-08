@@ -6,7 +6,7 @@
     
 
     <div class="row ">
-    <div class="col-3 h-100 position-fixed sidebar" >
+    <div class="col-2 h-100 position-fixed sidebar" >
       <div class="mt-2">
             <router-link to="/Products" class="sidebarComp mt-3 " ><span class="mt-3">Prodotti</span> </router-link><br>
       </div>
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="col-9 offset-3">
+    <div class="col-9 offset-2">
       <router-view></router-view>
     </div>
     </div>

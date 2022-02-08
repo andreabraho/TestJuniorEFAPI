@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!isLoadingProducts">
     <div class="row">
       <div class="col-2 h3 b mt-1">Prodotti</div>
       <div class="col-8"></div>
@@ -11,12 +11,12 @@
         </div>
       </div>
       <div class="row ml-1 mt-3">
-        <div v-if="!isLoadingProducts">
+        <div >
           
          <my-table  :tlist="pageData.products" 
                     :brands="pageData.brands"
                     @selectNewBrand="selectNewBrand"
-                    @chageOrder="chageOrder"></my-table>
+                    @chageOrder="changeOrder"></my-table>
          
         </div>
         <div class="d-flex justify-content-center" >
@@ -75,10 +75,9 @@ export default {
         this.orderBy,
         this.isAsc
       );
+      this.pageData = data;
 
       this.isLoadingProducts = false;
-      this.pageData = data;
-      console.log(data)
 
     },
     /**
@@ -96,6 +95,8 @@ export default {
       this.pageData = data;
       /**calls the method on child component to update paging */
       await this.$refs.pagingComponent.selectPages();
+      await this.$refs.pagingComponent.updatePage();
+      
 
     },
     /**
@@ -119,7 +120,7 @@ export default {
      ** @orderBy having value 1,2,3  raprresenting brandName,productName,price order
      ** @isAsc boolean value rappresenting if the order is ascending or descending
      */
-    async chageOrder(orderBy,isAsc){
+    async changeOrder(orderBy,isAsc){
       this.orderBy=orderBy
       this.isAsc=isAsc
       this.page=1

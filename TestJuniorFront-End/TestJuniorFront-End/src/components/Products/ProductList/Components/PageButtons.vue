@@ -8,12 +8,12 @@
                 v-for="num in pages" 
                 :key="num"
                 @click="changePage(num)"
-                :class="[num==page?'active':'']"
+                :class="[num==myPage?'active':'']"
                 >{{num}}</button>
         <button type="button" 
                 class="ml-1" 
                 @click="nextPage()"
-                :class="[page==maxPages?'disabled btn btn-outline-secondary':'btn btn-outline-primary']">Avanti</button>
+                :class="[myPage==maxPages?'disabled btn btn-outline-secondary':'btn btn-outline-primary']">Avanti</button>
   </div>
 
 </template>
@@ -23,7 +23,8 @@ export default {
     data(){
         return {
             /**array that rappresents the buttons needed on the page buttons zone */
-            pages:[]
+            pages:[],
+            myPage:1
         }
     },
     props:{
@@ -57,7 +58,7 @@ export default {
                     if(this.page>=this.maxPages-3)
                         this.pages=[this.maxPages-5,this.maxPages-4,this.maxPages-3,this.maxPages-2,this.maxPages-1]
                     else{
-                        this.pages=[this.page-2,this.page-1,this.page,this.page+1,this.page+2]
+                        this.pages=[this.myPage-2,this.myPage-1,this.myPage,this.myPage+1,this.myPage+2]
                     }
             }
             
@@ -66,15 +67,15 @@ export default {
         /**method to swap the actual page 
         ** @num rappresent the new page to go */
         changePage(num){
-            this.page=num
-            this.$emit("changePage",this.page)
+            this.myPage=num
+            this.$emit("changePage",this.myPage)
             this.selectPages()
         },
         /**method that checks if there is an avaiable next page if so goes to next page else do nothing */
         async nextPage() {
-            if (this.page < this.maxPages) {
-                this.page = this.page + 1;
-                this.$emit("changePage",this.page)
+            if (this.myPage < this.maxPages) {
+                this.myPage = this.myPage + 1;
+                this.$emit("changePage",this.myPage)
                 this.selectPages()
             }
 
@@ -82,18 +83,22 @@ export default {
         /**method that check if there is a previous page avaiable if so goes to previus page else do nothing */
         async previousPage() {
 
-            if (this.page > 1) {
-                this.page = this.page - 1;
-                this.$emit("changePage",this.page)
+            if (this.myPage > 1) {
+                this.myPage = this.myPage - 1;
+                this.$emit("changePage",this.myPage)
                 this.selectPages()
 
             }
 
         },
+        updatePage(){
+            this.myPage=this.page
+        }
     },
     /**on mount of the component load the paging buttons needed */
     mounted(){
         this.selectPages()
+        this.updatePage()
     }
 }
 </script>
