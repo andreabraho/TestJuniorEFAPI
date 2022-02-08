@@ -2,8 +2,8 @@ import Repository from "./Repository";
 
 const resource = "/inforequest";
 export default {
-  getPage() {
-    return Repository.get(`${resource}/page/`);
+  getPage(page,pageSize,brandSelected=0,prodNameSearch=null,isAsc=false) {
+    return Repository.get(`${resource}/page/${page}/${pageSize}/${brandSelected}/${prodNameSearch}/${isAsc}`);
   },
 
   getInfoRequest(infoRequestId) {

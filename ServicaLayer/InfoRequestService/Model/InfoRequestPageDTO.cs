@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServicaLayer.ProductService.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -21,6 +22,7 @@ namespace ServicaLayer.InfoRequestService.Model
         public int TotalPages { get; set; }
 
         public IEnumerable<IRForPageModel> infoRequests { get; set; }
+        public IEnumerable<BrandForPageDTO> Brands { get; set; }
 
 
 

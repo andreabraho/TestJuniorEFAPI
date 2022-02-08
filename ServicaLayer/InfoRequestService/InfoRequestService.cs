@@ -4,6 +4,7 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using ServicaLayer.InfoRequestService.Model;
 using ServicaLayer.InfoRequestService.QueryObjects;
+using ServicaLayer.ProductService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,11 @@ namespace ServicaLayer.InfoRequestService
     public class InfoRequestService
     {
         IRepository<InfoRequest> _infoRequestRepository;
-        public InfoRequestService(IRepository<InfoRequest> infoRequestRepository)
+        IRepository<Brand> _brandRepository;
+        public InfoRequestService(IRepository<InfoRequest> infoRequestRepository, IRepository<Brand> brandRepository)
         {
             _infoRequestRepository=infoRequestRepository;
+            _brandRepository = brandRepository;
         }
         public InfoRequestPageDTO GetPage(int page, int pageSize,int idBrand=0,string productNameSearch=null,bool isAsc=true)
         {
@@ -31,8 +34,12 @@ namespace ServicaLayer.InfoRequestService
             {
                 Page = page,
                 PageSize = pageSize,
-                TotalinfoRequests = _infoRequestRepository.GetAll().Count(),
-
+                TotalinfoRequests = _infoRequestRepository.GetAll().FilterIR(idBrand, productNameSearch).Count(),
+                Brands = _brandRepository.GetAll().Select(b => new BrandForPageDTO
+                {
+                    Id = b.Id,
+                    Name = b.BrandName
+                })
             };
 
             var query = _infoRequestRepository.GetAll();

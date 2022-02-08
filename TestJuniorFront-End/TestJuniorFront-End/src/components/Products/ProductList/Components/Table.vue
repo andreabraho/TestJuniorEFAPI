@@ -6,7 +6,6 @@
                     @chageOrder="chageOrder"></table-header>
       
       <table-row v-for="(item,index) in tlist" :key="item.Id" :item="item" :index="index" ></table-row>
-      
 
   </div>
 </template>

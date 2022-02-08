@@ -11,12 +11,14 @@
 export default {
     name:"BrandRow", 
     props:{
+        /**brand subject of the row */
         brand:{
             type:Object,
             required:true
         }
     },
     methods:{
+        /**method to go to brand detail page */
         goToDetail(brandId){
             this.$router.push("/brands/"+brandId)
         }
