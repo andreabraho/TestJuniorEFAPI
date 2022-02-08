@@ -1,5 +1,15 @@
 <template>
-    <div>
-        brandList
-    </div>
+  <div>
+      brand list
+  </div>
 </template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+
+</style>

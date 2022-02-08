@@ -49,12 +49,15 @@ export default {
     return {
       page: 1,
       pageSize: 10,
+      /** rappresents all the data coming from the api */
       pageData: null,
       /**
        * variable used to load the compoents whenever tha data are ready
        */
       isLoadingProducts: true,
+      /**value that rappresents the id of the brand to filter on */
       brandSelected:0,
+      /**value 1(brand name),2(product name),3(price) rappresents the order of the list */
       orderBy:0,
       isAsc:false,
     };
@@ -91,7 +94,7 @@ export default {
         this.isAsc
       );
       this.pageData = data;
-
+      /**calls the method on child component to update paging */
       await this.$refs.pagingComponent.selectPages();
 
     },
@@ -99,6 +102,7 @@ export default {
      * method that updated the brand filter 
      * and update the data in the page
      * triggered by event from child components
+     ** @id rappresents the id of the brand to filter on
      */
     async selectNewBrand(id){
       this.brandSelected=id
@@ -112,6 +116,8 @@ export default {
      * method that updated the order filter 
      * and update the data in the page
      * triggered by event from child components
+     ** @orderBy having value 1,2,3  raprresenting brandName,productName,price order
+     ** @isAsc boolean value rappresenting if the order is ascending or descending
      */
     async chageOrder(orderBy,isAsc){
       this.orderBy=orderBy
@@ -123,6 +129,7 @@ export default {
      * method that updated the page nuber
      * and update the data in the page
      * triggered by event from child components
+     **@num input data rappresentin the new page number coming from child event
      */
     async changePage(num){
       this.page=num

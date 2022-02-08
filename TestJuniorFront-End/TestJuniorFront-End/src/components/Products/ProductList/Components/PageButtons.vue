@@ -22,21 +22,26 @@
 export default {
     data(){
         return {
+            /**array that rappresents the buttons needed on the page buttons zone */
             pages:[]
         }
     },
     props:{
+        /**actual page */
         page:{
             type:Number,
             required:true
         },
+        /**maximun number of pages */
         maxPages:{
             type:Number,
             required:true
         }
     },
     methods:{
+        /**method to select the pages button needed */
         selectPages(){
+            /**reset the button pages */
             this.pages=[]
 
             if(this.maxPages<=5){
@@ -58,11 +63,14 @@ export default {
             
 
         },
+        /**method to swap the actual page 
+        ** @num rappresent the new page to go */
         changePage(num){
             this.page=num
             this.$emit("changePage",this.page)
             this.selectPages()
         },
+        /**method that checks if there is an avaiable next page if so goes to next page else do nothing */
         async nextPage() {
             if (this.page < this.maxPages) {
                 this.page = this.page + 1;
@@ -71,6 +79,7 @@ export default {
             }
 
         },
+        /**method that check if there is a previous page avaiable if so goes to previus page else do nothing */
         async previousPage() {
 
             if (this.page > 1) {
@@ -82,6 +91,7 @@ export default {
 
         },
     },
+    /**on mount of the component load the paging buttons needed */
     mounted(){
         this.selectPages()
     }

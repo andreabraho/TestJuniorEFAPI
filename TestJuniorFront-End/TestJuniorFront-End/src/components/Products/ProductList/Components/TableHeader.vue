@@ -78,15 +78,22 @@ export default {
   },
   data(){
       return{
+          /** id brand to filter selected */
           selectedBrand:0,
+          /**value 1(brandName),2(productName),3(price) to order the list */
           orderBy:0,
           isAsc:false
       }
   },
   methods:{
+      /** event that launches event selectnewBrand to tell the parent to change the brand filter
+      ** payload the selected brand */
       changeBrand(){
           this.$emit("selectNewBrand",this.selectedBrand)
       },
+      /** event that updated the order by value and launches event changeorder
+      ** @orderBy to change the order of the list
+      **payload orderBy and isAsc to tell the parent the new data to update the list on */
       changeOrder(orderBy){
           this.orderBy=orderBy
           this.isAsc=!this.isAsc

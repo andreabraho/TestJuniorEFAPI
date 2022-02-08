@@ -33,7 +33,7 @@ export default {
         background-color: rgb(230, 230, 230);
     }
     .on-hover:hover{
-        background-color: rgb(219, 217, 217);
+        background-color: rgb(236, 234, 234);
     }
     .cat-pill{
         padding: 1px 3px 0px 3px;
