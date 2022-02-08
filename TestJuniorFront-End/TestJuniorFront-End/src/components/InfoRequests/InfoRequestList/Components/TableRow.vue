@@ -23,12 +23,15 @@ export default {
         index:Number
     },
     computed:{
+        /**comuted propriety to have only the date
+         *  of the datetime coming from api */
         data(){
             let data=this.item.insertDate.split("T")
             return data[0]
         }
     },
     methods:{
+        /**reidiret to detail of the lead */
         goToDetail(productId){
             this.$router.push("/leads/"+productId)
         }

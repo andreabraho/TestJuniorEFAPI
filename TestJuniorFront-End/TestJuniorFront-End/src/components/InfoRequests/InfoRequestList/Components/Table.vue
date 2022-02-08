@@ -34,9 +34,18 @@ export default {
     selectNewBrand(idBrand){
       this.$emit("selectNewBrand",idBrand)
     },
+    /**method to change order asc or desc
+     **emit to parent new event changeOrder
+     ** @isAsc boolean value for order
+     */
     changeOrder(isAsc){
       this.$emit("changeOrder",isAsc)
     },
+    /**
+     * method to change search filter,called from child
+     ** emito to parent new event changeSearch
+     ** @search new search value 
+     */
     changeSearch(search){
         this.$emit("changeSearch",search)
     }

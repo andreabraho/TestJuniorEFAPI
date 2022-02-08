@@ -33,7 +33,9 @@ import PageButtons from "../../Products/ProductList/Components/PageButtons.vue"
 export default {
   data() {
     return {
+      /**contains all data coming from api */
       pageData: null,
+      /**tell if the page is loading */
       isLoadingIR: true,
       page:1,
       pageSize:10,
@@ -72,8 +74,8 @@ export default {
       );
       this.pageData = data;
       /**calls the method on child component to update paging */
-      await this.$refs.pagingComponent.selectPages();
       await this.$refs.pagingComponent.updatePage();
+      await this.$refs.pagingComponent.selectPages();
       
 
     },
@@ -112,6 +114,10 @@ export default {
       await this.update();
 
     },
+    /**method that update pageData based on new search
+     ** called from child component when a new search is done
+     ** @search new search 
+     */
     async changeSearch(search){
       this.search=search
       await this.update()

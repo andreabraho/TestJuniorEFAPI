@@ -76,10 +76,17 @@ export default {
       changeBrand(){
           this.$emit("selectNewBrand",this.selectedBrand)
       },
+      /**method to change order asc or desc
+       ** emit event changeOrder for to tell parent to change the order
+        */
       changeOrder(){
           this.isAsc=!this.isAsc
           this.$emit("changeOrder",this.isAsc)
       },
+      /**
+       * eveng to change search filter
+       ** emit changeSearch event to tell the parent to update the list with new search
+       */
       changeSearch(){
           this.$emit("changeSearch",this.search)
 

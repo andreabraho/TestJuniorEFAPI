@@ -94,8 +94,8 @@ export default {
       );
       this.pageData = data;
       /**calls the method on child component to update paging */
-      await this.$refs.pagingComponent.selectPages();
       await this.$refs.pagingComponent.updatePage();
+      await this.$refs.pagingComponent.selectPages();
       
 
     },
