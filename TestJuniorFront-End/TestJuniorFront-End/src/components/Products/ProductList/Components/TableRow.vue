@@ -1,5 +1,5 @@
 <template>
-  <div class="row mt-1 on-hover" :class="[index%2==0?'bg-grey':'']">
+  <div class="row mt-1 on-hover" :class="[index%2==0?'bg-grey':'']" @click="goToDetail(item.id)">
         <div class="col-2 ">{{item.brandName}}</div>
         <div class="col-5 "><p><b>{{item.name}}</b> | {{item.shortDescription}}</p></div>
         <div class="col-3 ">
@@ -23,6 +23,11 @@ export default {
             required:true
         },
         index:Number
+    },
+    methods:{
+        goToDetail(productId){
+            this.$router.push("/products/"+productId)
+        }
     }
 
 }
