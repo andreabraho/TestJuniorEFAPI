@@ -80,15 +80,19 @@ import PageButtons from "../../Products/ProductList/Components/PageButtons.vue"
 export default ({
     data(){
         return {
+            /**id of the brand taken from root used to load the brand */
             idBrand:this.$route.params.id,
+            /**data coming from api */
             brand:null,
             isLoadingBrand:true,
+            /**message shown in page filled with a method */
             message:"",
             page:1,
             pageSize:5,
         }
     },
     computed:{
+        /**products for the current page */
         productsPage() {
             let l=this.brand.products.length;
             let start=(this.page-1)*this.pageSize;
@@ -113,6 +117,7 @@ export default ({
             this.brand=data
             this.isLoadingBrand=false;
         },
+        /**makes the message to show in page based on data */
         makeMessage(){
             if(this.brand.countRequestFromBrandProducts>0){
                 this.message=this.brand.countRequestFromBrandProducts+" richieste informazioni raccolte su un totale di "+this.brand.products.length+ " prodotti";
@@ -120,6 +125,7 @@ export default ({
                 this.message="Non ci sono rieste informazioni per i prodotti"
             }
         },
+        /**called from child component changes the current page */
         changePage(num){
             this.page=num
         }

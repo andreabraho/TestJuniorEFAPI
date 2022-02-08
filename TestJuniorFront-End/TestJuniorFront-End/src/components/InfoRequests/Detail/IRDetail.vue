@@ -60,7 +60,9 @@ import PageButtons from "../../Products/ProductList/Components/PageButtons.vue"
 export default {
   data() {
     return {
+      /**info request id taken from route */
         idIR:this.$route.params.id,
+        /**data coming from api */
         infoRequest:null,
         isLoadingIR:true,
         page:1,
@@ -81,15 +83,18 @@ export default {
             this.isLoadingIR=false;
 
         },
+        /**method to get the data in the correct format */
     data(date){
       let newdata=date.split("T")
       return newdata[0]
     },
+    /**method to change page called from child component */
     changePage(num){
       this.page=num
     }
   },
   computed:{
+    /**list of reply for the current page */
     replyPerPage(){
       let l=this.infoRequest.irModelReplies.length;
       let start=(this.page-1)*this.pageSize;
@@ -104,8 +109,8 @@ export default {
       return array
     }
   },
-  created(){
-    this.load()
+  async created(){
+    await this.load()
   },
   components:{
     PageButtons

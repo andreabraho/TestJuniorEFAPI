@@ -94,10 +94,14 @@ import CategoriesList from "../../Brands/Detail/Components/CategoriesList.vue"
 export default ({
     data(){
         return {
+            /**product id taken from toute */
             idPorduct:this.$route.params.id,
+            /**data coming from api */
             product:null,
             isLoadingProduct:true,
+            /**message for the page completed with a method on component cretion */
             message:"",
+            /**bool to see or not info requests */
             viewInfoRequests:false
         }
     },
@@ -112,6 +116,7 @@ export default ({
             this.isLoadingProduct=false;
 
         },
+        /**makes the message needed in the page */
         makeMessage(){
             let guestIRC=this.product.countGuestInfoRequests
             let userIRC=this.product.countUserInfoRequests
