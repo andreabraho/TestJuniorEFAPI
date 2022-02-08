@@ -17,8 +17,34 @@
     </div>
 
     <div class="row mt-3">
-      
+      <p>
+        <b>Richiesta inviata dal utente:</b><br>
+        {{infoRequest.requestText}}
+      </p>
     </div>
+
+    <div class="row mt-3">
+      <p><b>Risposte/Commenti alla richiesta</b></p>
+    </div>
+
+    <div class="card mb-4" 
+          v-for="item in replyPerPage"
+          :key="item.id">
+      <h5 class="card-header">{{data(item.date)}}  -  {{item.user}}</h5>
+      <div class="card-body">
+        <p class="card-text">{{item.replyText}}</p>
+      </div>
+    </div>
+
+    <div class="row">
+                <page-buttons 
+                    class="d-flex justify-content-center"
+                    :page="page"
+                    :maxPages="Math.ceil(infoRequest.irModelReplies.length/pageSize)"
+                    @changePage="changePage"
+                    ref="pagingComponent"
+                    ></page-buttons>
+            </div>
 
   </div>
   <div class="col-2"></div>
@@ -30,13 +56,19 @@
 <script>
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const IRRepository = MyRepositoryFactory.get("inforequests");
+import PageButtons from "../../Products/ProductList/Components/PageButtons.vue"
 export default {
   data() {
     return {
         idIR:this.$route.params.id,
         infoRequest:null,
-        isLoadingIR:true
+        isLoadingIR:true,
+        page:1,
+        pageSize:2
     };
+  },
+  computed:{
+    
   },
   methods:{
     /**load the neccessary data for the page from api */
@@ -48,10 +80,44 @@ export default {
             this.infoRequest=data
             this.isLoadingIR=false;
 
-        }
+        },
+    data(date){
+      let newdata=date.split("T")
+      return newdata[0]
+    },
+    changePage(num){
+      this.page=num
+    }
+  },
+  computed:{
+    replyPerPage(){
+      let l=this.infoRequest.irModelReplies.length;
+      let start=(this.page-1)*this.pageSize;
+      //let end=start+this.pageSize>l?start+this.pageSize:l;
+      let end=0
+      if(start+this.pageSize<l)
+          end=start+this.pageSize
+      else
+          end=l
+
+      let array=this.infoRequest.irModelReplies.slice(start,end);
+      return array
+    }
   },
   created(){
     this.load()
+  },
+  components:{
+    PageButtons
   }
 };
 </script>
+
+<style scoped>
+.card-header{
+  background-color: rgb(239, 245, 231);
+}
+.card-body{
+  color: rgb(44, 73, 0);
+}
+</style>

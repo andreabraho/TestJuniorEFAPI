@@ -37,6 +37,7 @@ namespace ServicaLayer.InfoRequestService.Model
         /// <summary>
         /// list of all replies of the info request
         /// </summary>
+        public string RequestText { get; set; }
         public IEnumerable<IRModelReplyDTO> IRModelReplies { get; set; }
     }
     /// <summary>
@@ -69,5 +70,6 @@ namespace ServicaLayer.InfoRequestService.Model
         /// </summary>
         public string User { get; set; }
         public string ReplyText { get; set; }
+        public DateTime Date { get; set; }
     }
 }

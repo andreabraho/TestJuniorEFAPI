@@ -73,6 +73,7 @@ namespace ServicaLayer.InfoRequestService
                     BrandName = ir.Product.Brand.BrandName,
                     Name = ir.Product.Name,
                 },
+                RequestText=ir.RequestText,
                 Name = ir.Name,
                 LastName = ir.LastName,
                 Email = ir.Email,
@@ -82,6 +83,7 @@ namespace ServicaLayer.InfoRequestService
                     Id = r.Id,
                     ReplyText = r.ReplyText,
                     User = r.Account.AccountType == 1 ? r.Account.Brand.BrandName : ir.Name + " " + ir.LastName,
+                    Date=r.InsertDate,
                 }),
             });
 

@@ -94,7 +94,7 @@ export default ({
             let start=(this.page-1)*this.pageSize;
             //let end=start+this.pageSize>l?start+this.pageSize:l;
             let end=0
-            if(start+this.pageSize)
+            if(start+this.pageSize<l)
                 end=start+this.pageSize
             else
                 end=l
