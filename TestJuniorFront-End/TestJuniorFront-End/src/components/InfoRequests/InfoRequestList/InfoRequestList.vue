@@ -120,6 +120,7 @@ export default {
      */
     async changeSearch(search){
       this.search=search
+      this.page=1
       await this.update()
     }
   },

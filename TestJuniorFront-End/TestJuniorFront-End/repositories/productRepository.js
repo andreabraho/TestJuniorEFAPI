@@ -13,6 +13,9 @@ export default {
   createProduct(payload) {
     return Repository.post(`${resource}/insert`, payload);
   },
+  getDataForCreate(){
+    return Repository.get(`${resource}/insert`);
+  },
   deleteProduct(productId){
     return Repository.delete(`${resource}/detail/${productId}`);
   },

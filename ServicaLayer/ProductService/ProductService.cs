@@ -17,10 +17,12 @@ namespace ServicaLayer.ProductService
     {
         private readonly IProductRepository _productRepository;
         private readonly IBrandRepository _brandRepository;
-        public ProductService(IProductRepository productRepository,IBrandRepository brandRepository)
+        private readonly IRepository<Category> _categoryRepository;
+        public ProductService(IProductRepository productRepository,IBrandRepository brandRepository, IRepository<Category> categoryRepository)
         {
             _productRepository=productRepository;
             _brandRepository=brandRepository;
+            _categoryRepository=categoryRepository;
         }
         /// <summary>
         /// get all info needed for a brand list page
@@ -177,7 +179,22 @@ namespace ServicaLayer.ProductService
             return false;
         }
 
+        public  GetInsertProductDTO GetInsertProductDTO()
+        {
+            var x=new GetInsertProductDTO();
+            x.Brands = _brandRepository.GetAll().Select(brand => new BrandForInsertDTO
+            {
+                Id = brand.Id,
+                Name = brand.BrandName
 
+            });
+            x.Categories = _categoryRepository.GetAll().Select(cat => new CatForInsertDTO
+            {
+                Id = cat.Id,
+                Name = cat.Name,
+            });
+            return x;
+        }
 
 
 

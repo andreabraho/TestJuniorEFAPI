@@ -11,7 +11,7 @@
 0.create repository			V
 1.serach pages				V
 2.detail pages				V
-3.create ages
+3.create ages				X
 4.edit pages
 5.delete buttons
 

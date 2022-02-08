@@ -142,12 +142,13 @@ export default {
     MyTable,
     PageButtons
   },
-  created() {
-    this.load();
+  async created() {
+    await this.load();
   },
   async mounted() {},
 };
 </script>
 
 <style scoped>
+
 </style>

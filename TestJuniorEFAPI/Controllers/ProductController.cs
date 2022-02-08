@@ -82,6 +82,19 @@ namespace TestJuniorEFAPI.Controllers
                 return NoContent();
         }
         /// <summary>
+        /// method that gets all data neccessary to insert a product
+        /// </summary>
+        /// <param name="prodWCat"></param>
+        /// <returns></returns>
+        [HttpGet("Insert")]
+         public IActionResult GetCatListBrandList()
+        {
+            var result = _productService.GetInsertProductDTO();
+            
+            return Ok(result);
+           
+        }
+        /// <summary>
         /// deletes a product and all data in rlation with him
         /// </summary>
         /// <param name="id">id of the product</param>
