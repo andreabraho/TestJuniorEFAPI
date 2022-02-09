@@ -117,6 +117,19 @@ namespace TestJuniorEFAPI.Controllers
         {
             if(await _productService.UpdateProduct(prodWCat))
                 return Ok();
+            return Ok("No Changes");
+        }
+        /// <summary>
+        /// return the product data needed for update
+        /// </summary>
+        /// <param name="id">id of the product to be returned</param>
+        /// <returns></returns>
+        [HttpGet("Update/{id}")]
+        public  IActionResult UpdateProductAsync(int id)
+        {
+            var prod =  _productService.GetProductForUpdate(id);
+            if(prod!=null)
+                return Ok(prod);
             return NotFound();
         }
 

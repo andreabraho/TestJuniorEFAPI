@@ -153,7 +153,7 @@ namespace ServicaLayer.ProductService
             if(prodCat.CategoriesIds==null)
                 throw new ArgumentNullException(nameof(prodCat.CategoriesIds));
             
-            var product = await _productRepository.GetById(prodCat.Product.Id).FirstOrDefaultAsync();
+            var product = await _productRepository.GetById(prodCat.Product.Id).Include(x=>x.ProductCategories).FirstOrDefaultAsync();
             if (product != null)
             {
                 
@@ -171,8 +171,16 @@ namespace ServicaLayer.ProductService
                 product.Price=prodCat.Product.Price;
 
                 //product.BrandId = prodCat.Product.BrandId;//todo CAN BE UPDATED?
-                if(await _productRepository.Update(product)>0)
+                var result = await _productRepository.Update(product);
+                if (result > 0)
+                {
                     return true;
+                    //product.ProductCategories = categories;
+                    //if (await _productRepository.Update(product) > 0)
+                    //{
+                    //    return true;
+                    //}
+                }
             }
 
 
@@ -196,61 +204,39 @@ namespace ServicaLayer.ProductService
             return x;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //test not working-----------------------------------------------------------------------------------------------
-
-        public async Task<ProductPageDTO> GetProductsForPage2(int page, int pageSize)//in progress
+        public GetUpdateProductDTO GetProductForUpdate(int id)
         {
-            if (pageSize <= 0)
-                throw new ArgumentOutOfRangeException(nameof(pageSize));
-            if (page <= 0)
-                throw new ArgumentOutOfRangeException(nameof(page));
 
-            var query = _productRepository.GetAll().Select(x => new ProductPageDTO
+
+            var getUpdateProductDTO = _productRepository.GetById(id).Include(x => x.ProductCategories).Select(x=>new GetUpdateProductDTO
             {
-                PageSize = pageSize,
-                Page = page,
-                TotalProducts = _productRepository.GetAll().Count(),
-                Products = _productRepository.GetAll().OrderByDescending(x => x.Id).Skip(pageSize * (page - 1)).Take(pageSize).MapProductsForPage()
-            });
-            var productPageModel = await query.FirstOrDefaultAsync();
-            productPageModel.TotalPages = CalculateTotalPages(productPageModel.TotalProducts, pageSize);
+                AllBrands=_brandRepository.GetAll().Select(brand=>new BrandForInsertDTO
+                {
+                    Id=brand.Id,
+                    Name=brand.BrandName
+                }),
+                AllCategories=_categoryRepository.GetAll().Select(cat=>new CatForInsertDTO
+                {
+                    Name=cat.Name,
+                    Id=cat.Id,
+                }),
+                CategoriesAssociated=x.ProductCategories.Select(cat=>cat.CategoryId).ToArray(),
+                Product= _productRepository.GetById(id).FirstOrDefault()
 
-            return productPageModel;
-        }
-        public ProductDetailDTO GetProductDetail2(int id)//in progress
-        {
-            if (id <= 0)
-                throw new ArgumentOutOfRangeException(nameof(id));
+            }).FirstOrDefault();
 
-            var query = _productRepository.GetById(id).MapProductForProductDetail();
-            return query.FirstOrDefault();
+            return getUpdateProductDTO;
+
         }
-        private int CalculateTotalPages(int totalItems,int pageSize)
+        private int CalculateTotalPages(int totalItems, int pageSize)
         {
-            if(totalItems%pageSize==0)
-                return totalItems/pageSize;
+            if (totalItems % pageSize == 0)
+                return totalItems / pageSize;
             else
-                return (totalItems/pageSize)+1;
+                return (totalItems / pageSize) + 1;
         }
+
 
     }
+    
 }

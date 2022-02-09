@@ -16,10 +16,14 @@ export default {
   getDataForCreate(){
     return Repository.get(`${resource}/insert`);
   },
+  getDataForUpdate(id){
+    return Repository.get(`${resource}/update/${id}`);
+  },
   deleteProduct(productId){
     return Repository.delete(`${resource}/detail/${productId}`);
   },
   editProduct(payload){
+    payload.product.id=parseInt(payload.product.id);
     return Repository.put(`${resource}/update`, payload);
   }
 };
