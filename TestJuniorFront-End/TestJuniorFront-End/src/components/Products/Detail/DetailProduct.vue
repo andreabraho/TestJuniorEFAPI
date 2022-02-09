@@ -25,7 +25,8 @@
                 <div class="row">
                     <p>{{message}}</p>
                 </div>
-                <div class="row mt-4 " >
+
+                <div class="row mt-4 " v-if="product.infoRequestProducts.length!=0">
                     <div v-if="!viewInfoRequests" >
                         <button class="btn btn-outline-primary mb-5" 
                                 @click="viewInfoRequests=!viewInfoRequests">Vedi tutte le richieste informazioni</button>

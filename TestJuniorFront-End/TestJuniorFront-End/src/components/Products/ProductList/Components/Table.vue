@@ -5,7 +5,11 @@
                     @selectNewBrand="selectNewBrand"
                     @chageOrder="chageOrder"></table-header>
       
-      <table-row v-for="(item,index) in tlist" :key="item.Id" :item="item" :index="index" ></table-row>
+      <table-row v-for="(item,index) in tlist" 
+                :key="item.Id" 
+                :item="item" 
+                :index="index" 
+                @deleteProd="deleteProd"></table-row>
 
   </div>
 </template>
@@ -36,6 +40,9 @@ export default {
     ** launch evento changeorder that tells the parent to change order */
     chageOrder(orderBy,isAsc){
       this.$emit("chageOrder",orderBy,isAsc)
+    },
+    deleteProd(id){
+      this.$emit("deleteProd",id)
     }
   },
   components: {

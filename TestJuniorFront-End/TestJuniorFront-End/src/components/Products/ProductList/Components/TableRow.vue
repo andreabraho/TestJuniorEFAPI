@@ -11,8 +11,12 @@
         </div>
         <div class="col-1 ">${{item.price}}</div>
         <div class="col-1 ">
-            <button class="bi bi-pencil-square" @click.stop="goToEdit(item.id)"></button> 
-            <button class="bi bi-trash-fill" @click.stop="deleteProd(item.id)"></button></div>
+            <button class="bi bi-pencil-square" @click.stop="goToEdit()"></button> 
+            <button class="bi bi-trash-fill" 
+                    @click.stop="deleteProd()"
+                    type="button"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#staticBackdrop"></button></div>
     </div>
 </template>
 
@@ -34,8 +38,8 @@ export default {
             this.$router.push("/products/"+id+"/edit")
 
         },
-        deleteProd(id){
-            console.log(id)
+        deleteProd(){
+            this.$emit("deleteProd",this.item.id)
         }
     }
 

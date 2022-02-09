@@ -20,7 +20,7 @@ export default {
     return Repository.get(`${resource}/update/${id}`);
   },
   deleteProduct(productId){
-    return Repository.delete(`${resource}/detail/${productId}`);
+    return Repository.delete(`${resource}/delete/${productId}`);
   },
   editProduct(payload){
     payload.product.id=parseInt(payload.product.id);

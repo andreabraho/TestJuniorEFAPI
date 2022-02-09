@@ -1,22 +1,50 @@
 <template>
   <div v-if="!isLoadingProducts">
+
+
+    <!-- Button trigger modal -->
+  
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Stai Eliminando Un Prodotto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Sei sicuro di voler eliminare il prodotto?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Chiudi</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click.stop="deleteProduct">Elimina</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
     <div class="row">
       <div class="col-2 h3 b mt-1">Prodotti</div>
       <div class="col-8"></div>
       <div class="col-2">
         <div class="mt-2">
           <router-link to="/Products/new" class="btn btn-outline-primary"
-            ><span class="mt-3">Aggiungi prodotto</span> </router-link
-          ><br />
+            ><span class="mt-3">Aggiungi prodotto</span> </router-link><br/>
         </div>
       </div>
+
       <div class="row ml-1 mt-3">
         <div >
           
          <my-table  :tlist="pageData.products" 
                     :brands="pageData.brands"
                     @selectNewBrand="selectNewBrand"
-                    @chageOrder="changeOrder"></my-table>
+                    @chageOrder="changeOrder"
+                    @deleteProd="deleteProd"></my-table>
          
         </div>
         <div class="d-flex justify-content-center" >
@@ -61,6 +89,8 @@ export default {
       /**value 1(brand name),2(product name),3(price) rappresents the order of the list */
       orderBy:0,
       isAsc:true,
+      /**id prod to delete set from child component tableRow on delete click */
+      idProdToDelete:0
     };
   },
   methods: {
@@ -132,7 +162,17 @@ export default {
     async changePage(num){
       this.page=num
       await this.update();
+    },
+    /**called from child component set prod to delete id */
+    deleteProd(id){
+      this.idProdToDelete=id
+    },
+    /**method that delete a product effectively */
+    async deleteProduct(){
+      await ProductRepository.deleteProduct(this.idProdToDelete)
+      await this.update()
     }
+
   },
   computed: {},
   components: {

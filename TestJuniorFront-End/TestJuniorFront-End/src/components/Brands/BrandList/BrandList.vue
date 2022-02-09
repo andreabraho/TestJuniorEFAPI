@@ -1,22 +1,59 @@
 <template>
-  <div>
+  <div v-if="!isLoadingBrands">
 
-    <table class="table table-striped" v-if="!isLoadingBrands">
+    
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Stai Eliminando Un Brand</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Sei sicuro di voler eliminare il brand?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Chiudi</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click.stop="effDeleteBrand">Elimina</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+    <div class="row ">
+      <div class="col-2 h2 mt-3 mb-2">
+        Brand
+      </div>
+      <div class="col-8 mt-3 mb-2">
+
+      </div>
+      <div class="col-2 mt-3 mb-2">
+        <router-link to="/Brands/new" class="btn btn-outline-primary"
+            ><span class="mt-3">Aggiungi brand</span> </router-link>
+      </div>
+    </div>
+    <table class="table table-striped" >
         <thead>
             <tr>
             <th scope="col">Id</th>
             <th scope="col">Nome</th>
             <th scope="col">Descrizione</th>
+            <th></th>
             </tr>
         </thead>
         <tbody>
-            <brand-row v-for="brand in brandPageData.brands" :key="brand.id" :brand="brand"></brand-row>
+            <brand-row v-for="brand in brandPageData.brands" 
+                        :key="brand.id" 
+                        :brand="brand"
+                        @deleteBrand="deleteBrand"></brand-row>
         </tbody>
     </table>
 
     <page-buttons 
-            class="d-flex justify-content-center"
-            v-if="!isloadingBrands"
+          class="d-flex justify-content-center"
           :page="page"
           :maxPages="brandPageData.totalPages"
           @changePage="changePage"
@@ -36,9 +73,10 @@ export default {
         /**all data neccessary for the page */
       brandPageData: [],
       /**method to load the page when data are ready */
-      isLoadingBrands: false,
+      isLoadingBrands: true,
       page:1,
       pageSize:10,
+      idBrandToDelete:0
     };
   },
   methods: {
@@ -58,7 +96,16 @@ export default {
     async changePage(num){
         this.page=num;
         await this.load()
+    },
+    /**method called from child to update the id of the brand to delete */
+    deleteBrand(id){
+      this.idBrandToDelete=id
+    },
+    async effDeleteBrand(){
+      await BrandRepository.deleteBrand(this.idBrandToDelete)
+      await this.load()
     }
+
   },
   /**
    * on creation load the brand page data for the frist time
