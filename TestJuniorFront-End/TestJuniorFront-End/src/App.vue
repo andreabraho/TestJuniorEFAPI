@@ -17,7 +17,7 @@
             <router-link to="/leads" class="sidebarComp mt-3" ><span class="mt-3">Richiete info</span></router-link><br>
       </div>
       <div class="mt-2">
-            <router-link :to="{ name: 'EditProduct', params: { id: 1 }}" class="sidebarComp mt-3 "><span class="mt-3">TEST:edit prod 1</span></router-link><br>
+            <router-link :to="{ name: 'CreateOrEdit', params: { id: 1 }}" class="sidebarComp mt-3 "><span class="mt-3">TEST:edit prod 1</span></router-link><br>
       </div>
       <div class="mt-2">
             <router-link :to="{ name: 'DetailProduct', params: { id: 1 }}" class="sidebarComp mt-3 "><span class="mt-3">TEST:detail prod 1</span></router-link><br>

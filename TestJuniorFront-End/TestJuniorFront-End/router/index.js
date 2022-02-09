@@ -2,8 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import ProductList from "../src/components/Products/ProductList/ProductList.vue"
-import NewProduct from "../src/components/Products/New/AddProduct.vue"
-import EditProduct from "../src/components/Products/Edit/EditProduct.vue"
+import CreateOrEdit from "../src/components/Products/CreateOrEdit/CreateOrEditProduct.vue"
 import DetailProduct from "../src/components/Products/Detail/DetailProduct.vue"
 
 import BrandList from "../src/components/Brands/BrandList/BrandList.vue"
@@ -32,24 +31,28 @@ export default new Router({
       component: ProductList
 
     },
+   
     {
 
-      path: '/products/new',
+      path: '/products/0/edit',
 
-      name: 'NewProduct',
+      name: 'Create',
 
-      component: NewProduct
+      component: CreateOrEdit,
+
+      alias: "/products/new"
 
     },
     {
 
       path: '/products/:id/edit',
 
-      name: 'EditProduct',
+      name: 'CreateOrEdit',
 
-      component: EditProduct
+      component: CreateOrEdit
 
     },
+    
     {
 
       path: '/products/:id',

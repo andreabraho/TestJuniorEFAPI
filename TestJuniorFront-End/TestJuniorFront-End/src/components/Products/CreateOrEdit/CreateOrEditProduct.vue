@@ -1,11 +1,11 @@
 
 </script>
 <template>
-  <div class="row">
+  <div class="row" v-if="!isLoading">
       <div class="col-1"></div>
       <div class="col-7">
           <div class="d-flex justify-content-start mt-3"> 
-            <span class="h2 ">Update Product</span>
+            <span class="h2 ">{{mainMessage}}</span>
           </div>
 
           <form @submit.prevent="sendData" class="mt-5 mb-5">
@@ -29,16 +29,24 @@
                 <input type="number" class="form-control" v-model="form.product.price">
             </div>
             
+            <div v-if="id==0" class="row form-group mt-2">
+                <label for="">Brand</label>
+                <select class="form-select" v-model="form.product.brandId">
+                <option v-for="item in brandForSelect" 
+                        :key="item.id"
+                        :value="item.id">{{item.name}}</option>
+                </select>
+            </div>
+
             <div class="row mt-2">
                 <label for="">Categories</label>
                 <select class="selectpicker " 
                         multiple  
                         v-model="form.categoriesIds"
                         size="10">
-                    <option selected>Select Categories</option>
 
                     <option 
-                    v-for="item in dataForUpdate.allCategories"
+                    v-for="item in catForSelect"
                     :key="item.id"
                     :value="item.id"
                     selected>{{item.name}}
@@ -66,7 +74,7 @@ export default {
         return{
             form:{
                 product:{
-                    id:this.$route.params.id,
+                    id:0,
                     name:"",
                     shortDescription:"",
                     description:"",
@@ -76,33 +84,58 @@ export default {
                 categoriesIds:[],
                 
             },
-            dataForUpdate:null,
             isLoading:false,
-            idProduct:this.$route.params.id,
-            
+            id:this.$route.params.id,
+            catForSelect:null,
+            brandForSelect:null,
+            mainMessage:"",
         }
     },
     methods:{
         async load(){
             this.isLoading=true
-            const { data } = await ProductRepository.getDataForUpdate(this.$route.params.id);
-            this.dataForUpdate=data
-            this.updateFormData(data)
+            if(this.$route.params.id!=undefined)
+                this.id=this.$route.params.id
+            else
+                this.id=0
+            let  data 
+            if(this.id!=0 ){
+                data  = await ProductRepository.getDataForUpdate(this.id);
+            }
+            else{
+                data  = await ProductRepository.getDataForCreate();
+
+            }
+            this.updateFormData(data.data)
         },
         async sendData(){
             
-            await ProductRepository.editProduct(this.form);
+            if(this.id!=0)
+                await ProductRepository.editProduct(this.form);
+            else
+                this.idProduct=await ProductRepository.createProduct(this.form);
+
             this.$router.push("/products/"+this.idProduct)
         },
         updateFormData(data){
-            this.form.product.name=data.product.name
-            this.form.product.shortDescription=data.product.shortDescription
-            this.form.product.description=data.product.shortDescription
-            this.form.product.price=data.product.price
-            this.form.product.brandId=data.product.brandId
+            if(this.id!=0){
+                this.form.product.name=data.product.name
+                this.form.product.shortDescription=data.product.shortDescription
+                this.form.product.description=data.product.shortDescription
+                this.form.product.price=data.product.price
+                this.form.product.brandId=data.product.brandId
 
-            this.form.categoriesIds=data.categoriesAssociated
+                this.form.categoriesIds=data.categoriesAssociated
+                this.catForSelect=data.allCategories
+                this.brandForSelect=data.allBrands
+                this.mainMessage="Update Product"
+            }else{
+                this.catForSelect=data.categories
+                this.brandForSelect=data.brands
+                this.mainMessage="Create Product"
+            }
             this.isLoading=false
+            
 
         }
     },

@@ -1,5 +1,5 @@
 <template>
-  <div class="row mt-1 on-hover" :class="[index%2==0?'bg-grey':'']" @click="goToDetail(item.id)">
+  <div class="row mt-1 on-hover" :class="[index%2==0?'bg-grey':'']" @click="goToDetail()">
         <div class="col-2 namebox">{{item.brandName}}</div>
         <div class="col-4 namebox"><p><b>{{item.name}}</b> | {{item.shortDescription}}</p></div>
         <div class="col-3 catbox">
@@ -46,11 +46,11 @@ export default {
         index:Number
     },
     methods:{
-        goToDetail(productId){
-            this.$router.push("/products/"+productId)
+        goToDetail(){
+            this.$router.push("/products/"+this.item.id)
         },
-        goToEdit(id){
-            this.$router.push("/products/"+id+"/edit")
+        goToEdit(){
+            this.$router.push("/products/"+this.item.id+"/edit")
 
         },
         deleteProd(){
