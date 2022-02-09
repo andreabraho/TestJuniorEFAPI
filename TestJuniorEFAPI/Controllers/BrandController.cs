@@ -88,14 +88,21 @@ namespace TestJuniorEFAPI.Controllers
         /// </summary>
         /// <param name="brand"></param>
         /// <returns></returns>
-        [HttpPut("Update/{id}")]
+        [HttpPut("Update")]
         public async Task<IActionResult> UpdateBrand(Brand brand)
         {
             if (await _brandService.EditBrand(brand))
                 return Ok(brand);
             return NoContent();
         }
-
+        [HttpGet("Update/{id}")]
+        public async Task<IActionResult> GetBrand(int id)
+        {
+            var result=await _brandService.GetBrand(id);
+            if(result!=null)
+                return Ok(result);
+            return NoContent();
+        }
 
     }
     

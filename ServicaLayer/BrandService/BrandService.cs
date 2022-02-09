@@ -111,14 +111,17 @@ namespace ServicaLayer.BrandService
                 throw new NullReferenceException("id not valid");
 
             BrandFromRepo.BrandName = brand.BrandName;
-
+            BrandFromRepo.Description = brand.Description;
             if (await _brandRepository.Update(BrandFromRepo) > 0)
                 return true;
 
             return false;
         }
 
-
+        public async Task<Brand> GetBrand(int id)
+        {
+            return await _brandRepository.GetById(id).FirstOrDefaultAsync();
+        }
 
 
 

@@ -7,8 +7,12 @@
           <div class="d-flex justify-content-start mt-3"> 
             <span class="h2 ">{{mainMessage}}</span>
           </div>
-            <p v-for="error in errors"
-                v-if="errors.length>0">{{error}}</p>
+          
+          <div v-if="errors.length>0">
+              <p v-for="(error,index) in errors"
+                :key="index">{{error}}</p>
+          </div>
+            
 
           <form @submit.prevent="sendData" class="mt-5 mb-5">
             <div class="form-group row mt-2">

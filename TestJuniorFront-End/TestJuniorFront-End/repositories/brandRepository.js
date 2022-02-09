@@ -18,6 +18,8 @@ export default {
   },
   editBrand(payload){
     return Repository.put(`${resource}/update`, payload);
-
+  },
+  getDataForEdit(brandId){
+    return Repository.get(`${resource}/update/${brandId}`);
   }
 };
