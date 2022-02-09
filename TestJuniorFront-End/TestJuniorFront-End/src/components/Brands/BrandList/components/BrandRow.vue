@@ -44,7 +44,10 @@ export default {
         deleteBrand(){
             this.$emit("deleteBrand",this.brand.id)
         },
-        goToEdit(){}
+        goToEdit(){
+            this.$router.push("/brands/"+this.brand.id+"/edit")
+
+        }
     }
 
 }

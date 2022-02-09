@@ -1,5 +1,12 @@
 <template>
   <div v-if="!isLoadingIR">
+
+    <div class="row mt-3 h2">
+      <p>Leads </p>
+    </div>
+
+
+
     <my-table  :tlist="pageData.infoRequests" 
                     :brands="pageData.brands"
                     @selectNewBrand="selectNewBrand"
