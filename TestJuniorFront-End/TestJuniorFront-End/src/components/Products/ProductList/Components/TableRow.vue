@@ -1,8 +1,8 @@
 <template>
   <div class="row mt-1 on-hover" :class="[index%2==0?'bg-grey':'']" @click="goToDetail(item.id)">
-        <div class="col-2 ">{{item.brandName}}</div>
-        <div class="col-5 "><p><b>{{item.name}}</b> | {{item.shortDescription}}</p></div>
-        <div class="col-3 ">
+        <div class="col-2 namebox">{{item.brandName}}</div>
+        <div class="col-4 namebox"><p><b>{{item.name}}</b> | {{item.shortDescription}}</p></div>
+        <div class="col-3 catbox">
           <span v-for="cat in item.categories" 
           :key="cat.id"
           class="rounded-pill bg-primary text-light cat-pill m-1 ">
@@ -10,13 +10,28 @@
           </span>
         </div>
         <div class="col-1 ">${{item.price}}</div>
-        <div class="col-1 ">
-            <button class="bi bi-pencil-square" @click.stop="goToEdit()"></button> 
-            <button class="bi bi-trash-fill" 
+        <div class="col-2 position-relative">
+            
+            <div class="position-absolute top-50 start-50 translate-middle">
+                <button class="btn btn-outline-secondary mybutton position-relative float-end" @click.stop="goToEdit()">
+                <i class="bi bi-pencil-square text-warning position-absolute top-50 start-50 translate-middle" 
+                    width="12" 
+                    height="12" 
+                    viewBox="0 0 12 12"></i>
+                </button> 
+                <button class=" btn btn-outline-secondary  mybutton position-relative float-end"  
                     @click.stop="deleteProd()"
                     type="button"
                     data-bs-toggle="modal" 
-                    data-bs-target="#staticBackdrop"></button></div>
+                    data-bs-target="#staticBackdrop">
+                    <i class="bi bi-trash-fill text-danger position-absolute top-50 start-50 translate-middle" 
+                    width="12" 
+                    height="12" 
+                    viewBox="0 0 12 12"></i>
+                    </button>        
+                    </div>
+            </div>
+            
     </div>
 </template>
 
@@ -55,6 +70,16 @@ export default {
     }
     .cat-pill{
         padding: 1px 3px 0px 3px;
+    }
+    .mybutton{
+        height: 34px;
+        width: 34px;
+    }
+    .catbox{
+        word-wrap: initial;
+    }
+    .namebox{
+        word-wrap: break-word;
     }
 
 </style>
