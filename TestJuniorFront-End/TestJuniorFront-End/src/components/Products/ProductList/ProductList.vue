@@ -24,9 +24,9 @@
           
           <page-buttons 
           :page="page"
+          :probes="testProbe"
           :maxPages="pageData.totalPages"
           @changePage="changePage"
-          ref="pagingComponent"
           ></page-buttons>
 
 
@@ -47,6 +47,7 @@ export default {
   name: "ProductList",
   data() {
     return {
+      testProbe:{name:'Andrea',surname:'Braho',marks:[1],skills:[{language:'C#',level:'ciuccio'},{language:'Javascript',level:'Donkey'}]},
       page: 1,
       pageSize: 10,
       /** rappresents all the data coming from the api */
@@ -59,7 +60,7 @@ export default {
       brandSelected:0,
       /**value 1(brand name),2(product name),3(price) rappresents the order of the list */
       orderBy:0,
-      isAsc:false,
+      isAsc:true,
     };
   },
   methods: {
@@ -93,9 +94,6 @@ export default {
         this.isAsc
       );
       this.pageData = data;
-      /**calls the method on child component to update paging */
-      await this.$refs.pagingComponent.updatePage();
-      await this.$refs.pagingComponent.selectPages();
       
 
     },
@@ -109,7 +107,6 @@ export default {
       this.brandSelected=id
       this.page=1
       await this.update()
-      this.$refs.pagingComponent.selectPages();
 
 
     },

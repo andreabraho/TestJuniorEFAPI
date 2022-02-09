@@ -12,7 +12,7 @@
 1.serach pages				V
 2.detail pages				V
 3.create ages				X-left create brand for last
-4.edit pages				
+4.edit pages				V
 5.delete buttons
 
 6. testing?

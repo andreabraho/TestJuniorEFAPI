@@ -82,7 +82,7 @@ export default {
           selectedBrand:0,
           /**value 1(brandName),2(productName),3(price) to order the list */
           orderBy:0,
-          isAsc:false
+          isAsc:true
       }
   },
   methods:{

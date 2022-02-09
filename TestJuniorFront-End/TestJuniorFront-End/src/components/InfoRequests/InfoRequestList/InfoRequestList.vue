@@ -17,7 +17,6 @@
       :page="page"
       :maxPages="pageData.totalPages"
       @changePage="changePage"
-      ref="pagingComponent"
       ></page-buttons>
       
     </div>
@@ -73,10 +72,6 @@ export default {
         this.isAsc
       );
       this.pageData = data;
-      /**calls the method on child component to update paging */
-      await this.$refs.pagingComponent.updatePage();
-      await this.$refs.pagingComponent.selectPages();
-      
 
     },
     /**

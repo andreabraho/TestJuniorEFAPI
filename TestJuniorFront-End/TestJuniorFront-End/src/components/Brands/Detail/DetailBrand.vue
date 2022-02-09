@@ -58,7 +58,6 @@
                     :page="page"
                     :maxPages="Math.ceil(brand.products.length/pageSize)"
                     @changePage="changePage"
-                    ref="pagingComponent"
                     ></page-buttons>
             </div>
 

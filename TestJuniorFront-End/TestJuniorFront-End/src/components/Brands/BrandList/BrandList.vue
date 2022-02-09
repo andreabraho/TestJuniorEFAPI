@@ -20,7 +20,6 @@
           :page="page"
           :maxPages="brandPageData.totalPages"
           @changePage="changePage"
-          ref="pagingComponent"
           ></page-buttons>
 
   </div>

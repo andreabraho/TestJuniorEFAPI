@@ -95,6 +95,11 @@ export default {
             this.myPage=this.page
         }
     },
+    watch:{
+        maxPages(){
+            this.selectPages()
+        }
+    },
     /**on mount of the component load the paging buttons needed */
     mounted(){
         this.selectPages()

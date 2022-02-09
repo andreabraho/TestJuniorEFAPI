@@ -10,7 +10,9 @@
           </span>
         </div>
         <div class="col-1 ">${{item.price}}</div>
-        <div class="col-1 ">1 2</div>
+        <div class="col-1 ">
+            <button class="bi bi-pencil-square" @click.stop="goToEdit(item.id)"></button> 
+            <button class="bi bi-trash-fill" @click.stop="deleteProd(item.id)"></button></div>
     </div>
 </template>
 
@@ -27,6 +29,13 @@ export default {
     methods:{
         goToDetail(productId){
             this.$router.push("/products/"+productId)
+        },
+        goToEdit(id){
+            this.$router.push("/products/"+id+"/edit")
+
+        },
+        deleteProd(id){
+            console.log(id)
         }
     }
 
