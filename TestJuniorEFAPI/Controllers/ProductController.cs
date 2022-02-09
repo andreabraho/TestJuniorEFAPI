@@ -76,8 +76,8 @@ namespace TestJuniorEFAPI.Controllers
         async public Task<IActionResult> InserProductAsync(ProdWithCat prodWCat)
         {
             var result=await _productService.AddProduct(prodWCat.Product,prodWCat.CategoriesIds);
-            if(result)
-                return Ok();
+            if(result!=0)
+                return Ok(result);
             else
                 return NoContent();
         }

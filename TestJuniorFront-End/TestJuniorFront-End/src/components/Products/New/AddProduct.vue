@@ -76,7 +76,9 @@ export default {
             this.isLoading=false
         },
         async sendData(){
-            await ProductRepository.createProduct(this.form);
+            const { data } =await ProductRepository.createProduct(this.form);
+            console.log(data)
+            this.$router.push("/products/"+data)
         }
     },
     async created(){

@@ -18,10 +18,10 @@ namespace DataLayer.Repository
         /// </summary>
         /// <param name="product"></param>
         /// <param name="cats">list of int rappresenting his categories</param>
-        /// <returns>bool for the result</returns>
+        /// <returns>id of the product inserted</returns>
         /// <exception cref="ArgumentNullException">product null</exception>
         /// <exception cref="ArgumentNullException">cats null</exception>
-        public async Task<bool> InsertWithCat(Product product,int[] cats)
+        public async Task<int> InsertWithCat(Product product,int[] cats)
         {
             bool result = true;
 
@@ -47,7 +47,7 @@ namespace DataLayer.Repository
                 
             }
            
-            return result;
+            return product.Id;
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace DataLayer.Interfaces
 {
     public interface IProductRepository:IRepository<Product>
     {
-        public Task<bool> InsertWithCat(Product product, int[] cats);
+        public Task<int> InsertWithCat(Product product, int[] cats);
         public Task<bool> DeleteAll(int id);
     }
 }

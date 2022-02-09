@@ -111,9 +111,9 @@ namespace ServicaLayer.ProductService
         /// </summary>
         /// <param name="product">product</param>
         /// <param name="categories">list of in rappresenting the categories associated</param>
-        /// <returns></returns>
+        /// <returns>id of the product inserted</returns>
         /// <exception cref="ArgumentNullException">null input</exception>
-        public async Task<bool> AddProduct(Product product,int[] categories)
+        public async Task<int> AddProduct(Product product,int[] categories)
         {
             if(product == null)
                 throw new ArgumentNullException(nameof(product));
