@@ -61,6 +61,8 @@ export default {
                         this.pages=[this.myPage-2,this.myPage-1,this.myPage,this.myPage+1,this.myPage+2]
                     }
             }
+
+            
             
 
         },
