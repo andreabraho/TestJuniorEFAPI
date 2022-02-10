@@ -175,11 +175,7 @@ namespace ServicaLayer.ProductService
                 if (result > 0)
                 {
                     return true;
-                    //product.ProductCategories = categories;
-                    //if (await _productRepository.Update(product) > 0)
-                    //{
-                    //    return true;
-                    //}
+                    
                 }
             }
 

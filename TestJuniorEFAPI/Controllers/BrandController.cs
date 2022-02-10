@@ -109,6 +109,11 @@ namespace TestJuniorEFAPI.Controllers
                 return Ok(brand);
             return NoContent();
         }
+        /// <summary>
+        /// get the brand data for brand update
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("Update/{id}")]
         public async Task<IActionResult> GetBrand(int id)
         {
@@ -120,6 +125,11 @@ namespace TestJuniorEFAPI.Controllers
                 return Ok(result);
             return NoContent();
         }
+        /// <summary>
+        /// check if the email is valid
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>true or false</returns>
         [HttpGet("ValidateMail/{email=}")]
         public async Task<IActionResult> ValidateMail(string email)
         {
@@ -132,6 +142,12 @@ namespace TestJuniorEFAPI.Controllers
 
 
 
+        /// <summary>
+        /// validates the model in input for brand Update api
+        /// </summary>
+        /// <param name="brand"></param>
+        /// <returns>null if the model is valid,
+        /// string with error if not</returns>
         private string ValidateBrandUpdate(Brand brand)
         {
             string result = null;
@@ -142,7 +158,13 @@ namespace TestJuniorEFAPI.Controllers
             
             return result;
         }
-        public string ValidateBrandInsert(BrandInsertApiModel brandInsertApiModel)
+        /// <summary>
+        /// validates the model in input for brand insert api
+        /// </summary>
+        /// <param name="brandInsertApiModel"></param>
+        /// <returns>null if the model is valid,
+        /// string with error if not</returns>
+        private string ValidateBrandInsert(BrandInsertApiModel brandInsertApiModel)
         {
             string result = null;
 

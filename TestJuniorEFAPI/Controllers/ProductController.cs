@@ -75,6 +75,13 @@ namespace TestJuniorEFAPI.Controllers
         [HttpPost("Insert")]
         async public Task<IActionResult> InserProductAsync(ProdWithCat prodWCat)
         {
+            if (prodWCat == null)
+                return BadRequest("Product was null");
+            string validation= UpSertProductValidation(prodWCat);
+            if(validation!=null)
+                return BadRequest(validation);
+
+
             var result=await _productService.AddProduct(prodWCat.Product,prodWCat.CategoriesIds);
             if(result!=0)
                 return Ok(result);
@@ -115,8 +122,16 @@ namespace TestJuniorEFAPI.Controllers
         [HttpPut("Update")]
         public async Task<IActionResult> UpdateProductAsync(ProdWithCat prodWCat)
         {
-            if(await _productService.UpdateProduct(prodWCat))
+            if(prodWCat == null)
+                return BadRequest("model was null");
+            var result = UpSertProductValidation(prodWCat);
+
+            if(result!=null)
+                return BadRequest(result);
+
+            if (await _productService.UpdateProduct(prodWCat))
                 return Ok();
+
             return Ok("No Changes");
         }
         /// <summary>
@@ -134,8 +149,35 @@ namespace TestJuniorEFAPI.Controllers
         }
 
 
+        /// <summary>
+        /// validates if the model for product inser is valid
+        /// </summary>
+        /// <param name="prodWCat"></param>
+        /// <returns>null is it is valid,string with error if not</returns>
+        private string UpSertProductValidation(ProdWithCat prodWCat)
+        {
+            string result = null;
+                
+                if (prodWCat.CategoriesIds.Length == 0)
+                {
+                    result += "Select at least one category for the product \n";
+                   
+                }
+            
+                if (prodWCat.Product.Name.Length == 0)
+                {
+                    result += "Product name can't be empity \n";
+                    
+                }
+            
+                if (prodWCat.Product.ShortDescription.Length == 0)
+                {
+                    result += "Product short description can't be empity \n";
+                    
+                }
 
-
+            return result;
+        }
 
 
 
