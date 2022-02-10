@@ -26,7 +26,8 @@ export default {
     /**product to be shown */
       tlist:[],
       /**rappresenting the brand for the select */
-      brands:[]
+      brands:[],
+      
   },
   methods:{
     /**method to choose a brand to filter on

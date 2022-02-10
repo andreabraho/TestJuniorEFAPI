@@ -67,6 +67,16 @@ namespace TestJuniorEFAPI.Controllers
                 return BadRequest("not vaid id");
             return Ok(await _productService.GetProductDetail(id));
         }
+        [HttpPost("Upsert")]
+        [HttpPut("Upsert")]
+        public async Task<IActionResult> UpsertProduct(ProdWithCat prodWCat)
+        {
+
+
+
+            return Ok();
+        }
+
         /// <summary>
         /// insert a product with categories associated
         /// </summary>
@@ -77,6 +87,7 @@ namespace TestJuniorEFAPI.Controllers
         {
             if (prodWCat == null)
                 return BadRequest("Product was null");
+
             string validation= UpSertProductValidation(prodWCat);
             if(validation!=null)
                 return BadRequest(validation);
@@ -87,6 +98,26 @@ namespace TestJuniorEFAPI.Controllers
                 return Ok(result);
             else
                 return NoContent();
+        }
+        /// <summary>
+        /// update a product data and his categories
+        /// </summary>
+        /// <param name="prodWCat">model that contains a product and an array of categories ids</param>
+        /// <returns></returns>
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateProductAsync(ProdWithCat prodWCat)
+        {
+            if (prodWCat == null)
+                return BadRequest("model was null");
+            var result = UpSertProductValidation(prodWCat);
+
+            if (result != null)
+                return BadRequest(result);
+
+            if (await _productService.UpdateProduct(prodWCat))
+                return Ok();
+
+            return Ok("No Changes");
         }
         /// <summary>
         /// method that gets all data neccessary to insert a product
@@ -114,26 +145,7 @@ namespace TestJuniorEFAPI.Controllers
             else 
                 return NotFound();
         }
-        /// <summary>
-        /// update a product data and his categories
-        /// </summary>
-        /// <param name="prodWCat">model that contains a product and an array of categories ids</param>
-        /// <returns></returns>
-        [HttpPut("Update")]
-        public async Task<IActionResult> UpdateProductAsync(ProdWithCat prodWCat)
-        {
-            if(prodWCat == null)
-                return BadRequest("model was null");
-            var result = UpSertProductValidation(prodWCat);
-
-            if(result!=null)
-                return BadRequest(result);
-
-            if (await _productService.UpdateProduct(prodWCat))
-                return Ok();
-
-            return Ok("No Changes");
-        }
+        
         /// <summary>
         /// return the product data needed for update
         /// </summary>

@@ -12,6 +12,8 @@
                     @selectNewBrand="selectNewBrand"
                     @changeOrder="changeOrder"
                     @changeSearch="changeSearch"
+                    :search="search"
+                    :selectedBrand="brandSelected"
                     ></my-table>
 
 
@@ -24,6 +26,8 @@
       :page="page"
       :maxPages="pageData.totalPages"
       @changePage="changePage"
+      
+      
       ></page-buttons>
       
     </div>
@@ -37,6 +41,9 @@ const IRRepository = MyRepositoryFactory.get("inforequests");
 import MyTable from "./Components/Table.vue"
 import PageButtons from "../../Products/ProductList/Components/PageButtons.vue"
 export default {
+  props:{
+    
+  },
   data() {
     return {
       /**contains all data coming from api */
@@ -56,6 +63,13 @@ export default {
      */
     async load() {
       this.isLoadingIR = true;
+      if(this.$route.params.productname!=undefined)
+      this.search=this.$route.params.productname
+      if(this.$route.params.brandid!=undefined)
+      this.brandSelected=this.$route.params.brandid
+
+      console.log(this.search,this.brandSelected)
+
       const { data } = await IRRepository.getPage(
         this.page,
         this.pageSize,

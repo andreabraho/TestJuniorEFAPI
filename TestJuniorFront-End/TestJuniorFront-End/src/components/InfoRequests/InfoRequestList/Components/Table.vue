@@ -5,6 +5,8 @@
                     @selectNewBrand="selectNewBrand"
                     @changeOrder="changeOrder"
                     @changeSearch="changeSearch"
+                    :searchProp="search"
+                    :selectedBrandProp="selectedBrand"
                    ></table-header>
       
       <table-row v-for="(item,index) in tlist" :key="item.Id" :item="item" :index="index" ></table-row>
@@ -24,7 +26,9 @@ export default {
     /**info request to be shown */
       tlist:[],
       /**rappresenting the brand for the select */
-      brands:[]
+      brands:[],
+      search:String,
+      selectedBrand:Number
   },
   methods:{
     /**method to choose a brand to filter on
@@ -55,6 +59,9 @@ export default {
     TableHeader,
     TableRow,
   },
+  mounted(){
+    console.log(this.search,this.selectedBrand)
+  }
 
 };
 </script>

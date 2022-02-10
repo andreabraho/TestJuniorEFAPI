@@ -84,7 +84,9 @@ namespace ServicaLayer.ProductService
             {
                 Id = p.Id,
                 Name = p.Name,
+                BrandId=p.Brand.Id,
                 BrandName = p.Brand.BrandName,
+
                 productsCategory = p.ProductCategories.Select(c => new CategoryProductDTO
                 {
                     Id = c.CategoryId,
@@ -124,6 +126,52 @@ namespace ServicaLayer.ProductService
 
         }
         /// <summary>
+        /// update product data and his categories
+        /// </summary>
+        /// <param name="prodCat">modl that contains a product and an array of categories ids</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">prodCat null</exception>
+        /// <exception cref="ArgumentNullException">product null</exception>
+        /// <exception cref="ArgumentNullException">categoryIds array null</exception>
+        public async Task<bool> UpdateProduct(ProdWithCat prodCat)
+        {
+            if (prodCat == null)
+                throw new ArgumentNullException(nameof(prodCat));
+            if (prodCat.Product == null)
+                throw new ArgumentNullException(nameof(prodCat.Product));
+            if (prodCat.CategoriesIds == null)
+                throw new ArgumentNullException(nameof(prodCat.CategoriesIds));
+
+            var product = await _productRepository.GetById(prodCat.Product.Id).Include(x => x.ProductCategories).FirstOrDefaultAsync();
+            if (product != null)
+            {
+
+                List<ProductCategory> categories = prodCat.CategoriesIds.Select(x => new ProductCategory
+                {
+                    CategoryId = x,
+                    ProductId = prodCat.Product.Id
+                }).ToList();
+
+                product.ProductCategories = categories;
+
+                product.Name = prodCat.Product.Name ?? "";
+                product.Description = prodCat.Product.Description ?? "";
+                product.ShortDescription = prodCat.Product.ShortDescription ?? "";
+                product.Price = prodCat.Product.Price;
+
+                //product.BrandId = prodCat.Product.BrandId;//todo CAN BE UPDATED?
+                var result = await _productRepository.Update(product);
+                if (result > 0)
+                {
+                    return true;
+
+                }
+            }
+
+
+            return false;
+        }
+        /// <summary>
         /// delete a product and all data related
         /// </summary>
         /// <param name="id">product id</param>
@@ -136,53 +184,11 @@ namespace ServicaLayer.ProductService
 
             return await _productRepository.DeleteAll(id);
         }
+        
         /// <summary>
-        /// update product data and his categories
+        /// get all data needed for product upsert page
         /// </summary>
-        /// <param name="prodCat">modl that contains a product and an array of categories ids</param>
         /// <returns></returns>
-        /// <exception cref="ArgumentNullException">prodCat null</exception>
-        /// <exception cref="ArgumentNullException">product null</exception>
-        /// <exception cref="ArgumentNullException">categoryIds array null</exception>
-        public async Task<bool> UpdateProduct(ProdWithCat prodCat)
-        {
-            if(prodCat == null)
-                throw new ArgumentNullException(nameof(prodCat));
-            if(prodCat.Product==null)
-                throw new ArgumentNullException(nameof(prodCat.Product));
-            if(prodCat.CategoriesIds==null)
-                throw new ArgumentNullException(nameof(prodCat.CategoriesIds));
-            
-            var product = await _productRepository.GetById(prodCat.Product.Id).Include(x=>x.ProductCategories).FirstOrDefaultAsync();
-            if (product != null)
-            {
-                
-                    List<ProductCategory> categories = prodCat.CategoriesIds.Select(x => new ProductCategory
-                    {
-                        CategoryId = x,
-                        ProductId = prodCat.Product.Id
-                    }).ToList();
-
-                    product.ProductCategories = categories;
-                
-                product.Name = prodCat.Product.Name??"";
-                product.Description = prodCat.Product.Description??"";
-                product.ShortDescription = prodCat.Product.ShortDescription??"";
-                product.Price=prodCat.Product.Price;
-
-                //product.BrandId = prodCat.Product.BrandId;//todo CAN BE UPDATED?
-                var result = await _productRepository.Update(product);
-                if (result > 0)
-                {
-                    return true;
-                    
-                }
-            }
-
-
-            return false;
-        }
-
         public  GetInsertProductDTO GetInsertProductDTO()
         {
             var x=new GetInsertProductDTO();

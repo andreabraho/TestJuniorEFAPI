@@ -73,6 +73,9 @@ import MyTable from "./Components/Table.vue"
 import PageButtons from "./Components/PageButtons.vue"
 export default {
   name: "ProductList",
+  props:{
+    
+  },
   data() {
     return {
       testProbe:{name:'Andrea',surname:'Braho',marks:[1],skills:[{language:'C#',level:'ciuccio'},{language:'Javascript',level:'Donkey'}]},

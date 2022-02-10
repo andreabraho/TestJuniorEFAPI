@@ -22,7 +22,8 @@
       <div class="mt-2">
             <router-link to="/leads" class="sidebarComp mt-3" >
             <span class="mt-3"
-                  :class="[activeLink==3?'active':'']">
+                  :class="[activeLink==3?'active':'']"
+                  >
               Richiete info</span></router-link><br>
       </div>
       <div class="mt-2">
@@ -50,7 +51,8 @@ export default {
   data(){
     return {
       /**1(product)2(brand)3(leads) set the active link on data send from child component */
-      activeLink:0
+      activeLink:0,
+      myvar:1
     }
   },
   methods:{

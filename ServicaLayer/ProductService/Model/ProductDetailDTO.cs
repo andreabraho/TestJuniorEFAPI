@@ -14,6 +14,7 @@ namespace ServicaLayer.ProductService.Model
         /// product id
         /// </summary>
         public int Id { get; set; }
+        public int BrandId { get; set; }
         /// <summary>
         /// product name
         /// </summary>

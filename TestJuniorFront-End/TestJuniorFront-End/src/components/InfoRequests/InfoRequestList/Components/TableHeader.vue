@@ -60,7 +60,9 @@
 export default {
   name: "TableHeader",
   props:{
-      brands:[]
+      brands:[],
+      searchProp:String,
+      selectedBrandProp:Number
   },
   data(){
       return{
@@ -90,9 +92,13 @@ export default {
       changeSearch(){
           this.$emit("changeSearch",this.search)
 
-      }
+      },
       
-  }
+  },
+  created(){
+    this.selectedBrand=this.selectedBrandProp
+    this.search=this.searchProp
+    }
 };
 </script>
 

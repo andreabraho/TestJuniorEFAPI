@@ -4,7 +4,7 @@
         <div class="row ">
 
             <div class="col-2">
-
+                
             </div>
             <div class="col-8">
                 
@@ -25,11 +25,13 @@
                 <div class="row">
                     <p>{{message}}</p>
                 </div>
+                
+
 
                 <div class="row mt-4 " v-if="product.infoRequestProducts.length!=0">
                     <div v-if="!viewInfoRequests" >
                         <button class="btn btn-outline-primary mb-5" 
-                                @click="viewInfoRequests=!viewInfoRequests">Vedi tutte le richieste informazioni</button>
+                                @click="viewInfoRequests=!viewInfoRequests">Vedi tutte le richieste informazioni in questa pagina</button>
                     </div>
                     
                 </div>
@@ -78,7 +80,12 @@
                 </div>
             </div>
             <div class="col-2">
+                <div class="row mt-4 visLeadsBtn">
+                        <button class="btn btn-outline-primary mb-5 " 
+                        @click="$router.push({ name: 'InfoRequestList', params: { brandid: product.brandId,productname:product.name }})" 
+                        >Vedi tutte le richieste informazioni</button><br>
 
+                </div>
             </div>
         </div>
 
@@ -162,6 +169,13 @@ export default ({
 .box{
     border-bottom:2px solid black;
 }
+.visLeadsBtn{
+    
+  position: sticky;
+  top: 60px;
+    max-width: 98%;
+    float: right;
+  }
 </style>
 
 

@@ -74,7 +74,8 @@
 export default {
   name: "TableHeader",
   props:{
-      brands:[]
+      brands:[],
+      
   },
   data(){
       return{
