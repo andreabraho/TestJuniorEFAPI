@@ -8,13 +8,22 @@
     <div class="row ">
     <div class="col-2 h-100 position-fixed sidebar" >
       <div class="mt-2">
-            <router-link to="/Products" class="sidebarComp mt-3 " ><span class="mt-3">Prodotti</span> </router-link><br>
+            <router-link to="/Products" class="sidebarComp mt-3 " >
+            <span class="mt-3" 
+                  :class="[activeLink==1?'active':'']">
+              Prodotti</span> </router-link><br>
       </div>
       <div class="mt-2">
-            <router-link to="/Brands" class="sidebarComp mt-3" ><span class="mt-3">Brands</span></router-link><br>
+            <router-link to="/Brands" class="sidebarComp mt-3" >
+            <span class="mt-3"
+                  :class="[activeLink==2?'active':'']">
+              Brands</span></router-link><br>
       </div>
       <div class="mt-2">
-            <router-link to="/leads" class="sidebarComp mt-3" ><span class="mt-3">Richiete info</span></router-link><br>
+            <router-link to="/leads" class="sidebarComp mt-3" >
+            <span class="mt-3"
+                  :class="[activeLink==3?'active':'']">
+              Richiete info</span></router-link><br>
       </div>
       <div class="mt-2">
             <router-link :to="{ name: 'CreateOrEdit', params: { id: 1 }}" class="sidebarComp mt-3 "><span class="mt-3">TEST:edit prod 1</span></router-link><br>
@@ -25,7 +34,8 @@
     </div>
 
     <div class="col-9 offset-2">
-      <router-view></router-view>
+      <router-view 
+          @setActiveLink="setActiveLink"></router-view>
     </div>
     </div>
     
@@ -39,8 +49,17 @@ export default {
   components: {},
   data(){
     return {
-      activeLink:1
+      /**1(product)2(brand)3(leads) set the active link on data send from child component */
+      activeLink:0
     }
+  },
+  methods:{
+    setActiveLink(num){
+      this.activeLink=num
+    }
+  },
+  created(){
+    this.activeLink=0
   }
 };
 </script>

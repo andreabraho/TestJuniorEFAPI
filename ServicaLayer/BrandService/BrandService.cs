@@ -78,7 +78,7 @@ namespace ServicaLayer.BrandService
         /// <param name="prodsWithCat">products and list of categories id associated</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">account, brand , prods array null</exception>
-        public async Task<bool> InsertBrand(Account account,Brand brand, ProdWithCat[] prodsWithCat)
+        public async Task<int> InsertBrand(Account account,Brand brand, ProdWithCat[] prodsWithCat)
         {
             if(account == null)
                 throw new ArgumentNullException(nameof(account));

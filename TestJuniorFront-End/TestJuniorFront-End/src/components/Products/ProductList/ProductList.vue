@@ -181,6 +181,7 @@ export default {
   },
   async created() {
     await this.load();
+    this.$emit("setActiveLink",1)
   },
   async mounted() {},
 };

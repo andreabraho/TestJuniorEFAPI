@@ -70,6 +70,7 @@ export default {
     }
     .cat-pill{
         padding: 1px 3px 0px 3px;
+        white-space: nowrap;
     }
     .mybutton{
         height: 34px;
@@ -79,7 +80,8 @@ export default {
         word-wrap: initial;
     }
     .namebox{
-        word-wrap: break-word;
+        word-wrap: initial;
+
     }
 
 </style>

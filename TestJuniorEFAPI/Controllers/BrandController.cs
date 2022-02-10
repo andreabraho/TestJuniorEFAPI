@@ -63,9 +63,9 @@ namespace TestJuniorEFAPI.Controllers
         [HttpPost("Insert")]
         public async Task<IActionResult> InsertBrand(BrandInsertApiModel testModel)
         {
-
-            if(await _brandService.InsertBrand(testModel.Account,testModel.Brand,testModel.prodsWithCats))
-                return Ok();
+            int result = await _brandService.InsertBrand(testModel.Account, testModel.Brand, testModel.prodsWithCats);
+            if (result>0)
+                return Ok(result);
             return NoContent();
         }
         /// <summary>

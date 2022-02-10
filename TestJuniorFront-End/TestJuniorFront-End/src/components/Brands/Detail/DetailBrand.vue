@@ -132,6 +132,8 @@ export default ({
     async created(){
         await this.load()
         this.makeMessage()
+        this.$emit("setActiveLink",3)
+
     },
     components:{
         CategoriesList,

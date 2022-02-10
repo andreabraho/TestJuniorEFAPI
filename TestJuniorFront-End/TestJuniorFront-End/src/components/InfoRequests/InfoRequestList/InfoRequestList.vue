@@ -128,6 +128,7 @@ export default {
   },
   async created(){
     await this.load()
+    this.$emit("setActiveLink",3)
   },
   components:{
     MyTable,

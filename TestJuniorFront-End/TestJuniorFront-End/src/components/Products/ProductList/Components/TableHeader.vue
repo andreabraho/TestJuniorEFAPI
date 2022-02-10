@@ -9,9 +9,9 @@
       
       
         <i class="bi bi-caret-up-fill position-absolute top-0 end-0 i-g"
-            :class="[orderBy==1 && isAsc==false?'i-b':'i-g']"></i>
+            :class="[orderBy==1 && isAsc?'i-b':'i-g']"></i>
         <i class="bi bi-caret-down-fill position-absolute bottom-0 end-0 i-g"
-        :class="[orderBy==1 && isAsc?'i-b':'i-g']"></i>
+        :class="[orderBy==1 && !isAsc?'i-b':'i-g']"></i>
         
       
       
@@ -23,9 +23,9 @@
             <b>Prodotto</b>
       
         <i class="bi bi-caret-up-fill position-absolute top-0 end-0 "
-            :class="[orderBy==2 && isAsc==false?'i-b':'i-g']"></i>
-        <i class="bi bi-caret-down-fill position-absolute bottom-0 end-0 "
             :class="[orderBy==2 && isAsc?'i-b':'i-g']"></i>
+        <i class="bi bi-caret-down-fill position-absolute bottom-0 end-0 "
+            :class="[orderBy==2 && !isAsc?'i-b':'i-g']"></i>
       
       </div>
       
@@ -37,9 +37,9 @@
             ><b>Prezzo</b>
       
         <i class="bi bi-caret-up-fill position-absolute top-0 end-0 i-g"
-            :class="[orderBy==3 && isAsc==false?'i-b':'i-g']"></i>
-        <i class="bi bi-caret-down-fill position-absolute bottom-0 end-0 i-g"
             :class="[orderBy==3 && isAsc?'i-b':'i-g']"></i>
+        <i class="bi bi-caret-down-fill position-absolute bottom-0 end-0 i-g"
+            :class="[orderBy==3 && !isAsc?'i-b':'i-g']"></i>
 
       </div>
       <div class="col-1 mw-10"></div>
@@ -80,8 +80,8 @@ export default {
       return{
           /** id brand to filter selected */
           selectedBrand:0,
-          /**value 1(brandName),2(productName),3(price) to order the list */
-          orderBy:0,
+          /**value 1(brandName),2(productName),3(price),0(no order) to order the list */
+          orderBy:1,
           isAsc:true
       }
   },

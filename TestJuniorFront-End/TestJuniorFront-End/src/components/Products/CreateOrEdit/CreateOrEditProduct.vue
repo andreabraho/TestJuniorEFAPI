@@ -1,5 +1,4 @@
 
-</script>
 <template>
   <div class="row" v-if="!isLoading">
       <div class="col-1"></div>
@@ -76,118 +75,105 @@
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const ProductRepository = MyRepositoryFactory.get("products");
 export default {
-    data(){
-        return{
-            form:{
-                product:{
-                    id:0,
-                    name:"",
-                    shortDescription:"",
-                    description:"",
-                    price:0,
-                    brandId:0
-                },
-                categoriesIds:[],
-                
-            },
-            isLoading:false,
-            id:0,
-            catForSelect:null,
-            brandForSelect:null,
-            mainMessage:"",
-            errors:[]
-        }
+  data() {
+    return {
+      form: {
+        product: {
+          id: 0,
+          name: "",
+          shortDescription: "",
+          description: "",
+          price: 0,
+          brandId: 0,
+        },
+        categoriesIds: [],
+      },
+      isLoading: false,
+      id: 0,
+      catForSelect: null,
+      brandForSelect: null,
+      mainMessage: "",
+      errors: [],
+    };
+  },
+  methods: {
+    /**load all data neccessary at the creation of the component */
+    async load() {
+      this.isLoading = true;
+      /**if id comes from route sets it to route id or set it to 0 */
+      if (this.$route.params.id != undefined) this.id = this.$route.params.id;
+      else this.id = 0;
+      let data;
+      if (this.id != 0) {
+        data = await ProductRepository.getDataForUpdate(this.id);
+      } else {
+        data = await ProductRepository.getDataForCreate();
+      }
+      this.updateFormData(data.data);
     },
-    methods:{
-        /**load all data neccessary at the creation of the component */
-        async load(){
-            this.isLoading=true
-            /**if id comes from route sets it to route id or set it to 0 */
-            if(this.$route.params.id!=undefined)
-                this.id=this.$route.params.id
-            else
-                this.id=0
-            let  data 
-            if(this.id!=0 ){
-                data  = await ProductRepository.getDataForUpdate(this.id);
-            }
-            else{
-                data  = await ProductRepository.getDataForCreate();
-
-            }
-            this.updateFormData(data.data)
-        },
-        /**sends data to api if data pass validation */
-        async sendData(){
-
-            if(this.formCheck()){
-                var x
-                if(this.id!=0)
-                    await ProductRepository.editProduct(this.form);
-                else{
-                    x=await ProductRepository.createProduct(this.form);
-                    this.id=x.data
-
-                }
-
-                this.$router.push("/products/"+this.id)
-            }
-            
-        },
-        /**updates form data with data coming from api */
-        updateFormData(data){
-            if(this.id!=0){
-                this.form.product.id=this.id
-                this.form.product.name=data.product.name
-                this.form.product.shortDescription=data.product.shortDescription
-                this.form.product.description=data.product.shortDescription
-                this.form.product.price=data.product.price
-                this.form.product.brandId=data.product.brandId
-
-                this.form.categoriesIds=data.categoriesAssociated
-                this.catForSelect=data.allCategories
-                this.brandForSelect=data.allBrands
-                this.mainMessage="Update Product"
-            }else{
-                this.catForSelect=data.categories
-                this.brandForSelect=data.brands
-                this.mainMessage="Create Product"
-            }
-            this.isLoading=false
-            
-
-        },
-        /**validation method for the form */
-        formCheck(){
-            this.errors=[]
-            if(this.form.product.brandId==0)
-                this.errors.push("Select brand Id")
-
-            if(this.form.categoriesIds.length<=0)
-                this.errors.push("Select at least one category")
-
-            if(this.form.product.name=="")
-                this.errors.push("Product name not valid")
-            
-            if(this.form.product.shortDescription==""){
-                this.errors.push("Short description not valid")
-            }
-
-            if(this.errors.length>0)
-                return false
-
-            return true
-            
+    /**sends data to api if data pass validation */
+    async sendData() {
+      if (this.formCheck()) {
+        var x;
+        if (this.id != 0) await ProductRepository.editProduct(this.form);
+        else {
+          x = await ProductRepository.createProduct(this.form);
+          this.id = x.data;
         }
+
+        this.$router.push("/products/" + this.id);
+      }
     },
-    async created(){
-        await this.load()
-    }
-}
+    /**updates form data with data coming from api */
+    updateFormData(data) {
+      if (this.id != 0) {
+        this.form.product.id = this.id;
+        this.form.product.name = data.product.name;
+        this.form.product.shortDescription = data.product.shortDescription;
+        this.form.product.description = data.product.shortDescription;
+        this.form.product.price = data.product.price;
+        this.form.product.brandId = data.product.brandId;
+
+        this.form.categoriesIds = data.categoriesAssociated;
+        this.catForSelect = data.allCategories;
+        this.brandForSelect = data.allBrands;
+        this.mainMessage = "Update Product";
+      } else {
+        this.catForSelect = data.categories;
+        this.brandForSelect = data.brands;
+        this.mainMessage = "Create Product";
+      }
+      this.isLoading = false;
+    },
+    /**validation method for the form */
+    formCheck() {
+      this.errors = [];
+      if (this.form.product.brandId == 0) this.errors.push("Select brand Id");
+
+      if (this.form.categoriesIds.length <= 0)
+        this.errors.push("Select at least one category");
+
+      if (this.form.product.name == "")
+        this.errors.push("Product name not valid");
+
+      if (this.form.product.shortDescription == "") {
+        this.errors.push("Short description not valid");
+      }
+
+      if (this.errors.length > 0) return false;
+
+      return true;
+    },
+  },
+  async created() {
+    await this.load();
+    this.$emit("setActiveLink", 1);
+  },
+};
 </script>
 
 <style scoped>
-.myselect{
-    height: 200px;
+.myselect {
+  height: 200px;
 }
 </style>

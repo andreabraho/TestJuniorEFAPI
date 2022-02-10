@@ -24,7 +24,7 @@ namespace DataLayer.Repository
         /// <exception cref="ArgumentNullException">account null</exception>
         /// <exception cref="ArgumentNullException">brand null</exception>
         /// <exception cref="ArgumentNullException">products null</exception>
-        public async Task<bool> InsertWithProducts(Account account,Brand brand, ProdWithCat[] products)
+        public async Task<int> InsertWithProducts(Account account,Brand brand, ProdWithCat[] products)
         {
             if(account == null)
                 throw new ArgumentNullException(nameof(account));
@@ -67,7 +67,7 @@ namespace DataLayer.Repository
                 }
             }
 
-            return result;
+            return brand.Id;
         }
 
         /// <summary>

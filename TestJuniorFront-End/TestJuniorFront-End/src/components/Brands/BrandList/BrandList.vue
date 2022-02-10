@@ -112,6 +112,8 @@ export default {
    */
   async created() {
       await this.load()
+    this.$emit("setActiveLink",2)
+
   },
   components:{
       BrandRow,

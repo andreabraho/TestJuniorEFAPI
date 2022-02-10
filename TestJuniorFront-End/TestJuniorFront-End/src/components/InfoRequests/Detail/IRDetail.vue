@@ -69,9 +69,6 @@ export default {
         pageSize:2
     };
   },
-  computed:{
-    
-  },
   methods:{
     /**load the neccessary data for the page from api */
     async load(){
@@ -111,6 +108,7 @@ export default {
   },
   async created(){
     await this.load()
+    this.$emit("setActiveLink",1)
   },
   components:{
     PageButtons
