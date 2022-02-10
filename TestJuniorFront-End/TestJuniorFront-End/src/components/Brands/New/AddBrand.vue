@@ -165,10 +165,11 @@ export default {
       catForSelect:null,
       isLoading:false,
       brandErrors:[],
-      prodErrors:[[]]
+      prodErrors:[]
     }
   },
   methods:{
+    /**loead needed data at creation of the page */
     async load(){
       this.isLoading=true
       const {data} = await ProductRepository.getDataForCreate();
@@ -176,12 +177,11 @@ export default {
       this.isLoading=false
 
     },
+    /**sends data to api if form is correct */
     async sendData(){
-      console.log(this.formCheck())
       if(this.formCheck()){
         const {data} =await BrandRepository.createBrand(this.form)
         this.$router.push("/brands/" + data);
-      console.log(data)
 
       }
       
@@ -209,18 +209,19 @@ export default {
       if(this.form.brand.brandName.length==0){
         this.brandErrors.push("Insert brand name")
       }
-
+      /**fill the prod error array if needed */
       this.calculateProdErrors()
-      console.log("this.checkIfProdsHaveErrors()"+ this.checkIfProdsHaveErrors())
-      if(this.brandErrors.length>0 || this.checkIfProdsHaveErrors()){
+
+      if(this.brandErrors.length>0 || this.checkIfProdsHaveErrors()){//if there are brand error or prod have errors
         return false
       }
       return true
     },
+    /** inser in the prod error array the errors of the form */
     calculateProdErrors(){
         
         for(let i=0;i<this.form.prodsWithCats.length;i++){
-          
+          /**error string for each product */
           let s="\n"
           if (this.form.prodsWithCats[i].categoriesIds.length <= 0)
             s+="Select at least one category \n";

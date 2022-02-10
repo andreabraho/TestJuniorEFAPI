@@ -14,8 +14,11 @@
                 <p><b>Categorie associate ai prodotti di {{brand.name}}</b></p>
             </div>
 
-            <div class="row">
+            <div class="row" v-if="brand.associatedCategory.length>0">
                 <categories-list :categories="brand.associatedCategory"></categories-list>
+            </div>
+            <div v-else>
+                <p class="ms-5 h-6">Non ci sono categorie associate ai prodotti del brand</p>
             </div>
 
             <div class="row mt-5">
@@ -26,7 +29,8 @@
                 <p>{{message}}</p>
             </div>
 
-            <div class="row prod-list p-2 text-light bg-g">
+            <div class="row prod-list p-2 text-light bg-g"
+                v-if="productsPage.length>0">
                 <div class="col-1">
                     Id
                 </div>
@@ -52,8 +56,9 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" v-if="productsPage.length>0">
                 <page-buttons 
+                
                     class="d-flex justify-content-center"
                     :page="page"
                     :maxPages="Math.ceil(brand.products.length/pageSize)"
@@ -132,7 +137,7 @@ export default ({
     async created(){
         await this.load()
         this.makeMessage()
-        this.$emit("setActiveLink",3)
+        this.$emit("setActiveLink",2)
 
     },
     components:{
