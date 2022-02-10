@@ -11,8 +11,8 @@
 0.create repository			V
 1.serach pages				V
 2.detail pages				V
-3.create ages				X-left create brand for last
-4.edit pages				X-edit brand left for last
+3.create ages				V
+4.edit pages				V
 5.delete buttons			V
 
 6. testing?

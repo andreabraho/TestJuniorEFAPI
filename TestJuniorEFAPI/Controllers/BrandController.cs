@@ -63,6 +63,13 @@ namespace TestJuniorEFAPI.Controllers
         [HttpPost("Insert")]
         public async Task<IActionResult> InsertBrand(BrandInsertApiModel testModel)
         {
+            if (testModel == null)
+                return BadRequest("brand model was null give valid data");
+
+            string res = ValidateBrandInsert(testModel);
+            if (res != null)
+                return BadRequest(res);
+
             int result = await _brandService.InsertBrand(testModel.Account, testModel.Brand, testModel.prodsWithCats);
             if (result>0)
                 return Ok(result);
@@ -78,6 +85,7 @@ namespace TestJuniorEFAPI.Controllers
         {
             if (id <= 0)
                 return BadRequest();
+
             if(await _brandService.DeleteAll(id))
                 return Ok();
 
@@ -91,6 +99,12 @@ namespace TestJuniorEFAPI.Controllers
         [HttpPut("Update")]
         public async Task<IActionResult> UpdateBrand(Brand brand)
         {
+            if (brand == null)
+                BadRequest("brand was null");
+            if (ValidateBrandUpdate(brand) != null)
+                return BadRequest(ValidateBrandUpdate(brand));
+
+
             if (await _brandService.EditBrand(brand))
                 return Ok(brand);
             return NoContent();
@@ -98,15 +112,74 @@ namespace TestJuniorEFAPI.Controllers
         [HttpGet("Update/{id}")]
         public async Task<IActionResult> GetBrand(int id)
         {
+            if (id <= 0)
+                return BadRequest("id can't be lower or equal than 0");
+
             var result=await _brandService.GetBrand(id);
             if(result!=null)
                 return Ok(result);
             return NoContent();
         }
-        [HttpGet("ValidateMail/{email}")]
+        [HttpGet("ValidateMail/{email=}")]
         public async Task<IActionResult> ValidateMail(string email)
         {
+            if(email==null)
+                return Ok(true);
             return Ok(await _brandService.ExistsEmail(email));
+        }
+
+
+
+
+
+        private string ValidateBrandUpdate(Brand brand)
+        {
+            string result = null;
+            if (brand.BrandName.Length == 0)
+            {
+                result = "Not valid Brand Name it was empity string";
+            }
+            
+            return result;
+        }
+        public string ValidateBrandInsert(BrandInsertApiModel brandInsertApiModel)
+        {
+            string result = null;
+
+            if (brandInsertApiModel.Account.Email.Length == 0)
+                result += "Email can't be empity \n";
+            if (brandInsertApiModel.Account.Password.Length == 0)
+                result += "Password can't be empity \n";
+            if (brandInsertApiModel.Brand.BrandName.Length == 0)
+                result = "Brand name can't be empity \n";
+            foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
+                if (prod.CategoriesIds.Length == 0)
+                {
+                    result += "Select at least one category for each product \n";
+                    break;
+                }
+            
+            foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
+            {
+                if (prod.Product.Name.Length == 0)
+                {
+                    result += "Product names can't be empity \n";
+                    break;
+                }
+            }
+            foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
+            {
+                if (prod.Product.ShortDescription.Length == 0)
+                {
+                    result += "Products short description can't be empity \n";
+                    break;
+                }
+            }
+
+
+
+
+            return result;
         }
     }
     
