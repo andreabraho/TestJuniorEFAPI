@@ -71,11 +71,14 @@
                             {{ir.lastName}}
                         </div>
                         <div class="col-3">
-                            {{ir.datelastReply}}
+                            {{dataformated(ir.dateLastReply)}}
                         </div>
                         <div class="col-2">
                             {{ir.replyNumber}}
                         </div>
+                    </div>
+                    <div class="row mb-5">
+
                     </div>
                 </div>
             </div>
@@ -145,6 +148,10 @@ export default ({
             else{
                 this.message="Non ci sono info request per questo prodotto"
             }
+        },
+        dataformated(data){
+            let datanew=data.split("T")
+            return datanew[0]
         }
     },
     async created(){

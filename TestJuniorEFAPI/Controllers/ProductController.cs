@@ -71,6 +71,31 @@ namespace TestJuniorEFAPI.Controllers
         [HttpPut("Upsert")]
         public async Task<IActionResult> UpsertProduct(ProdWithCat prodWCat)
         {
+            if (prodWCat == null)
+                return BadRequest("Product was null");
+
+            string validation = UpSertProductValidation(prodWCat);
+            if (validation != null)
+                return BadRequest(validation);
+
+            if (prodWCat.Product.Id == 0)//is insert
+            {
+                var result = await _productService.AddProduct(prodWCat.Product, prodWCat.CategoriesIds);
+                if (result != 0)
+                    return Ok(result);
+                else
+                    return NoContent();
+            }
+            else
+            {
+                if (await _productService.UpdateProduct(prodWCat))
+                    return Ok();
+
+                return Ok("No Changes");
+            }
+
+
+
 
 
 
