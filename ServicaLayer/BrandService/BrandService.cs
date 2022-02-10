@@ -122,7 +122,10 @@ namespace ServicaLayer.BrandService
         {
             return await _brandRepository.GetById(id).FirstOrDefaultAsync();
         }
-
+        public async Task<bool> ExistsEmail(string email)
+        {
+            return await _brandRepository.ExistsEmail(email);
+        }
 
 
 

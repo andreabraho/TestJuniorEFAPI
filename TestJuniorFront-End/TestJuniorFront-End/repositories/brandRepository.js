@@ -21,5 +21,8 @@ export default {
   },
   getDataForEdit(brandId){
     return Repository.get(`${resource}/update/${brandId}`);
+  },
+  validateEmail(email){
+    return Repository.get(`${resource}/ValidateMail/${email}`)
   }
 };

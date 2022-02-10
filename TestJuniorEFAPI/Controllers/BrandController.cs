@@ -103,7 +103,11 @@ namespace TestJuniorEFAPI.Controllers
                 return Ok(result);
             return NoContent();
         }
-
+        [HttpGet("ValidateMail/{email}")]
+        public async Task<IActionResult> ValidateMail(string email)
+        {
+            return Ok(await _brandService.ExistsEmail(email));
+        }
     }
     
 }

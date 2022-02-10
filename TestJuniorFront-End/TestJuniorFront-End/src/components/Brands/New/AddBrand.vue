@@ -27,7 +27,8 @@
             <input type="email" 
                   class="form-control" 
                   aria-describedby="emailHelp"
-                  v-model="form.account.email">
+                  v-model="form.account.email"
+                  @blur="validateEmail">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
           </div>
           <div class="mb-3">
@@ -179,7 +180,7 @@ export default {
     },
     /**sends data to api if form is correct */
     async sendData(){
-      if(this.formCheck()){
+      if(await this.formCheck()){
         const {data} =await BrandRepository.createBrand(this.form)
         this.$router.push("/brands/" + data);
 
@@ -195,46 +196,52 @@ export default {
     /**check if data on form are correct 
      **return true or false
      */
-    formCheck(){
+    async formCheck(){
       /** reset errors */
       this.prodErrors=[]
       this.brandErrors=[]
 
-      
-      if (this.form.account.email.length==0) {
+      if(await this.validateEmail()){
+        
+        if (this.form.account.email.length==0) {
         this.brandErrors.push("Not valid email"); 
-      }
-      if(this.form.account.password.length<1 || this.form.account.password.length>18)
-        this.brandErrors.push("Password must be between 1 and 17 characters"); 
-      if(this.form.brand.brandName.length==0){
-        this.brandErrors.push("Insert brand name")
-      }
-      /**fill the prod error array if needed */
-      this.calculateProdErrors()
+        }
+        if(this.form.account.password.length<1 || this.form.account.password.length>18)
+          this.brandErrors.push("Password must be between 1 and 17 characters"); 
+        if(this.form.brand.brandName.length==0){
+          this.brandErrors.push("Insert brand name")
+        }
+        /**fill the prod error array if needed */
+        this.calculateProdErrors()
 
-      if(this.brandErrors.length>0 || this.checkIfProdsHaveErrors()){//if there are brand error or prod have errors
-        return false
+        if(this.brandErrors.length>0 || this.checkIfProdsHaveErrors()){//if there are brand error or prod have errors
+          return false
+        }
+        return true
+      }else{
+        return false;
       }
-      return true
+      
+      
     },
     /** inser in the prod error array the errors of the form */
     calculateProdErrors(){
         
-        for(let i=0;i<this.form.prodsWithCats.length;i++){
-          /**error string for each product */
-          let s="\n"
-          if (this.form.prodsWithCats[i].categoriesIds.length <= 0)
-            s+="Select at least one category \n";
+      for(let i=0;i<this.form.prodsWithCats.length;i++){
+        /**error string for each product */
+        let s="\n"
+        if (this.form.prodsWithCats[i].categoriesIds.length <= 0)
+          s+="Select at least one category \n";
 
-          if (this.form.prodsWithCats[i].product.name == "")
-            s+="Product name not valid \n";
+        if (this.form.prodsWithCats[i].product.name == "")
+          s+="Product name not valid \n";
 
-          if (this.form.prodsWithCats[i].product.shortDescription == "") {
-            s+="Short description not valid \n";
-          }
-          this.prodErrors.push(s)
-
+        if (this.form.prodsWithCats[i].product.shortDescription == "") {
+          s+="Short description not valid \n";
         }
+      this.prodErrors.push(s)
+
+      }
     },
     /**check if the array of product errors have errors or default values */
     checkIfProdsHaveErrors(){
@@ -242,7 +249,17 @@ export default {
         if(this.prodErrors[i]!="\n")
           return true
         return false
-      }
+    },
+    /**tells if email is valid true if is valid false if not */
+    async validateEmail(){
+      this.brandErrors=[]
+       const {data} =await BrandRepository.validateEmail(this.form.account.email)
+       if(!data){
+         this.brandErrors.push("Email already exists")
+         return false
+       }
+       return data   
+    }
       
   },
   async created(){

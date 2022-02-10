@@ -12,7 +12,7 @@
             <form @submit.prevent="sendData" >
                 <div class="form-group row mt-2">
                 <label >Name</label>
-                <input type="text" class="form-control" v-model="form.brandName">
+                <input type="text" class="form-control" v-model="form.brandName" >
                 </div>
                 <div class="form-group row mt-2">
                     <label > Description</label>

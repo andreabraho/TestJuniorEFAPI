@@ -5,8 +5,9 @@
         <div class="col-3 catbox">
           <span v-for="cat in item.categories" 
           :key="cat.id"
-          class="rounded-pill bg-primary text-light cat-pill m-1 ">
-              {{cat.name}}
+          class="rounded-pill bg-primary text-light  m-1 ">
+          <span class="cat-pill">{{cat.name}}</span>
+              
           </span>
         </div>
         <div class="col-1 ">${{item.price}}</div>
@@ -70,14 +71,16 @@ export default {
     }
     .cat-pill{
         padding: 1px 3px 0px 3px;
-        white-space: nowrap;
+        white-space: pre-wrap ;
+        
     }
     .mybutton{
         height: 34px;
         width: 34px;
     }
     .catbox{
-        word-wrap: initial;
+        word-wrap: initial !important;
+
     }
     .namebox{
         word-wrap: initial;

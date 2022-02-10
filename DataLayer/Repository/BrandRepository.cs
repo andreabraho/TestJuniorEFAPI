@@ -42,10 +42,11 @@ namespace DataLayer.Repository
             brand.AccountId = account.Id;
 
             _ctx.Brands.Add(brand);
-            if(await _ctx.SaveChangesAsync()<=0 && result)//if brand insert fails remove account and set result false
+            if(await _ctx.SaveChangesAsync()<=0 && result)//if brand insert fails and account was insterted remove account and set result false
             {
                 result = false;
                 _ctx.Accounts.Remove(account);
+                await _ctx.SaveChangesAsync();
             }
 
 
@@ -56,6 +57,7 @@ namespace DataLayer.Repository
                     product.Product.BrandId=brand.Id;
 
                     await _ctx.Products.AddAsync(product.Product);
+
                     if (await _ctx.SaveChangesAsync() > 0 && product.CategoriesIds.Length>0)//if product is inserted and there are categories
                     {
                         foreach (var catId in product.CategoriesIds)
@@ -83,19 +85,6 @@ namespace DataLayer.Repository
             
             var result = true;
 
-            //toooooo many query
-            //foreach (var irr in _ctx.InfoRequestReplys.Where(x => x.InfoRequest.Product.BrandId == id))
-            //{
-            //    irr.IsDeleted = true;
-            //    //irr.InfoRequest.IsDeleted = true;
-            //    //irr.InfoRequest.Product.IsDeleted = true;
-            //}
-            //foreach (var ir in _ctx.InfoRequests.Where(x => x.Product.BrandId==id))
-            //    ir.IsDeleted = true;
-            //foreach(var p in _ctx.Products.Where(x=>x.BrandId==id))
-            //    p.IsDeleted = true;
-
-
             await _ctx.Database.ExecuteSqlRawAsync(@"update InfoRequestReply  
                                                         Set InfoRequestReply.IsDeleted=1 
                                                         From InfoRequestReply as irr 
@@ -118,6 +107,13 @@ namespace DataLayer.Repository
             await DeleteAsync(id);
 
             return result;
+        }
+        public async Task<bool> ExistsEmail(string email)
+        {
+            var result=await _ctx.Accounts.FirstOrDefaultAsync(x=>x.Email == email);
+            if (result == null)
+                return true;
+            return false;
         }
 
     }
