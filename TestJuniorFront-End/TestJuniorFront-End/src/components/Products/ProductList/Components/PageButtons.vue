@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5">
+  <div class="mt-5" v-if="maxPages!=0">
         <button type="button" 
                   class="ml-1 me-1" 
                   @click="previousPage()"
@@ -55,8 +55,10 @@ export default {
                 if(this.page<=3)
                     this.pages=[1,2,3,4,5]
                 else
-                    if(this.page>=this.maxPages-3)
-                        this.pages=[this.maxPages-5,this.maxPages-4,this.maxPages-3,this.maxPages-2,this.maxPages-1]
+                    if(this.page>=this.maxPages-3) {
+                        
+                        this.pages=[this.maxPages-4,this.maxPages-3,this.maxPages-2,this.maxPages-1,this.maxPages]
+                    }
                     else{
                         this.pages=[this.myPage-2,this.myPage-1,this.myPage,this.myPage+1,this.myPage+2]
                     }

@@ -1,12 +1,12 @@
 <template>
   <div id="app" >
-    <nav class="navbar navbar-light bg-dark sticky-top">
+    <nav class="navbar navbar-light bg-dark sticky-top mynav ">
         <span class="navbar-brand text-light ml-2">Company name</span>
     </nav>
     
 
     <div class="row ">
-    <div class="col-2 h-100 position-fixed sidebar" >
+    <div class="col-2 h-100 position-fixed sidebar " >
       <div class="mt-2">
             <router-link to="/Products" class="sidebarComp mt-3 " >
             <span class="mt-3" 
@@ -29,7 +29,7 @@
      
     </div>
 
-    <div class="col-9 offset-2">
+    <div class="col-9 offset-2 myoffset">
       <router-view 
           @setActiveLink="setActiveLink"></router-view>
     </div>
@@ -51,10 +51,12 @@ export default {
     }
   },
   methods:{
+    /**sets active link launched from child components */
     setActiveLink(num){
       this.activeLink=num
     }
   },
+  /**default active link */
   created(){
     this.activeLink=0
   }
@@ -94,5 +96,15 @@ a:hover {
 }
 .mw-30{
     max-width: 30%;
+}
+.mynav{
+  max-width: 100%;
+}
+.myoffset{
+  offset-position: auto;
+}
+.p-0{
+  padding: 0px 0px 0px 24px !important;
+
 }
 </style>

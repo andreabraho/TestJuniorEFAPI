@@ -52,8 +52,8 @@
                     @deleteProd="deleteProd"></my-table>
          
         </div>
-        <div class="d-flex justify-content-center" >
-          
+
+        <div class="d-flex justify-content-center " >
           
           <page-buttons 
           :page="page"
@@ -85,7 +85,7 @@ export default {
     return {
       testProbe:{name:'Andrea',surname:'Braho',marks:[1],skills:[{language:'C#',level:'ciuccio'},{language:'Javascript',level:'Donkey'}]},
       page: 1,
-      pageSize: 10,
+      pageSize: 25,
       /** rappresents all the data coming from the api */
       pageData: null,
       /**

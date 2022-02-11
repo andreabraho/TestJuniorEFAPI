@@ -87,7 +87,6 @@
                         <button class="btn btn-outline-primary mb-5 " 
                         @click="$router.push({ name: 'InfoRequestList', params: { brandid: product.brandId,productname:product.name }})" 
                         >Vedi tutte le richieste informazioni</button><br>
-
                 </div>
             </div>
         </div>
@@ -149,6 +148,7 @@ export default ({
                 this.message="Non ci sono info request per questo prodotto"
             }
         },
+        /**removes the time from datetime */
         dataformated(data){
             let datanew=data.split("T")
             return datanew[0]

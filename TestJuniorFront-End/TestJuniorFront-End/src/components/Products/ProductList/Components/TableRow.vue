@@ -5,7 +5,7 @@
         <div class="col-3 catbox">
             <div class="row"><div v-for="cat in item.categories" 
           :key="cat.id"
-          class=" col  text-light  text-center bg-primary rounded-pill m-1 ">
+          class=" col  text-light  text-center bg-primary rounded-pill m-1 max-w-100">
           <span class="cat-pill rounded-pill  center ">{{cat.name}}  </span></div>
           
               
@@ -69,10 +69,11 @@ export default {
         background-color: rgb(230, 230, 230);
     }
     .on-hover:hover{
-        background-color: rgb(236, 234, 234);
+        background-color: rgb(216, 216, 216);
     }
     .cat-pill{
-        padding: 1px 3px 0px 3px;
+        padding: 6px 6px 6px 6px;
+        
     }
     .mybutton{
         height: 34px;
@@ -91,6 +92,9 @@ export default {
     float:none;
     margin-left: auto;
     margin-right: auto;
-}
+    }
+    .max-w-100{
+        max-width: 100px;
+    }
 
 </style>

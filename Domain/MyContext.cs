@@ -78,7 +78,7 @@ namespace Domain
                 builder.Property(x => x.BrandId).IsRequired().HasColumnName("BrandId");
                 builder.Property(x => x.Name).IsRequired().HasMaxLength(255);
                 builder.Property(x => x.ShortDescription).IsRequired().HasMaxLength(255);
-                builder.Property(x => x.Price)
+                builder.Property(x => x.Price).HasColumnType("decimal(18,2)")
                      .HasConversion<decimal>().IsRequired();
 
 
