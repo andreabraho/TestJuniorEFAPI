@@ -36,11 +36,14 @@ namespace TestJuniorServiceTest
             _serviceProvider = new DependencyResolverHelper(webHost);
         }
 
-
+        /// <summary>
+        /// create a product and all data of the product from repo matches with the created product
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
-        public async Task CreateProduct()
+        public async Task CreateProduct_Success()
         {
-
+            //preparation
             Product product=new Product();
             product.Name =Guid.NewGuid().ToString();
             product.Description = Guid.NewGuid().ToString();
@@ -52,10 +55,10 @@ namespace TestJuniorServiceTest
             catIds[1] = category2.Id;
             catIds[2] = category3.Id;
 
-
+            //execution
              await _productService.AddProduct(product,catIds);
 
-
+            //control
             var prodFromRepo= _productRepository.GetById(product.Id).Include(x=>x.ProductCategories).Include(x=>x.Brand).FirstOrDefault();
 
 
@@ -66,13 +69,48 @@ namespace TestJuniorServiceTest
             Assert.AreEqual(product.Price,prodFromRepo.Price);
             Assert.AreEqual(product.BrandId,prodFromRepo.BrandId);
             Assert.IsTrue(prodFromRepo.ProductCategories.ToList().Select(x=>x.CategoryId).Contains(category1.Id));
+            Assert.IsTrue(prodFromRepo.ProductCategories.ToList().Select(x=>x.CategoryId).Contains(category2.Id));
+            Assert.IsTrue(prodFromRepo.ProductCategories.ToList().Select(x=>x.CategoryId).Contains(category3.Id));
+
+            _context.Remove(product);
+            await _context.SaveChangesAsync();
+
+        }
+        /// <summary>
+        /// tries to create a null product get exception
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task CreateNullProduct_Failure()
+        {
+
+            var x =await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await _productService.AddProduct(null, null));
+            Assert.AreEqual("product",x.ParamName);   
+
+        }
+        /// <summary>
+        /// creates a correct product but with null categories
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task CreateProductCatNull_Failure()
+        {
+            Product product = new Product();
+            product.Name = Guid.NewGuid().ToString();
+            product.Description = Guid.NewGuid().ToString();
+            product.Price = 101010010;
+            product.BrandId = brand.Id;
+            product.ShortDescription = Guid.NewGuid().ToString();
+
+
+            var x = await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await _productService.AddProduct(product, null));
+            Assert.AreEqual("categories", x.ParamName);
 
         }
 
 
-
         [TestInitialize]
-        public  void TestInitializer()
+        public async Task TestInitializer()
         {
             _context = _serviceProvider.GetService<MyContext>();
             _productRepository = _serviceProvider.GetService<IProductRepository>();
@@ -84,14 +122,15 @@ namespace TestJuniorServiceTest
             Account account = new Account();
             account.Email = Guid.NewGuid().ToString()+"@gmail.com";
             account.Password = Guid.NewGuid().ToString().Substring(0,10);
-            _context.Add(account);
-             _context.SaveChanges();
+            await _context.AddAsync(account);
+            await _context.SaveChangesAsync();
 
             Brand brand = new Brand();
             brand.BrandName=Guid.NewGuid().ToString();
             brand.Description = Guid.NewGuid().ToString();
             brand.AccountId=account.Id;
-             _context.Add(brand);
+            await _context.AddAsync(brand);
+            await _context.SaveChangesAsync();
 
             this.brand = brand;
             this.account = account;
@@ -100,32 +139,33 @@ namespace TestJuniorServiceTest
 
             Category category1 = new Category();
             category1.Name =Guid.NewGuid().ToString();
-             _context.Add(category1);
+            await _context.AddAsync(category1);
             Category category2 = new Category();
             category2.Name = Guid.NewGuid().ToString();
-             _context.Add(category2);
+            await _context.AddAsync(category2);
             Category category3 = new Category();
             category3.Name = Guid.NewGuid().ToString();
-             _context.Add(category3);
+            await _context.AddAsync(category3);
+            await _context.SaveChangesAsync();
+
 
             this.category1 = category1;
             this.category2 = category2;
             this.category3 = category3;
 
-             _context.SaveChanges();
+             
 
         }
         [TestCleanup]
-        public void TestCleanup()
+        public async Task TestCleanup()
         {
 
-
-            //_context.Remove(account);
-            //_context.Remove(brand);
-            //_context.Remove(category1);
-            //_context.Remove(category2);
-            //_context.Remove(category3);
-            //_context.SaveChanges();
+            _context.Remove(brand);
+            _context.Remove(account);
+            _context.Remove(category1);
+            _context.Remove(category2);
+            _context.Remove(category3);
+            await _context.SaveChangesAsync();
         }
     }
 }
