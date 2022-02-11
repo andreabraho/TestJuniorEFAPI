@@ -3,12 +3,13 @@
         <div class="col-2 namebox">{{item.brandName}}</div>
         <div class="col-4 namebox"><p><b>{{item.name}}</b> | {{item.shortDescription}}</p></div>
         <div class="col-3 catbox">
-          <span v-for="cat in item.categories" 
+            <div class="row"><div v-for="cat in item.categories" 
           :key="cat.id"
-          class="rounded-pill bg-primary text-light  m-1 ">
-          <span class="cat-pill">{{cat.name}}</span>
+          class=" col  text-light  text-center bg-primary rounded-pill m-1 ">
+          <span class="cat-pill rounded-pill  center ">{{cat.name}}  </span></div>
+          
               
-          </span>
+          </div>
         </div>
         <div class="col-1 ">${{item.price}}</div>
         <div class="col-2 position-relative">
@@ -71,19 +72,24 @@ export default {
     }
     .cat-pill{
         padding: 1px 3px 0px 3px;
-        white-space: pre-wrap ;
     }
     .mybutton{
         height: 34px;
         width: 34px;
     }
     .catbox{
-        word-wrap: initial !important;
-
+        word-wrap: break-word;
+        border-radius: 25px;
+        font-size: 12px;
     }
     .namebox{
         word-wrap: break-word;
 
     }
+    .center {
+    float:none;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 </style>

@@ -68,6 +68,11 @@ namespace TestJuniorEFAPI.Controllers
 
             return Ok(await _productService.GetProductDetail(id));
         }
+        /// <summary>
+        /// upsert api that update or insert a product based on product id
+        /// </summary>
+        /// <param name="prodWCat"></param>
+        /// <returns></returns>
         [HttpPost("Upsert")]
         [HttpPut("Upsert")]
         public async Task<IActionResult> UpsertProduct(ProdWithCat prodWCat)

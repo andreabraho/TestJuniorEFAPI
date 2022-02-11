@@ -42,7 +42,7 @@
                         :value="item.id">{{item.name}}</option>
                 </select>
             </div>
-
+            <!--
             <div class="row mt-2">
                 <label for="">Categories</label>
                 <select class="selectpicker " 
@@ -59,6 +59,21 @@
                 
                 </select>
             </div>
+            -->
+
+            <div class="row ">
+              <div class="mt-5 checboxes">
+                  <div class="form-check form-check-inline col mt-3"
+                  v-for="item in catForSelect"
+                  :key="item.id">
+                    <input class="form-check-input" type="checkbox" :value="item.id" v-model="form.categoriesIds">
+                    <label class="form-check-label" >{{item.name}}</label>
+                  </div>
+              </div>
+              
+            </div>
+
+            
 
             <div class="d-flex justify-content-end row mt-2">
             <button class="btn btn-outline-primary mt-2 " >Invio</button>
@@ -178,5 +193,8 @@ export default {
 <style scoped>
 .myselect {
   height: 200px;
+}
+.checboxes{
+  border: 1px solid rgb(206, 206, 206);
 }
 </style>

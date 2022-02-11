@@ -96,7 +96,7 @@
                       v-model="product.product.price" step="any">
             </div>
             
-
+            <!--
             <div class="row mt-2">
                 <label for="">Categories</label>
                 <select class="selectpicker " 
@@ -112,6 +112,20 @@
                     </option>
                 
                 </select>
+            </div>
+            -->
+
+
+            <div class="row ">
+              <div class="m-3 checboxes">
+                  <div class="form-check form-check-inline col mt-3"
+                  v-for="item in catForSelect"
+                  :key="item.id">
+                    <input class="form-check-input" type="checkbox" :value="item.id" v-model="product.categoriesIds">
+                    <label class="form-check-label" >{{item.name}}</label>
+                  </div>
+              </div>
+              
             </div>
 
           </div>
