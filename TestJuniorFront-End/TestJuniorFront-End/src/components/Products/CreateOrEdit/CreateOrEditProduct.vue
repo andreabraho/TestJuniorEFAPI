@@ -115,7 +115,10 @@ export default {
     async sendData() {
       if (this.formCheck()) {
         var x;
-        if (this.id != 0) await ProductRepository.editProduct(this.form);
+        if (this.id != 0){
+          x=await ProductRepository.editProduct(this.form);
+          this.id = x.data;
+        }
         else {
           x = await ProductRepository.createProduct(this.form);
           this.id = x.data;

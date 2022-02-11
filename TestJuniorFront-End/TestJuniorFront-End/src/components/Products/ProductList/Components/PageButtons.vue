@@ -100,7 +100,13 @@ export default {
     watch:{
         maxPages(){
             this.selectPages()
+        },
+        page(){
+            this.myPage=this.page
+            this.selectPages()
+            
         }
+
     },
     /**on mount of the component load the paging buttons needed */
     mounted(){

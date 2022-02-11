@@ -9,21 +9,23 @@ export default {
   getProduct(productId) {
     return Repository.get(`${resource}/detail/${productId}`);
   },
-
-  createProduct(payload) {
-    return Repository.post(`${resource}/insert`, payload);
+  deleteProduct(productId){
+    return Repository.delete(`${resource}/delete/${productId}`);
   },
+  
   getDataForCreate(){
     return Repository.get(`${resource}/insert`);
   },
   getDataForUpdate(id){
     return Repository.get(`${resource}/update/${id}`);
   },
-  deleteProduct(productId){
-    return Repository.delete(`${resource}/delete/${productId}`);
-  },
+  
   editProduct(payload){
     payload.product.id=parseInt(payload.product.id);
-    return Repository.put(`${resource}/update`, payload);
-  }
+    return Repository.put(`${resource}/upsert`, payload);
+  },
+  createProduct(payload) {
+    return Repository.post(`${resource}/upsert`, payload);
+  },
+  
 };

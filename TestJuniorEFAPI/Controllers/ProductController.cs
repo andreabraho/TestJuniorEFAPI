@@ -65,6 +65,7 @@ namespace TestJuniorEFAPI.Controllers
         {
             if (id <= 0)
                 return BadRequest("not vaid id");
+
             return Ok(await _productService.GetProductDetail(id));
         }
         [HttpPost("Upsert")]
@@ -95,9 +96,7 @@ namespace TestJuniorEFAPI.Controllers
                 return Ok("No Changes");
             }
 
-
         }
-
         /// <summary>
         /// insert a product with categories associated
         /// </summary>
@@ -135,8 +134,9 @@ namespace TestJuniorEFAPI.Controllers
             if (result != null)
                 return BadRequest(result);
 
-            if (await _productService.UpdateProduct(prodWCat))
-                return Ok();
+            var id = await _productService.UpdateProduct(prodWCat);
+            if (id>0)
+                return Ok(id);
 
             return Ok("No Changes");
         }

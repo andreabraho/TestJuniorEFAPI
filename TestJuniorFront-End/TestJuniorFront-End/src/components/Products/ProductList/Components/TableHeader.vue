@@ -16,7 +16,7 @@
       
       
       </div>
-      <div  class="col-5 mw-40 position-relative orderbox" 
+      <div  class="col-4 mw-40 position-relative orderbox" 
             @click="changeOrder(2)"
             
             >
@@ -42,7 +42,7 @@
             :class="[orderBy==3 && !isAsc?'i-b':'i-g']"></i>
 
       </div>
-      <div class="col-1 mw-10"></div>
+      <div class="col-2 mw-10"></div>
     </div>
     <div class="row  bg-grey t-header">
       <div class="col-2 mw-10 mb-2 mt-2" >
