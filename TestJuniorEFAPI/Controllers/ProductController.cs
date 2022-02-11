@@ -86,20 +86,16 @@ namespace TestJuniorEFAPI.Controllers
                 else
                     return NoContent();
             }
-            else
+            else//is update
             {
-                if (await _productService.UpdateProduct(prodWCat))
-                    return Ok();
+                var result = await _productService.UpdateProduct(prodWCat);
+                if (result>0)
+                    return Ok(result);
 
                 return Ok("No Changes");
             }
 
 
-
-
-
-
-            return Ok();
         }
 
         /// <summary>

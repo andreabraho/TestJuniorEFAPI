@@ -133,7 +133,7 @@ namespace ServicaLayer.ProductService
         /// <exception cref="ArgumentNullException">prodCat null</exception>
         /// <exception cref="ArgumentNullException">product null</exception>
         /// <exception cref="ArgumentNullException">categoryIds array null</exception>
-        public async Task<bool> UpdateProduct(ProdWithCat prodCat)
+        public async Task<int> UpdateProduct(ProdWithCat prodCat)
         {
             if (prodCat == null)
                 throw new ArgumentNullException(nameof(prodCat));
@@ -163,13 +163,12 @@ namespace ServicaLayer.ProductService
                 var result = await _productRepository.Update(product);
                 if (result > 0)
                 {
-                    return true;
-
+                    return product.Id;
                 }
             }
 
 
-            return false;
+            return 0;
         }
         /// <summary>
         /// delete a product and all data related
