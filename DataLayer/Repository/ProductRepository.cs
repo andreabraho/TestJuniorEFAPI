@@ -61,7 +61,7 @@ namespace DataLayer.Repository
             if(id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id),"id can't be lower or equal than 0");
 
-            
+
 
             //foreach (var pc in _ctx.Products_Categories.Where(x => x.ProductId == id))//deletes product categories
             //    pc.IsDeleted = true;
@@ -69,6 +69,9 @@ namespace DataLayer.Repository
             //    irr.IsDeleted = true;
             //foreach (var ir in _ctx.InfoRequests.Where(x=>x.ProductId==id))//delete infoRequest
             //    ir.IsDeleted = true;
+
+            //var r=await  _ctx.InfoRequestReplys.Where(irr=>irr.InfoRequest.ProductId==id).UpdateFromQueryAsync(x=>new InfoRequestReply { IsDeleted = true });
+
 
             await _ctx.Database.ExecuteSqlRawAsync(@"UPDATE InfoRequestReply  
                                                         SET InfoRequestReply.IsDeleted=1 

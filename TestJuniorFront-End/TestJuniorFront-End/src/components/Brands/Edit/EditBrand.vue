@@ -16,7 +16,7 @@
                 </div>
                 <div class="form-group row mt-2">
                     <label > Description</label>
-                    <input type="text" class="form-control" v-model="form.description">
+                    <input type="text" class="form-control" v-model="form.description" >
                 </div>
 
                 <button class="btn btn-outline-primary mt-2 row" >Invio</button>

@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isLoadingIR">
 
-    <div class="row mt-3 h2">
+    <div class="row mt-3 h2 header">
       <p>Leads </p>
     </div>
 
@@ -14,6 +14,7 @@
                     @changeSearch="changeSearch"
                     :search="search"
                     :selectedBrand="brandSelected"
+                    class="text"
                     ></my-table>
 
 
@@ -151,3 +152,14 @@ export default {
   
 };
 </script>
+
+<style scoped>
+.text{
+  word-wrap: break-word;
+}
+.header{
+  border-bottom: 1px solid rgb(216, 216, 216);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+</style>

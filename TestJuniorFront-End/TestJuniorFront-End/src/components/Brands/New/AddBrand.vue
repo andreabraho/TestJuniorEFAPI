@@ -50,13 +50,16 @@
 
 
           <!-- ---------------------------------------------------------------------------------- -->
+          
+          
           <div v-for="(product,index) in form.prodsWithCats"
                 class="border bg-light mt-5"
-                :key="index">
+                :key="index"
+                >
 
           <div>
             <p class="h3 mt-2 mb-3 h-25 position-relative"> 
-              Product 
+              Product #{{index+1}}
               <i class="btn btn-danger bi bi-file-earmark-x position-absolute top-0 end-0  me-2"
               @click="removeProduct(index)"></i></p>
           </div>
@@ -129,10 +132,10 @@
             </div>
 
           </div>
-
+          
           <div class="mt-5 mb-5 ">
           
-            <button type="submit" class="btn btn-primary ms-3 float-end">Submit</button>
+            <button type="submit" id="submitBtn" class="btn btn-primary ms-3 float-end">Submit</button>
           </div>
           
 
@@ -145,12 +148,13 @@
 
 
     </form>
+    
     </div>
     <div class="col-2">
         <button  class="btn btn-warning float-end sticky-top addProdBtn" @click.stop="addProduct">Add Product</button>
 
     </div>
-
+    <div class="row" id="end"></div>
 
     
 
@@ -201,8 +205,11 @@ export default {
       }
       
     },
-    addProduct(){
-      this.form.prodsWithCats.push({product:{name:"",shortDescription:"",description:"",price:0},categoriesIds:[]})
+    async addProduct(){
+      await this.form.prodsWithCats.push({product:{name:"",shortDescription:"",description:"",price:0},categoriesIds:[]})
+
+      let elmnt = document.getElementById('submitBtn');
+      elmnt.scrollIntoView(true);
     },
     removeProduct(index){
       this.form.prodsWithCats.splice(index,1)
@@ -299,4 +306,27 @@ export default {
     color: rgb(84, 2, 2);
     font-size: 12px;
   }
+  .bounce-enter-active {
+  animation: bounce-in .5s;
+  }
+  .bounce-leave-active {
+    animation: bounce-in .5s reverse;
+  }
+  .fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0
+  }
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 </style>

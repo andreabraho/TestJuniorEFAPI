@@ -27,8 +27,11 @@
 
 
 
-    <div class="row">
-      <div class="col-2 h3 b mt-1">Prodotti</div>
+    <div class="row ">
+
+      <div class="row header mt-3">
+
+        <div class="col-2 h3 b mt-1 ">Prodotti</div>
       <div class="col-8"></div>
       <div class="col-2">
         <div class="mt-2">
@@ -36,6 +39,8 @@
             ><span class="mt-3">Aggiungi prodotto</span> </router-link><br/>
         </div>
       </div>
+      </div>
+      
 
       <div class="row ml-1 mt-3">
         <div >
@@ -191,5 +196,9 @@ export default {
 </script>
 
 <style scoped>
-
+.header{
+  border-bottom: 1px solid rgb(216, 216, 216);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
 </style>

@@ -23,7 +23,7 @@
 
 
 
-    <div class="row ">
+    <div class="row header">
       <div class="col-2 h2 mt-3 mb-2">
         Brand
       </div>
@@ -122,5 +122,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.header{
+  border-bottom: 1px solid rgb(216, 216, 216);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
 </style>

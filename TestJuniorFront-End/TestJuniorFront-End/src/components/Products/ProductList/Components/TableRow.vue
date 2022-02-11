@@ -15,12 +15,6 @@
         <div class="col-2 position-relative">
             
             <div class="position-absolute top-50 start-50 translate-middle">
-                <button class="btn btn-outline-secondary mybutton position-relative float-end" @click.stop="goToEdit()">
-                <i class="bi bi-pencil-square text-warning position-absolute top-50 start-50 translate-middle" 
-                    width="12" 
-                    height="12" 
-                    viewBox="0 0 12 12"></i>
-                </button> 
                 <button class=" btn btn-outline-secondary  mybutton position-relative float-end"  
                     @click.stop="deleteProd()"
                     type="button"
@@ -30,9 +24,16 @@
                     width="12" 
                     height="12" 
                     viewBox="0 0 12 12"></i>
-                    </button>        
-                    </div>
+                    </button>  
+                <button class="btn btn-outline-secondary mybutton position-relative float-end" @click.stop="goToEdit()">
+                <i class="bi bi-pencil-square text-warning position-absolute top-50 start-50 translate-middle" 
+                    width="12" 
+                    height="12" 
+                    viewBox="0 0 12 12"></i>
+                </button> 
+                      
             </div>
+        </div>
             
     </div>
 </template>

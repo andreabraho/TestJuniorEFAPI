@@ -12,10 +12,10 @@
         @click="changeOrder()" >Data
           
         <i class="bi bi-caret-up-fill position-absolute top-0 end-0 i-g"
-        :class="[isAsc==false?'i-b':'i-g']"></i>
+        :class="[isAsc?'i-b':'i-g']"></i>
         
         <i class="bi bi-caret-down-fill position-absolute bottom-0 end-0 i-g"
-        :class="[isAsc?'i-b':'i-g']"></i>
+        :class="[!isAsc?'i-b':'i-g']"></i>
       
       </div>
 

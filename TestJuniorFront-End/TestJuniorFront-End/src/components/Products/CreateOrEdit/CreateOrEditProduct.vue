@@ -36,7 +36,7 @@
             
             <div v-if="id==0" class="row form-group mt-2">
                 <label for="">Brand</label>
-                <select class="form-select" v-model="form.product.brandId">
+                <select class="form-select" v-model="form.product.brandId" required>
                 <option v-for="item in brandForSelect" 
                         :key="item.id"
                         :value="item.id">{{item.name}}</option>
@@ -118,6 +118,7 @@ export default {
       /**if id comes from route sets it to route id or set it to 0 */
       if (this.$route.params.id != undefined) this.id = this.$route.params.id;
       else this.id = 0;
+      
       let data;
       if (this.id != 0) {
         data = await ProductRepository.getDataForUpdate(this.id);
