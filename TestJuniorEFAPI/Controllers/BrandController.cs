@@ -86,10 +86,11 @@ namespace TestJuniorEFAPI.Controllers
             if (id <= 0)
                 return BadRequest();
 
-            if(await _brandService.DeleteAll(id))
-                return Ok();
+            var result = await _brandService.DeleteAll(id);
+            if (result)
+                return Ok(result);
 
-            return NoContent();
+            return NotFound(result);
         }
         /// <summary>
         /// updates a brand

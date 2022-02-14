@@ -102,8 +102,13 @@ export default {
       this.idBrandToDelete=id
     },
     async effDeleteBrand(){
-      await BrandRepository.deleteBrand(this.idBrandToDelete)
+      var res=await BrandRepository.deleteBrand(this.idBrandToDelete)
       await this.load()
+
+      if(res.data)
+        this.$toast.top("Deleted succesfully")
+      if(!res.data)
+        this.$toast.top("Not deleted upsi")
     }
 
   },

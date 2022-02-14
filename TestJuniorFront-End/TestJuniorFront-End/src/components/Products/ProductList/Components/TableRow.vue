@@ -6,7 +6,9 @@
             <span v-for="cat in item.categories" 
           :key="cat.id"
           class="text-light text-center  bg-primary rounded-pill me-2 cat-pill "
-          data-bs-toggle="tooltip" data-bs-placement="top" :title="cat.name">
+          data-bs-toggle="tooltip" 
+          data-bs-placement="top" 
+          :title="cat.name">
            {{cat.name.split(" ")[0]}}  </span>
           
         </div>
@@ -15,6 +17,13 @@
             
             <div class="position-absolute top-50 start-50 translate-middle">
                 <div class="input-group">
+                    <button class="btn btn-outline-secondary mybutton position-relative float-end" 
+                            @click.stop="goToEdit()">
+                <i class="bi bi-pencil-square text-warning position-absolute top-50 start-50 translate-middle" 
+                    width="12" 
+                    height="12" 
+                    viewBox="0 0 12 12"></i>
+                </button> 
                 <button class=" btn btn-outline-secondary  mybutton position-relative float-end"  
                     @click.stop="deleteProd()"
                     type="button"
@@ -25,12 +34,7 @@
                     height="12" 
                     viewBox="0 0 12 12"></i>
                     </button>  
-                <button class="btn btn-outline-secondary mybutton position-relative float-end" @click.stop="goToEdit()">
-                <i class="bi bi-pencil-square text-warning position-absolute top-50 start-50 translate-middle" 
-                    width="12" 
-                    height="12" 
-                    viewBox="0 0 12 12"></i>
-                </button> 
+                
                 </div>
                 
                       
