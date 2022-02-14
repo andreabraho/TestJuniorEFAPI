@@ -90,7 +90,9 @@ export default {
         this.pageSize,
         this.brandSelected,
         this.search,
-        this.isAsc
+        this.isAsc,
+        this.productId
+
       );
       this.pageData = data;
 
