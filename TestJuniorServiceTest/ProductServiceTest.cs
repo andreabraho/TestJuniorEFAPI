@@ -108,6 +108,109 @@ namespace TestJuniorServiceTest
 
         }
 
+        [TestMethod]
+        public async Task DeleteProduct_Success()
+        {
+            //preparation
+            Product product = new Product();
+            product.Name = Guid.NewGuid().ToString();
+            product.Description = Guid.NewGuid().ToString();
+            product.Price = 101010010;
+            product.BrandId = brand.Id;
+            product.ShortDescription = Guid.NewGuid().ToString();
+            int[] catIds = new int[3];
+            catIds[0] = category1.Id;
+            catIds[1] = category2.Id;
+            catIds[2] = category3.Id;
+
+            await _productService.AddProduct(product, catIds);
+
+            var prodFromRepo = _productRepository.GetById(product.Id).Include(x => x.ProductCategories).Include(x => x.Brand).FirstOrDefault();
+
+            InfoRequest infoRequest1 = new InfoRequest
+            {
+                Cap = Guid.NewGuid().ToString().Substring(1, 5),
+                City = Guid.NewGuid().ToString(),
+                Email = Guid.NewGuid().ToString() + "@gmail.com",
+                InsertDate = DateTime.Now,
+                Name = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                ProductId=prodFromRepo.Id,
+                RequestText = Guid.NewGuid().ToString(),
+
+            };
+            await _context.AddAsync(infoRequest1);
+            await _context.SaveChangesAsync();
+            InfoRequest infoRequest2 = new InfoRequest
+            {
+                Cap = Guid.NewGuid().ToString().Substring(1, 5),
+                City = Guid.NewGuid().ToString(),
+                Email = Guid.NewGuid().ToString() + "@gmail.com",
+                InsertDate = DateTime.Now,
+                ProductId=prodFromRepo.Id,
+                Name = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                RequestText = Guid.NewGuid().ToString(),
+
+            };
+            await _context.AddAsync(infoRequest2);
+            await _context.SaveChangesAsync();
+            InfoRequestReply infoRequestReply1 = new InfoRequestReply
+            {
+                InsertDate = DateTime.Now,
+                AccountId = account.Id,
+                InfoRequestId = infoRequest1.Id,
+                ReplyText = Guid.NewGuid().ToString()
+            };
+            await _context.AddAsync(infoRequestReply1);
+            await _context.SaveChangesAsync();
+            InfoRequestReply infoRequestReply2 = new InfoRequestReply
+            {
+                InsertDate = DateTime.Now,
+                AccountId = account.Id,
+                InfoRequestId = infoRequest1.Id,
+                ReplyText = Guid.NewGuid().ToString()
+            };
+            await _context.AddAsync(infoRequestReply2);
+            await _context.SaveChangesAsync();
+            InfoRequestReply infoRequestReply3 = new InfoRequestReply
+            {
+                InsertDate = DateTime.Now,
+                AccountId = account.Id,
+                InfoRequestId = infoRequest2.Id,
+                ReplyText = Guid.NewGuid().ToString()
+            };
+            await _context.AddAsync(infoRequestReply3);
+            await _context.SaveChangesAsync();
+            InfoRequestReply infoRequestReply4 = new InfoRequestReply
+            {
+                InsertDate = DateTime.Now,
+                AccountId = account.Id,
+                InfoRequestId = infoRequest2.Id,
+                ReplyText = Guid.NewGuid().ToString()
+            };
+            await _context.AddAsync(infoRequestReply4);
+            await _context.SaveChangesAsync();
+
+
+            
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
         [TestInitialize]
         public async Task TestInitializer()

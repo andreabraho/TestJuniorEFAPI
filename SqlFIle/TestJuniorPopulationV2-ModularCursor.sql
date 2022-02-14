@@ -154,7 +154,7 @@ DECLARE @Id INT,
 
 DECLARE forward_brand_cursor CURSOR 
 FORWARD_ONLY STATIC FOR 
-	SELECT *
+	SELECT Id,AccountId,BrandName,Description
 	FROM Brand
 
 OPEN forward_brand_cursor
@@ -226,7 +226,7 @@ OPEN fastforward_product_cursor
 			Set @Counter2=1
 			while (@counter2<=@rndNum)
 				begin
-					INSERT INTO Product_Category
+					INSERT INTO Product_Category (ProductId,CategoryId)
 					VALUES (@ProductId,(Select top 1 Id From Category Where Id not In (Select CategoryId From Product_Category Where ProductId=@ProductId) order by NEWID()))/*NO DUPLICATE*/
 					SET @counter2=@counter2+1
 				end
