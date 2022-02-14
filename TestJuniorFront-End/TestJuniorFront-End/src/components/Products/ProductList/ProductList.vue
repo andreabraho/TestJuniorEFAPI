@@ -178,8 +178,14 @@ export default {
     },
     /**method that delete a product effectively */
     async deleteProduct(){
-      await ProductRepository.deleteProduct(this.idProdToDelete)
+      const res=await ProductRepository.deleteProduct(this.idProdToDelete)
       await this.update()
+
+      if(res.data)
+        this.$toast.top("Deleted succesfully")
+      if(!res.data)
+        this.$toast.top("Not deleted upsi")
+
     }
 
   },

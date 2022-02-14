@@ -60,7 +60,6 @@ export default {
     TableRow,
   },
   mounted(){
-    console.log(this.search,this.selectedBrand)
   }
 
 };

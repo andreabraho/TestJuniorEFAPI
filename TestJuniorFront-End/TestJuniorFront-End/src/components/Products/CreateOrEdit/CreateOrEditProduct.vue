@@ -20,7 +20,7 @@
                         class="form-control" 
                         v-model="form.product.name"
                         @blur="validateName"
-                        :class="[errors.price!=null?'error-input':'']"
+                        :class="[errors.name!=null?'error-input':'']"
                         >
                 <div class="text-danger">{{errors.name}}</div>
             </div>
@@ -29,7 +29,7 @@
                 <input type="text" class="form-control" 
                         v-model="form.product.shortDescription"
                         @blur="validateShortDescription"
-                        :class="[errors.price!=null?'error-input':'']"
+                        :class="[errors.shortDescription!=null?'error-input':'']"
                         >
                 <div class="text-danger">{{errors.shortDescription}}</div>
             </div>

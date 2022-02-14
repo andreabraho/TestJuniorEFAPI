@@ -72,7 +72,7 @@ namespace TestJuniorEFAPI.Controllers
         /// upsert api that update or insert a product based on product id
         /// </summary>
         /// <param name="prodWCat"></param>
-        /// <returns></returns>
+        /// <returns>ok  with id product in case od success,bad request wirh error message in case of failure</returns>
         [HttpPost("Upsert")]
         [HttpPut("Upsert")]
         public async Task<IActionResult> UpsertProduct(ProdWithCat prodWCat)
@@ -102,53 +102,10 @@ namespace TestJuniorEFAPI.Controllers
             }
 
         }
-        /// <summary>
-        /// insert a product with categories associated
-        /// </summary>
-        /// <param name="prodWCat">model containing all data needed</param>
-        /// <returns></returns>
-        [HttpPost("Insert")]
-        async public Task<IActionResult> InserProductAsync(ProdWithCat prodWCat)
-        {
-            if (prodWCat == null)
-                return BadRequest("Product was null");
-
-            string validation= UpSertProductValidation(prodWCat);
-            if(validation!=null)
-                return BadRequest(validation);
-
-
-            var result=await _productService.AddProduct(prodWCat.Product,prodWCat.CategoriesIds);
-            if(result!=0)
-                return Ok(result);
-            else
-                return NoContent();
-        }
-        /// <summary>
-        /// update a product data and his categories
-        /// </summary>
-        /// <param name="prodWCat">model that contains a product and an array of categories ids</param>
-        /// <returns></returns>
-        [HttpPut("Update")]
-        public async Task<IActionResult> UpdateProductAsync(ProdWithCat prodWCat)
-        {
-            if (prodWCat == null)
-                return BadRequest("model was null");
-            var result = UpSertProductValidation(prodWCat);
-
-            if (result != null)
-                return BadRequest(result);
-
-            var id = await _productService.UpdateProduct(prodWCat);
-            if (id>0)
-                return Ok(id);
-
-            return Ok("No Changes");
-        }
+        
         /// <summary>
         /// method that gets all data neccessary to insert a product
         /// </summary>
-        /// <param name="prodWCat"></param>
         /// <returns></returns>
         [HttpGet("Insert")]
          public IActionResult GetCatListBrandList()
@@ -166,12 +123,12 @@ namespace TestJuniorEFAPI.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> DeleteProductAsync(int id)
         {
-            if(await _productService.DeleteProduct(id))
-                return Ok();
+            var result = await _productService.DeleteProduct(id);
+            if (result)
+                return Ok(result);
             else 
-                return NotFound();
+                return NotFound(result);
         }
-        
         /// <summary>
         /// return the product data needed for update
         /// </summary>
@@ -188,7 +145,7 @@ namespace TestJuniorEFAPI.Controllers
 
 
         /// <summary>
-        /// validates if the model for product inser is valid
+        /// validates if the model for product upsert is valid
         /// </summary>
         /// <param name="prodWCat"></param>
         /// <returns>null is it is valid,string with error if not</returns>
@@ -196,24 +153,26 @@ namespace TestJuniorEFAPI.Controllers
         {
             string result = null;
                 
-                if (prodWCat.CategoriesIds.Length == 0)
-                {
-                    result += "Select at least one category for the product \n";
-                   
-                }
-            
-                if (prodWCat.Product.Name.Length == 0)
-                {
-                    result += "Product name can't be empity \n";
-                    
-                }
-            
-                if (prodWCat.Product.ShortDescription.Length == 0)
-                {
-                    result += "Product short description can't be empity \n";
-                    
-                }
-
+            if (prodWCat.CategoriesIds.Length == 0)
+            {
+                result += "Select at least one category for the product \n";
+            }
+            if (prodWCat.Product.Name.Length == 0 || prodWCat.Product.Name.Length>255)
+            {
+                result += "Product name can't be empity and can't have more than 255 characters \n";
+            }
+            if (prodWCat.Product.ShortDescription.Length == 0 || prodWCat.Product.ShortDescription.Length>255)
+            {
+                result += "Product short description can't be empity and can't have more than 255 characters \n";
+            }
+            if(prodWCat.Product.Price<0 || prodWCat.Product.Price >(decimal) 1e16)
+            {
+                result += "Price can't be lower than 0 or higher than 1e16";
+            }
+            if (prodWCat.Product.BrandId == 0)
+            {
+                result += "Brand id can't be 0";
+            }
             return result;
         }
 

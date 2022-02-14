@@ -168,12 +168,13 @@ namespace TestJuniorEFAPI.Controllers
         {
             string result = null;
 
-            if (brandInsertApiModel.Account.Email.Length == 0)
-                result += "Email can't be empity \n";
-            if (brandInsertApiModel.Account.Password.Length == 0)
-                result += "Password can't be empity \n";
-            if (brandInsertApiModel.Brand.BrandName.Length == 0)
-                result = "Brand name can't be empity \n";
+            if (brandInsertApiModel.Account.Email.Length == 0 || brandInsertApiModel.Account.Email.Length>255)
+                result += "Email can't be empity and can't have more than 255 charaters \n";
+            if (brandInsertApiModel.Account.Password.Length == 0 || brandInsertApiModel.Account.Password.Length>18)
+                result += "Password can't be empity or can't have more than 18 characters \n";
+            if (brandInsertApiModel.Brand.BrandName.Length == 0 || brandInsertApiModel.Brand.BrandName.Length <255)
+                result = "Brand name can't be empity or can't have more than 255 characters \n";
+
             foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
                 if (prod.CategoriesIds.Length == 0)
                 {
@@ -194,6 +195,14 @@ namespace TestJuniorEFAPI.Controllers
                 if (prod.Product.ShortDescription.Length == 0)
                 {
                     result += "Products short description can't be empity \n";
+                    break;
+                }
+            }
+            foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
+            {
+                if (prod.Product.Price<0 || prod.Product.Price>(decimal)1e16)
+                {
+                    result += "price can't be lower than 0 or higher than 1e16 \n";
                     break;
                 }
             }

@@ -104,6 +104,7 @@ export default {
     async selectNewBrand(id){
       this.brandSelected=id
       this.page=1
+      this.productId=0
       await this.update()
 
     },
