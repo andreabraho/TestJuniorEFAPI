@@ -5,8 +5,6 @@
       <p>Leads </p>
     </div>
 
-
-
     <my-table  :tlist="pageData.infoRequests" 
                     :brands="pageData.brands"
                     @selectNewBrand="selectNewBrand"
@@ -17,19 +15,12 @@
                     class="text"
                     ></my-table>
 
-
-
-
-      
       <page-buttons class="d-flex justify-content-center"
       v-if="!isLoadingIR" 
       :page="page"
       :maxPages="pageData.totalPages"
       @changePage="changePage"
-      
-      
       ></page-buttons>
-      
 
   </div>
 </template>

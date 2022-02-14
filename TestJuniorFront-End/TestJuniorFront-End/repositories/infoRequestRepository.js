@@ -8,7 +8,7 @@ export default {
 
     let config={
       params:{
-        brandSelected:brandSelected,
+        brandId:brandSelected,
         prodNameSearch:prodNameSearch,
         isAsc:isAsc,
         productId:productId

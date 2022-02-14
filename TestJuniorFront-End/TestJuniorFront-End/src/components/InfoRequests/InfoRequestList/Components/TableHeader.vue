@@ -27,7 +27,7 @@
       <div class="col-2 mw-10 mb-2 mt-2" >
 
         <select class="form-select" 
-                @change="changeBrand()" 
+                @change="changeBrand" 
                 v-model="selectedBrand">
           <option default value="0">Tutti i Brand</option>
 
