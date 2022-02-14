@@ -96,7 +96,7 @@ namespace DataLayer.Repository
                 //                                        SET IsDeleted=1
                 //                                        WHERE ProductId=" + id);
 
-                await _ctx.InfoRequestReplys.Where(x => x.InfoRequest.ProductId == id).UpdateFromQueryAsync(x = new InfoRequestReply()
+                await _ctx.InfoRequestReplys.Where(x => x.InfoRequest.ProductId == id).UpdateFromQueryAsync(x => new InfoRequestReply()
                 {
                     IsDeleted = true,
                 });
