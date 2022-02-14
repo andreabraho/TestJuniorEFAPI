@@ -85,7 +85,7 @@
             <div class="col-2">
                 <div class="row mt-4 visLeadsBtn">
                         <button class="btn btn-outline-primary mb-5 " 
-                        @click="$router.push({ name: 'InfoRequestList', params: { brandid: product.brandId,productname:product.name }})" 
+                        @click="$router.push({ name: 'InfoRequestList', params: { productId: product.id}})" 
                         >Vedi tutte le richieste informazioni</button><br>
                 </div>
             </div>

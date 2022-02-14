@@ -34,7 +34,7 @@ namespace ServicaLayer.InfoRequestService
             {
                 Page = page,
                 PageSize = pageSize,
-                TotalinfoRequests = _infoRequestRepository.GetAll().FilterIR(idBrand, productNameSearch).Count(),
+                TotalinfoRequests = _infoRequestRepository.GetAll().FilterIR(idBrand, productNameSearch,productId).Count(),
                 Brands = _brandRepository.GetAll().Select(b => new BrandForPageDTO
                 {
                     Id = b.Id,

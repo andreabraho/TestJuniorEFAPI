@@ -55,7 +55,8 @@ export default {
       pageSize:10,
       brandSelected:0,
       search:null,
-      isAsc:false
+      isAsc:false,
+      productId:6
     }
   },
   methods: {
@@ -64,19 +65,17 @@ export default {
      */
     async load() {
       this.isLoadingIR = true;
-      if(this.$route.params.productname!=undefined)
-      this.search=this.$route.params.productname
-      if(this.$route.params.brandid!=undefined)
-      this.brandSelected=this.$route.params.brandid
-
-      console.log(this.search,this.brandSelected)
+      if(this.$route.params.productId!=undefined)
+      this.productId=this.$route.params.productId
+      
 
       const { data } = await IRRepository.getPage(
         this.page,
         this.pageSize,
         this.brandSelected,
         this.search,
-        this.isAsc
+        this.isAsc,
+        this.productId
       );
       this.pageData = data;
       this.isLoadingIR = false;
