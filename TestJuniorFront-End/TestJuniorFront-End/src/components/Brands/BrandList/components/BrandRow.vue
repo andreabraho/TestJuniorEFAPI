@@ -4,7 +4,7 @@
         <td>{{brand.name}}</td>
         <td>{{brand.description}}</td>
         <td>
-            <div>
+            <div class="input-group">
             <button class="btn btn-outline-secondary " @click.stop="goToEdit()">
                 <i class="bi bi-pencil-square text-warning" 
                     width="16" 

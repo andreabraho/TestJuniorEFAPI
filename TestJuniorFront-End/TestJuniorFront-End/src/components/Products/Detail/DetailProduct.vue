@@ -3,7 +3,7 @@
         
         <div class="row ">
 
-            <div class="col-2">
+            <div class="col-1">
                 
             </div>
             <div class="col-8">
@@ -13,12 +13,22 @@
                         {{product.name}} by {{product.brandName}}
                     </p>
                 </div>
-                <div class="row mt-4">
+
+                <div v-if="product.productsCategory.length>0">
+                    <div class="row mt-4">
                     <p>Categorie associate al prodotto</p>
                 </div>
                 <div class="row">
                     <categories-list :categories="product.productsCategory"></categories-list>
                 </div>
+                </div>
+                <div v-else class="mt-5">
+                    <b> Non ci sono Categorie associate al prodotto</b>
+                </div>
+                
+
+                
+
                 <div class="row mt-3">
                     <p><b>Leads per questo prodotto</b></p>
                 </div>
@@ -27,7 +37,7 @@
                 </div>
                 
 
-
+                
                 <div class="row mt-4 " v-if="product.infoRequestProducts.length!=0">
                     <div v-if="!viewInfoRequests" >
                         <button class="btn btn-outline-primary mb-5" 
@@ -90,6 +100,7 @@
                 </div>
             </div>
         </div>
+        <div class="col-1"></div>
 
 
 

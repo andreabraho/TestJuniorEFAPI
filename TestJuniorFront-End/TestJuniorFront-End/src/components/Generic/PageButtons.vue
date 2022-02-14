@@ -1,17 +1,17 @@
 <template>
-  <div class="mt-5" v-if="maxPages!=0">
+  <div class="mt-5 input-group" v-if="maxPages!=0">
         <button type="button" 
-                  class="ml-1 me-1" 
+                  class=" " 
                   @click="previousPage()"
                   :class="[page==1?'disabled btn btn-outline-secondary':'btn btn-outline-primary']">Indietro</button>
-        <button class="btn btn-outline-primary me-1"
+        <button class="btn btn-outline-primary "
                 v-for="num in pages" 
                 :key="num"
                 @click="changePage(num)"
                 :class="[num==myPage?'active':'']"
                 >{{num}}</button>
         <button type="button" 
-                class="ml-1" 
+                class="" 
                 @click="nextPage()"
                 :class="[myPage==maxPages?'disabled btn btn-outline-secondary':'btn btn-outline-primary']">Avanti</button>
   </div>

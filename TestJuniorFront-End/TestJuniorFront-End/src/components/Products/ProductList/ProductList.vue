@@ -53,9 +53,10 @@
          
         </div>
 
-        <div class="d-flex justify-content-center " >
+        <div class="">
           
           <page-buttons 
+          class="d-flex justify-content-center "
           :page="page"
           :probes="testProbe"
           :maxPages="pageData.totalPages"

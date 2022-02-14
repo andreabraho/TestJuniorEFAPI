@@ -37,16 +37,20 @@
           
         </select>
       </div>
-      <div class="col-2 mw-40 mt-2">
-          <input    type="text" 
+      <div class="col-2 mw-40 mt-2 ">
+          <div class="input-group">
+              <input type="text" 
                     class="form-control"
                     v-model="search" >
-      </div>
-      <div class="col-2 mw-30 mt-2">
-          <button class="btn btn-primary"
+            <button class="btn btn-primary"
                     @click="changeSearch">
               <i class="bi bi-search"></i>
           </button>
+          </div>
+          
+      </div>
+      <div class="col-2 mw-30 mt-2">
+          
       </div>
       <div class="col-3 mw-10"></div>
       <div class="col-2 mw-10"></div>

@@ -1,11 +1,14 @@
 <template>
-  <div id="app" >
-    <nav class="navbar navbar-light bg-dark sticky-top mynav ">
+  <div id="app" class="container-fluid">
+
+    <div class="row sticky-top" ><nav class="navbar navbar-light bg-dark mynav ">
         <span class="navbar-brand text-light ml-2">Company name</span>
-    </nav>
+    </nav></div>
+    
     
 
     <div class="row ">
+
     <div class="col-2 h-100 position-fixed sidebar " >
       <div class="mt-2">
             <router-link to="/Products" class="sidebarComp mt-3 " >
@@ -29,7 +32,7 @@
      
     </div>
 
-    <div class="col-9 offset-2 myoffset">
+    <div class="col-10 offset-2 myoffset">
       <router-view 
           @setActiveLink="setActiveLink"></router-view>
     </div>

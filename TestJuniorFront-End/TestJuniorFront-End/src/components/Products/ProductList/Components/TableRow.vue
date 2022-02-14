@@ -2,19 +2,19 @@
   <div class="row mt-1 on-hover" :class="[index%2==0?'bg-grey':'']" @click="goToDetail()">
         <div class="col-2 namebox">{{item.brandName}}</div>
         <div class="col-4 namebox"><p><b>{{item.name}}</b> | {{item.shortDescription}}</p></div>
-        <div class="col-3 catbox">
-            <div class="row"><div v-for="cat in item.categories" 
+        <div class="col-3 ">
+            <span v-for="cat in item.categories" 
           :key="cat.id"
-          class=" col  text-light  text-center bg-primary rounded-pill m-1 max-w-100">
-          <span class="cat-pill rounded-pill  center ">{{cat.name}}  </span></div>
+          class="text-light text-center  bg-primary rounded-pill me-2 cat-pill "
+          data-bs-toggle="tooltip" data-bs-placement="top" :title="cat.name">
+           {{cat.name.split(" ")[0]}}  </span>
           
-              
-          </div>
         </div>
         <div class="col-1 ">${{item.price}}</div>
         <div class="col-2 position-relative">
             
             <div class="position-absolute top-50 start-50 translate-middle">
+                <div class="input-group">
                 <button class=" btn btn-outline-secondary  mybutton position-relative float-end"  
                     @click.stop="deleteProd()"
                     type="button"
@@ -31,6 +31,8 @@
                     height="12" 
                     viewBox="0 0 12 12"></i>
                 </button> 
+                </div>
+                
                       
             </div>
         </div>
@@ -58,6 +60,10 @@ export default {
         },
         deleteProd(){
             this.$emit("deleteProd",this.item.id)
+        },
+        substrOnSpace(str){
+            str.split(' ')
+            return str[0]
         }
     }
 
@@ -72,7 +78,7 @@ export default {
         background-color: rgb(216, 216, 216);
     }
     .cat-pill{
-        padding: 6px 6px 6px 6px;
+        padding: 0px 2px 0px 4px;
         
     }
     .mybutton{

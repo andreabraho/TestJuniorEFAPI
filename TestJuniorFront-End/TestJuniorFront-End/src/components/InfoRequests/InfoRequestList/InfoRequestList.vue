@@ -20,9 +20,8 @@
 
 
 
-    <div class="d-flex justify-content-center" >
       
-      <page-buttons
+      <page-buttons class="d-flex justify-content-center"
       v-if="!isLoadingIR" 
       :page="page"
       :maxPages="pageData.totalPages"
@@ -31,7 +30,6 @@
       
       ></page-buttons>
       
-    </div>
 
   </div>
 </template>
@@ -56,7 +54,7 @@ export default {
       brandSelected:0,
       search:null,
       isAsc:false,
-      productId:6
+      productId:0
     }
   },
   methods: {

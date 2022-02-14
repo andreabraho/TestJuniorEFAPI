@@ -108,7 +108,7 @@ export default {
   },
   async created(){
     await this.load()
-    this.$emit("setActiveLink",1)
+    this.$emit("setActiveLink",3)
   },
   components:{
     PageButtons
