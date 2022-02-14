@@ -2,6 +2,7 @@
 using Domain;
 using Domain.ModelsForApi;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,50 +27,94 @@ namespace DataLayer.Repository
         /// <exception cref="ArgumentNullException">products null</exception>
         public async Task<int> InsertWithProducts(Account account,Brand brand, ProdWithCat[] products)
         {
-            if(account == null)
+            if (account == null)
                 throw new ArgumentNullException(nameof(account));
-            if(brand == null)
+            if (brand == null)
                 throw new ArgumentNullException(nameof(brand));
-            if(products == null)
+            if (products == null)
                 throw new ArgumentNullException(nameof(products));
 
             var result = true;
+            result = await InsertAccountAndBrand(account, brand, result);
 
-            _ctx.Accounts.Add(account);
-            if(await _ctx.SaveChangesAsync()<=0)//if account insert fails set resul false so next streps are skipped
-                result= false;
-
-            brand.AccountId = account.Id;
-
-            _ctx.Brands.Add(brand);
-            if(await _ctx.SaveChangesAsync()<=0 && result)//if brand insert fails and account was insterted remove account and set result false
-            {
-                result = false;
-                _ctx.Accounts.Remove(account);
-                await _ctx.SaveChangesAsync();
-            }
-
-
-            if (products.Length > 0 && result)
-            {
-                foreach (var product in products)
-                {
-                    product.Product.BrandId=brand.Id;
-
-                    await _ctx.Products.AddAsync(product.Product);
-
-                    if (await _ctx.SaveChangesAsync() > 0 && product.CategoriesIds.Length>0)//if product is inserted and there are categories
-                    {
-                        foreach (var catId in product.CategoriesIds)
-                        {
-                            await _ctx.Products_Categories.AddAsync(new ProductCategory { CategoryId = catId, ProductId = product.Product.Id });
-                        }
-                        await _ctx.SaveChangesAsync();
-                    }
-                }
-            }
+            await InsertProducts(brand, products, result);
 
             return brand.Id;
+        }
+        /// <summary>
+        /// method that insert products for a brand,in case one product fails transaction is rollback
+        /// </summary>
+        /// <param name="brand">brand wich products are inserted</param>
+        /// <param name="products">products to be inserted(with their categories)</param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        private async Task InsertProducts(Brand brand, ProdWithCat[] products, bool result)
+        {
+            if (result)
+            {
+                IDbContextTransaction transactionProd = _ctx.Database.BeginTransaction();
+                try
+                {
+
+                    if (products.Length > 0 && result)
+                    {
+                        foreach (var product in products)
+                        {
+                            product.Product.BrandId = brand.Id;
+
+                            await _ctx.Products.AddAsync(product.Product);
+
+                            if (await _ctx.SaveChangesAsync() > 0 && product.CategoriesIds.Length > 0)//if product is inserted and there are categories
+                            {
+                                foreach (var catId in product.CategoriesIds)
+                                {
+                                    await _ctx.Products_Categories.AddAsync(new ProductCategory { CategoryId = catId, ProductId = product.Product.Id });
+                                }
+                                await _ctx.SaveChangesAsync();
+                            }
+                        }
+                    }
+
+
+                    transactionProd.Commit();
+                }
+                catch (Exception e)
+                {
+                    transactionProd.Rollback();
+                }
+            }
+        }
+        /// <summary>
+        /// method that insert a brand account and if the insert success inserts the brand,if something fails reverse the inserts
+        /// </summary>
+        /// <param name="account">account to be inserted</param>
+        /// <param name="brand">brand to be inserted</param>
+        /// <param name="result">bool value rappresenting the result</param>
+        /// <returns>true or false baed on operations result</returns>
+        private async Task<bool> InsertAccountAndBrand(Account account, Brand brand, bool result)
+        {
+            try
+            {
+                _ctx.Accounts.Add(account);
+                if (await _ctx.SaveChangesAsync() <= 0)//if account insert fails set resul false so next streps are skipped
+                    result = false;
+
+                brand.AccountId = account.Id;
+
+                _ctx.Brands.Add(brand);
+                if (await _ctx.SaveChangesAsync() <= 0 && result)//if brand insert fails and account was insterted remove account and set result false
+                {
+                    result = false;
+                    _ctx.Accounts.Remove(account);
+                    await _ctx.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -84,27 +129,33 @@ namespace DataLayer.Repository
                 throw new ArgumentOutOfRangeException(nameof(id), "id can't be lower or equal than 0");
             
             var result = true;
-
-            await _ctx.Database.ExecuteSqlRawAsync(@"update InfoRequestReply  
+            try
+            {
+                await _ctx.Database.ExecuteSqlRawAsync(@"update InfoRequestReply  
                                                         Set InfoRequestReply.IsDeleted=1 
                                                         From InfoRequestReply as irr 
                                                             join InfoRequest as ir On irr.InfoRequestId=ir.Id 
                                                             join Product as p On ir.ProductId=p.Id 
-                                                        where p.BrandId="+id
+                                                        where p.BrandId=" + id
                                                         );
-            await _ctx.Database.ExecuteSqlRawAsync(@"update InfoRequest
+                await _ctx.Database.ExecuteSqlRawAsync(@"update InfoRequest
                                                         Set InfoRequest.IsDeleted=1
                                                         From InfoRequest as ir join Product as p On ir.ProductId=p.Id
-                                                        where p.BrandId="+id
-                                                        );
-            await _ctx.Database.ExecuteSqlRawAsync(@"update Product
+                                                        where p.BrandId=" + id
+                                                            );
+                await _ctx.Database.ExecuteSqlRawAsync(@"update Product
                                                         Set IsDeleted=1
                                                         where BrandId=
-                                                        "+id);
-            
-            await _ctx.SaveChangesAsync();
+                                                        " + id);
 
-            await DeleteAsync(id);
+                await _ctx.SaveChangesAsync();
+                await DeleteAsync(id);
+
+            }
+            catch (Exception e)
+            {
+                result=false;
+            }
 
             return result;
         }

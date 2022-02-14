@@ -173,7 +173,7 @@ namespace TestJuniorEFAPI.Controllers
                 result += "Email can't be empity and can't have more than 255 charaters \n";
             if (brandInsertApiModel.Account.Password.Length == 0 || brandInsertApiModel.Account.Password.Length>18)
                 result += "Password can't be empity or can't have more than 18 characters \n";
-            if (brandInsertApiModel.Brand.BrandName.Length == 0 || brandInsertApiModel.Brand.BrandName.Length <255)
+            if (brandInsertApiModel.Brand.BrandName.Length == 0 || brandInsertApiModel.Brand.BrandName.Length >255)
                 result = "Brand name can't be empity or can't have more than 255 characters \n";
 
             foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
