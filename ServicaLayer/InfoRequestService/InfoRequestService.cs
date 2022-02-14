@@ -99,29 +99,5 @@ namespace ServicaLayer.InfoRequestService
                 return (totalItems / pageSize) + 1;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //test not working ---------------------------------------------------------------------------------------------------
-        public InfoRequestDetailDTO GetInfoRequestDetail2(int id)//in progress
-        {
-            if (id <= 0)
-                throw new ArgumentException(nameof(id));
-
-            var query = _infoRequestRepository.GetById(id).MapIRForDetailPage();
-
-            return query.FirstOrDefault();
-        }
     }
 }

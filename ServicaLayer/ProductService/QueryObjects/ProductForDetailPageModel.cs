@@ -9,6 +9,7 @@ namespace ServicaLayer.ProductService.QueryObjects
 {
     public static class ProductForDetailPageModel
     {
+        //TODO ERROR WHEN USED WHY?????
         public static IQueryable<ProductDetailDTO> MapProductForProductDetail(this IQueryable<Product> product)
         {
             return product.Select(p => new ProductDetailDTO

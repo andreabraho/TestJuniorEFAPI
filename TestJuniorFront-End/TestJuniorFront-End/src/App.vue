@@ -31,21 +31,24 @@
       </div>
      
     </div>
+    <table-skeleton></table-skeleton>
 
     <div class="col-10 offset-2 myoffset">
       <router-view 
           @setActiveLink="setActiveLink"></router-view>
     </div>
     </div>
-    
   </div>
 </template>
 
 <script>
-
+import TableSkeleton from "./components/Generic/TableSkeleton.vue"
 export default {
   name: "App",
-  components: {},
+  components: {
+    TableSkeleton
+
+  },
   data(){
     return {
       /**1(product)2(brand)3(leads) set the active link on data send from child component */
@@ -62,7 +65,8 @@ export default {
   /**default active link */
   created(){
     this.activeLink=0
-  }
+  },
+  
 };
 </script>
 

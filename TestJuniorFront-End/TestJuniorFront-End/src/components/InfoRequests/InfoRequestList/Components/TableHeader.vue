@@ -80,7 +80,7 @@ export default {
       /** event that launches event selectnewBrand to tell the parent to change the brand filter
       ** payload the selected brand */
       changeBrand(){
-          this.$emit("selectNewBrand",this.selectedBrand)
+          this.$emit("selectNewBrand",parseInt(this.selectedBrand))
       },
       /**method to change order asc or desc
        ** emit event changeOrder for to tell parent to change the order

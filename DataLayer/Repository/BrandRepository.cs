@@ -170,10 +170,6 @@ namespace DataLayer.Repository
                 });
                 
 
-
-
-
-
                 await _ctx.SaveChangesAsync();
                 await DeleteAsync(id);
 

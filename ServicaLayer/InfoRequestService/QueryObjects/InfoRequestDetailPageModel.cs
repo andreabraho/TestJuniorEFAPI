@@ -9,6 +9,7 @@ namespace ServicaLayer.InfoRequestService.QueryObjects
 {
     public static class InfoRequestDetailPageModel
     {
+        //TODO NON RIESCO AD USARLO WHY???
         public static IQueryable<InfoRequestDetailDTO> MapIRForDetailPage(this IQueryable<InfoRequest> infoRequest)
         {
             return infoRequest.Select(ir => new InfoRequestDetailDTO

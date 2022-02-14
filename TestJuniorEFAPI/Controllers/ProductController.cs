@@ -215,7 +215,7 @@ namespace TestJuniorEFAPI.Controllers
 
 
         [Route("test")]
-        public IActionResult testAsync()
+        public IActionResult testAsync()//TODO REMOVE 
         {
             int page = 1;
             int pageSize = 10;
@@ -232,7 +232,7 @@ namespace TestJuniorEFAPI.Controllers
             return Ok(query);
         }
     }
-    public static class test
+    public static class test//TODO REMOVE
     {
         public static IQueryable<ProductForPage2> MapProductsForPage(this IQueryable<Product> products)
         {

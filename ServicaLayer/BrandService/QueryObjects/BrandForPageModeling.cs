@@ -19,12 +19,12 @@ namespace ServicaLayer.BrandService.QueryObjects
                 //IdProducts = brand.Products.AsQueryable().MapProductForPBrandPage(),
             });
         }
-        public static IQueryable<ProductForBrandPageDTO> MapProductForPBrandPage(this IQueryable<Product> products)
-        {
-            return products.Select(p => new ProductForBrandPageDTO
-            {
-                Id = p.Id,
-            });
-        }
+        //public static IQueryable<ProductForBrandPageDTO> MapProductForPBrandPage(this IQueryable<Product> products)
+        //{
+        //    return products.Select(p => new ProductForBrandPageDTO
+        //    {
+        //        Id = p.Id,
+        //    });
+        //}
     }
 }
