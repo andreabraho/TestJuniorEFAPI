@@ -100,7 +100,7 @@
 <script>
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const ProductRepository = MyRepositoryFactory.get("products");
-import CategoriesList from "../../Brands/Detail/Components/CategoriesList.vue"
+import CategoriesList from "../../Generic/CategoriesList.vue"
 export default ({
     data(){
         return {

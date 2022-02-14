@@ -79,8 +79,8 @@
 <script>
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const BrandRepository = MyRepositoryFactory.get("brands");
-import CategoriesList from "./Components/CategoriesList.vue"
-import PageButtons from "../../Products/ProductList/Components/PageButtons.vue"
+import CategoriesList from "../../Generic/CategoriesList.vue"
+import PageButtons from "../../Generic/PageButtons.vue"
 export default ({
     data(){
         return {

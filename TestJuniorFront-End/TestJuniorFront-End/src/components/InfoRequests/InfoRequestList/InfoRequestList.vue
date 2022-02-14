@@ -40,7 +40,7 @@
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const IRRepository = MyRepositoryFactory.get("inforequests");
 import MyTable from "./Components/Table.vue"
-import PageButtons from "../../Products/ProductList/Components/PageButtons.vue"
+import PageButtons from "../../Generic/PageButtons.vue"
 export default {
   props:{
     

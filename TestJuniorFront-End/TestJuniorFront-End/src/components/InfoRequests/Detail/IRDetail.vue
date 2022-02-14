@@ -56,7 +56,7 @@
 <script>
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const IRRepository = MyRepositoryFactory.get("inforequests");
-import PageButtons from "../../Products/ProductList/Components/PageButtons.vue"
+import PageButtons from "../../Generic/PageButtons.vue"
 export default {
   data() {
     return {

@@ -22,7 +22,7 @@ namespace ServicaLayer.InfoRequestService
             _infoRequestRepository=infoRequestRepository;
             _brandRepository = brandRepository;
         }
-        public InfoRequestPageDTO GetPage(int page, int pageSize,int idBrand=0,string productNameSearch=null,bool isAsc=true)
+        public InfoRequestPageDTO GetPage(int page, int pageSize,int idBrand=0,string productNameSearch=null,bool isAsc=true,int productId=0)
         {
 
             if (pageSize <= 0)
@@ -44,7 +44,7 @@ namespace ServicaLayer.InfoRequestService
 
             var query = _infoRequestRepository.GetAll();
 
-            query = query.FilterIR(idBrand, productNameSearch);
+            query = query.FilterIR(idBrand, productNameSearch,productId);
            
             query = query.OrderInfoRequest(isAsc);
 

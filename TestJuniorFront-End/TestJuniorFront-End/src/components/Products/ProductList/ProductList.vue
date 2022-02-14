@@ -75,7 +75,7 @@
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const ProductRepository = MyRepositoryFactory.get("products");
 import MyTable from "./Components/Table.vue"
-import PageButtons from "./Components/PageButtons.vue"
+import PageButtons from "../../Generic/PageButtons.vue"
 export default {
   name: "ProductList",
   props:{

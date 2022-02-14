@@ -19,8 +19,8 @@ namespace TestJuniorEFAPI.Controllers
             _infoRequestService = infoRequestService;
             _logger = logger;
         }
-        [Route("Page/{page:int=1}/{pageSize:int=10}/{brandId:int=0}/{prodNameSearch=}/{isAsc:bool=false}")]
-        public IActionResult GetPage(int page,int pageSize,int brandId,string prodNameSearch,bool isAsc)
+        [Route("Page/{page:int=1}/{pageSize:int=10}")]
+        public IActionResult GetPage(int page,int pageSize,int brandId,string prodNameSearch,bool isAsc,int productId)
         {
             if (page <= 0)
                 return NotFound("page not found");
@@ -30,7 +30,10 @@ namespace TestJuniorEFAPI.Controllers
                 return BadRequest("there are no brand with id lower than 0");
             if (prodNameSearch == "null")
                 prodNameSearch = null;
-            return Ok(_infoRequestService.GetPage(page,pageSize,brandId,prodNameSearch,isAsc));
+            if(productId < 0)
+                return BadRequest("product id can't be lower than 0");
+
+            return Ok(_infoRequestService.GetPage(page,pageSize,brandId,prodNameSearch,isAsc,productId));
 
         }
         /// <summary>

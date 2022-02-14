@@ -40,7 +40,7 @@ namespace TestJuniorEFAPI.Controllers
         /// Ok() return data correctly
         /// </returns>
         /// 
-        [Route("page/{page:int}/{pagesize:int}/{brandid:int=0}/{orderby:int=0}/{isasc:bool=false}")]
+        [Route("page/{page:int}/{pagesize:int}")]
         public IActionResult GetProductPageAsync(int page, int pageSize,int brandId,int orderBy,bool isAsc)
         {
             if (page <= 0)
