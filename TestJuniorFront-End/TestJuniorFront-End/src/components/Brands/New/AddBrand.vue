@@ -223,12 +223,13 @@ export default {
       this.resetBrandErrors()
 
       if(await this.validateEmail()){//if email is valid
-
+        console.log("email valid")
         /**fill the prod error array if needed */
 
         if(!this.isPasswordValid() || !this.isBrandNameValid() || !this.isBrandDescriptionValid()   || this.checkIfProdsHaveErrors()){//if there are brand error or prod have errors
-          
-          this.showProductsErrors()
+          console.log(!this.isPasswordValid() , !this.isBrandNameValid() , !this.isBrandDescriptionValid()   , this.checkIfProdsHaveErrors())
+          console.log("false inside email")
+          this.checkProdErrors()
           
           return false
         }else{//there are no errors here
@@ -237,7 +238,7 @@ export default {
 
       }else{//if email is not valid
 
-        this.showProductsErrors()
+        this.checkProdErrors()
 
         this.isPasswordValid()
         this.isBrandNameValid()
@@ -250,15 +251,16 @@ export default {
     },
     /**check if there is a product with not valid prop, at first occurency of not valid prop returns true */
     checkIfProdsHaveErrors(){
+      this.checkProdErrors()
       for(let i=0;i<this.form.prodsWithCats.length;i++){
 
-        if(this.form.prodsWithCats[i].errors.name==null)
+        if(this.form.prodsWithCats[i].errors.name!=null)
           return true
-        if(this.form.prodsWithCats[i].errors.shortDescription==null)
+        if(this.form.prodsWithCats[i].errors.shortDescription!=null)
           return true
-        if(this.form.prodsWithCats[i].errors.price==null)
+        if(this.form.prodsWithCats[i].errors.price!=null)
           return true
-        if(this.form.prodsWithCats[i].errors.categories==null)
+        if(this.form.prodsWithCats[i].errors.categories!=null)
           return true
         }
         
@@ -332,9 +334,9 @@ export default {
     /**method to check if price is valid adds also error message */
     isProductPriceValid(product){
       product.errors.price=null
-      if(product.product.price>=0)
+      if(product.product.price>=0 && product.product.price<1e18)
         return true
-      product.errors.price="Price can't be lower than 0"
+      product.errors.price="Price can't be lower than 0 or higher than 1e18"
       return false
     },
     /**method to check if categories are valid adds also error message */
@@ -346,7 +348,7 @@ export default {
       return false
     },
     /**method that shows errors for each product on the form */
-    showProductsErrors(){
+    checkProdErrors(){
       for(let i=0;i<this.form.prodsWithCats.length;i++){
         this.isProductNameValid(this.form.prodsWithCats[i])
         this.isProductShortDescriptionValid(this.form.prodsWithCats[i])
