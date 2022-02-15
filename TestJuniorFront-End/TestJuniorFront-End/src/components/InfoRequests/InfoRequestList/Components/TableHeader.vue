@@ -8,7 +8,7 @@
       <div class="col-2">User</div>
       <div class="col-3">RequestText</div>
 
-      <div class="col-2 mw-10 position-relative orderbox mh-36 "
+      <div class="col-2 mw-10 position-relative orderbox mh-36 click-box"
         @click="changeOrder()" >Data
           
         <i class="bi bi-caret-up-fill position-absolute top-0 end-0 i-g"
@@ -126,6 +126,11 @@ export default {
     .orderbox:hover{
         background-color: rgb(255, 255, 255);
         cursor: pointer;
+    }
+    .click-box:hover{
+        border-top:1px solid gainsboro;
+        border-left:1px solid gainsboro;
+        
     }
     
 

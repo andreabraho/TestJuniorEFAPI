@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row ">
-      <div  class="col-2 mw-10 position-relative orderbox mh-36 " 
+      <div  class="col-2 mw-10 position-relative orderbox mh-36 click-box" 
             @click="changeOrder(1)"
 
             >
@@ -16,7 +16,7 @@
       
       
       </div>
-      <div  class="col-4 mw-40 position-relative orderbox" 
+      <div  class="col-4 mw-40 position-relative orderbox click-box" 
             @click="changeOrder(2)"
             
             >
@@ -31,7 +31,7 @@
       
       <div class="col-3 mw-30"><b>Categoria</b></div>
 
-      <div  class="col-1 mw-10 position-relative orderbox" 
+      <div  class="col-1 mw-10 position-relative orderbox click-box" 
             @click="changeOrder(3)"
 
             ><b>Prezzo</b>
@@ -124,6 +124,11 @@ export default {
     .orderbox:hover{
         background-color: rgb(255, 255, 255);
         cursor: pointer;
+    }
+    .click-box:hover{
+        border-top:1px solid gainsboro;
+        border-left:1px solid gainsboro;
+        
     }
     
 

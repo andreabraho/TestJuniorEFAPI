@@ -84,6 +84,9 @@ export default {
 .sidebarCompa:link {
     text-decoration: none;
 }
+.sidebarComp:hover {
+    border-bottom: 1px solid blue;
+}
 a {
     text-decoration: none!important;
 }
