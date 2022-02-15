@@ -86,7 +86,8 @@ namespace ServicaLayer.BrandService
                 throw new ArgumentNullException(nameof(brand));
             if(prodsWithCat == null)
                 throw new ArgumentNullException(nameof(prodsWithCat));
-
+            if(ValidateBrandInsert(new BrandInsertApiModel { Account = account, Brand = brand,prodsWithCats=prodsWithCat }) != null)
+                throw new InvalidOperationException("Data are not valid");
 
             return await _brandRepository.InsertWithProducts(account,brand, prodsWithCat);
         }
@@ -101,11 +102,22 @@ namespace ServicaLayer.BrandService
         {
             if(id<=0)
                 throw new ArgumentOutOfRangeException(nameof(id));
-
+            
             return await _brandRepository.DeleteAll(id);
         }
+        /// <summary>
+        /// edit data of a brand
+        /// </summary>
+        /// <param name="brand"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">input bran dis null</exception>
+        /// <exception cref="NullReferenceException">brand id is not valid</exception>
         public async Task<bool> EditBrand(Brand brand)
         {
+            if(brand == null)
+                throw new ArgumentNullException(nameof(brand));
+            if (ValidateBrandUpdate(brand) != null)
+                throw new InvalidOperationException("brand data was not valid");
             Brand BrandFromRepo=_brandRepository.GetById(brand.Id).FirstOrDefault();
             if (BrandFromRepo == null)
                 throw new NullReferenceException("id not valid");
@@ -117,9 +129,16 @@ namespace ServicaLayer.BrandService
 
             return false;
         }
-
+        /// <summary>
+        /// get brand from repo and return it
+        /// </summary>
+        /// <param name="id">brand id</param>
+        /// <returns>null or the brand selected</returns>
+        /// <exception cref="ArgumentOutOfRangeException">brand id is not valid</exception>
         public async Task<Brand> GetBrand(int id)
         {
+            if(id <=0)
+                throw new ArgumentOutOfRangeException(nameof(id));
             return await _brandRepository.GetById(id).FirstOrDefaultAsync();
         }
         public async Task<bool> ExistsEmail(string email)
@@ -138,6 +157,94 @@ namespace ServicaLayer.BrandService
                 return (totalItems / pageSize) + 1;
         }
 
+        /// <summary>
+        /// validates the model in input for brand insert api
+        /// </summary>
+        /// <param name="brandInsertApiModel"></param>
+        /// <returns>null if the model is valid,
+        /// string with error if not</returns>
+        private string ValidateBrandInsert(BrandInsertApiModel brandInsertApiModel)
+        {
+            string result = null;
+
+            if (brandInsertApiModel.Account.Email.Length == 0 || brandInsertApiModel.Account.Email.Length > 255)
+                result += "Email can't be empity and can't have more than 255 charaters \n";
+            if (brandInsertApiModel.Account.Password.Length == 0 || brandInsertApiModel.Account.Password.Length > 18)
+                result += "Password can't be empity or can't have more than 18 characters \n";
+            if (brandInsertApiModel.Brand.BrandName.Length == 0 || brandInsertApiModel.Brand.BrandName.Length > 255)
+                result = "Brand name can't be empity or can't have more than 255 characters \n";
+            if (!IsValidEmail(brandInsertApiModel.Account.Email))
+                result += "email pattern is not valid";
+            foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
+                if (prod.CategoriesIds.Length == 0)
+                {
+                    result += "Select at least one category for each product \n";
+                    break;
+                }
+
+            foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
+            {
+                if (prod.Product.Name.Length == 0)
+                {
+                    result += "Product names can't be empity \n";
+                    break;
+                }
+            }
+            foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
+            {
+                if (prod.Product.ShortDescription.Length == 0)
+                {
+                    result += "Products short description can't be empity \n";
+                    break;
+                }
+            }
+            foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
+            {
+                if (prod.Product.Price < 0 || prod.Product.Price > (decimal)1e16)
+                {
+                    result += "price can't be lower than 0 or higher than 1e16 \n";
+                    break;
+                }
+            }
+
+
+
+
+            return result;
+        }
+        /// <summary>
+        /// validates the model in input for brand Update api
+        /// </summary>
+        /// <param name="brand"></param>
+        /// <returns>null if the model is valid,
+        /// string with error if not</returns>
+        private string ValidateBrandUpdate(Brand brand)
+        {
+            string result = null;
+            if (brand.BrandName.Length == 0 && brand.BrandName.Length > 255)
+                result = "Not valid Brand Name it was empity string or a string with more than 255 characters";
+
+
+            return result;
+        }
+        private bool IsValidEmail(string email)
+        {
+            var trimmedEmail = email.Trim();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false; 
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
 
 
@@ -156,9 +263,7 @@ namespace ServicaLayer.BrandService
 
 
 
-
-
-        //test not working ---------------------------------------------------------------------------------------------
+        //TOTO remove test not working ---------------------------------------------------------------------------------------------
         public BrandPageDTO GetBrandPage2(int page, int pageSize)//in progress
         {
             if (pageSize <= 0)

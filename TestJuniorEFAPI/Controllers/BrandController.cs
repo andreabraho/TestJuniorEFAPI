@@ -152,10 +152,9 @@ namespace TestJuniorEFAPI.Controllers
         private string ValidateBrandUpdate(Brand brand)
         {
             string result = null;
-            if (brand.BrandName.Length == 0)
-            {
-                result = "Not valid Brand Name it was empity string";
-            }
+            if (brand.BrandName.Length == 0 && brand.BrandName.Length>255)
+                result = "Not valid Brand Name it was empity string or a string with more than 255 characters";
+            
             
             return result;
         }
@@ -175,7 +174,8 @@ namespace TestJuniorEFAPI.Controllers
                 result += "Password can't be empity or can't have more than 18 characters \n";
             if (brandInsertApiModel.Brand.BrandName.Length == 0 || brandInsertApiModel.Brand.BrandName.Length >255)
                 result = "Brand name can't be empity or can't have more than 255 characters \n";
-
+            if (!IsValidEmail(brandInsertApiModel.Account.Email))
+                result += "email pattern is not valid";
             foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
                 if (prod.CategoriesIds.Length == 0)
                 {
@@ -208,10 +208,25 @@ namespace TestJuniorEFAPI.Controllers
                 }
             }
 
-
-
-
             return result;
+        }
+        private bool IsValidEmail(string email)
+        {
+            var trimmedEmail = email.Trim();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false;
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
     

@@ -115,13 +115,20 @@ namespace ServicaLayer.ProductService
         /// <param name="categories">list of in rappresenting the categories associated</param>
         /// <returns>id of the product inserted</returns>
         /// <exception cref="ArgumentNullException">null input</exception>
+        /// <exception cref="InvalidOperationException">Data are not valid</exception>
         public async Task<int> AddProduct(Product product,int[] categories)
         {
             if(product == null)
                 throw new ArgumentNullException(nameof(product));
             if(categories == null) 
                 throw new ArgumentNullException(nameof(categories));
-            
+
+            ProdWithCat prodWithCat=new ProdWithCat();
+            prodWithCat.Product = product;
+            prodWithCat.CategoriesIds = categories;
+            if (UpSertProductValidation(prodWithCat) != null)
+                throw new InvalidOperationException("Data are not valid");
+
             return await _productRepository.InsertWithCat(product, categories);
 
         }
@@ -133,6 +140,7 @@ namespace ServicaLayer.ProductService
         /// <exception cref="ArgumentNullException">prodCat null</exception>
         /// <exception cref="ArgumentNullException">product null</exception>
         /// <exception cref="ArgumentNullException">categoryIds array null</exception>
+        /// <exception cref="InvalidOperationException">data ar enot valid</exception>
         public async Task<int> UpdateProduct(ProdWithCat prodCat)
         {
             if (prodCat == null)
@@ -141,6 +149,9 @@ namespace ServicaLayer.ProductService
                 throw new ArgumentNullException(nameof(prodCat.Product));
             if (prodCat.CategoriesIds == null)
                 throw new ArgumentNullException(nameof(prodCat.CategoriesIds));
+
+            if (UpSertProductValidation(prodCat) != null)
+                throw new InvalidOperationException("Data are not valid");
 
             var product = await _productRepository.GetById(prodCat.Product.Id).Include(x => x.ProductCategories).FirstOrDefaultAsync();
             if (product != null)
@@ -235,6 +246,37 @@ namespace ServicaLayer.ProductService
                 return totalItems / pageSize;
             else
                 return (totalItems / pageSize) + 1;
+        }
+        /// <summary>
+        /// validates if the model for product upsert is valid
+        /// </summary>
+        /// <param name="prodWCat"></param>
+        /// <returns>null is it is valid,string with error if not</returns>
+        private string UpSertProductValidation(ProdWithCat prodWCat)
+        {
+            string result = null;
+
+            if (prodWCat.CategoriesIds.Length == 0)
+            {
+                result += "Select at least one category for the product \n";
+            }
+            if (prodWCat.Product.Name.Length == 0 || prodWCat.Product.Name.Length > 255)
+            {
+                result += "Product name can't be empity and can't have more than 255 characters \n";
+            }
+            if (prodWCat.Product.ShortDescription.Length == 0 || prodWCat.Product.ShortDescription.Length > 255)
+            {
+                result += "Product short description can't be empity and can't have more than 255 characters \n";
+            }
+            if (prodWCat.Product.Price < 0 || prodWCat.Product.Price > (decimal)1e16)
+            {
+                result += "Price can't be lower than 0 or higher than 1e16";
+            }
+            if (prodWCat.Product.BrandId == 0)
+            {
+                result += "Brand id can't be 0";
+            }
+            return result;
         }
 
 
