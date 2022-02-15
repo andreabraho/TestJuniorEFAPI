@@ -5,8 +5,6 @@
         <span class="navbar-brand text-light ml-2">Company name</span>
     </nav></div>
     
-    
-
     <div class="row ">
 
     <div class="col-2 h-100 position-fixed sidebar " >
@@ -31,9 +29,12 @@
       </div>
      
     </div>
-    <table-skeleton></table-skeleton>
 
     <div class="col-10 offset-2 myoffset">
+
+
+
+
       <router-view 
           @setActiveLink="setActiveLink"></router-view>
     </div>
@@ -42,11 +43,10 @@
 </template>
 
 <script>
-import TableSkeleton from "./components/Generic/TableSkeleton.vue"
+import '../node_modules/skeleton-elements/css/skeleton-elements.css';
 export default {
   name: "App",
   components: {
-    TableSkeleton
 
   },
   data(){

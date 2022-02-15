@@ -73,6 +73,9 @@
             <div class="col-2"></div>
 
     </div>
+    <div v-else>
+        <my-detail-page-skeleton message="Brand detail"></my-detail-page-skeleton>
+    </div>
 </template>
 
 
@@ -81,6 +84,7 @@ import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactor
 const BrandRepository = MyRepositoryFactory.get("brands");
 import CategoriesList from "../../Generic/CategoriesList.vue"
 import PageButtons from "../../Generic/PageButtons.vue"
+import MyDetailPageSkeleton from "../../Generic/MyDetailPageSkeleton.vue"
 export default ({
     data(){
         return {
@@ -142,7 +146,8 @@ export default ({
     },
     components:{
         CategoriesList,
-        PageButtons
+        PageButtons,
+        MyDetailPageSkeleton
     }
 })
 </script>

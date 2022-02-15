@@ -51,12 +51,16 @@
 
 
 </div>
+<div v-else>
+  <my-detail-page-skeleton message="Lead Detail"></my-detail-page-skeleton>
+</div>
 </template>
 
 <script>
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const IRRepository = MyRepositoryFactory.get("inforequests");
 import PageButtons from "../../Generic/PageButtons.vue"
+import MyDetailPageSkeleton from "../../Generic/MyDetailPageSkeleton.vue"
 export default {
   data() {
     return {
@@ -111,7 +115,8 @@ export default {
     this.$emit("setActiveLink",3)
   },
   components:{
-    PageButtons
+    PageButtons,
+    MyDetailPageSkeleton
   }
 };
 </script>
@@ -121,6 +126,6 @@ export default {
   background-color: rgb(239, 245, 231);
 }
 .card-body{
-  color: rgb(44, 73, 0);
+  color: rgb(187, 206, 157);
 }
 </style>

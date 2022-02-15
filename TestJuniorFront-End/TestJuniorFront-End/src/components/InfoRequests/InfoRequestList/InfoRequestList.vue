@@ -23,6 +23,10 @@
       ></page-buttons>
 
   </div>
+  <div v-else>
+    
+    <my-skeleton-table message="Leads"></my-skeleton-table>
+  </div>
 </template>
 
 <script>
@@ -30,6 +34,7 @@ import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactor
 const IRRepository = MyRepositoryFactory.get("inforequests");
 import MyTable from "./Components/Table.vue"
 import PageButtons from "../../Generic/PageButtons.vue"
+import MySkeletonTable from "../../Generic/MySkeletonTable.vue"
 export default {
   props:{
     
@@ -138,7 +143,8 @@ export default {
   },
   components:{
     MyTable,
-    PageButtons
+    PageButtons,
+    MySkeletonTable
   }
   
 };

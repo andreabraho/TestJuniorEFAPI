@@ -44,7 +44,7 @@
             <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody> 
             <brand-row v-for="brand in brandPageData.brands" 
                         :key="brand.id" 
                         :brand="brand"
@@ -60,6 +60,10 @@
           ></page-buttons>
 
   </div>
+  <div v-else>
+    
+    <my-skeleton-table message="Brand"></my-skeleton-table>
+  </div>
 </template>
 
 <script>
@@ -67,6 +71,7 @@ import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactor
 const BrandRepository = MyRepositoryFactory.get("brands");
 import BrandRow from "./components/BrandRow.vue"
 import PageButtons from "../../Generic/PageButtons.vue"
+import MySkeletonTable from "../../Generic/MySkeletonTable.vue"
 export default {
   data() {
     return {
@@ -122,7 +127,8 @@ export default {
   },
   components:{
       BrandRow,
-      PageButtons
+      PageButtons,
+      MySkeletonTable
   }
 };
 </script>

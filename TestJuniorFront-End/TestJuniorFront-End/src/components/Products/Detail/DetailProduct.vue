@@ -106,12 +106,16 @@
 
 
     </div>
+    <div v-else>
+        <my-detail-page-skeleton message="Product Detail"></my-detail-page-skeleton>
+    </div>
 </template>
 
 <script>
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const ProductRepository = MyRepositoryFactory.get("products");
 import CategoriesList from "../../Generic/CategoriesList.vue"
+import MyDetailPageSkeleton from "../../Generic/MyDetailPageSkeleton.vue"
 export default ({
     data(){
         return {
@@ -171,7 +175,8 @@ export default ({
         this.$emit("setActiveLink",1)
     },
     components:{
-        CategoriesList
+        CategoriesList,
+        MyDetailPageSkeleton
     }
 })
 </script>
