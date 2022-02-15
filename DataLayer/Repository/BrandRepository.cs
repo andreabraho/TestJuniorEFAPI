@@ -37,6 +37,7 @@ namespace DataLayer.Repository
             var result = true;
             result = await InsertAccountAndBrand(account, brand, result);
 
+
             await InsertProducts(brand, products, result);
 
             return brand.Id;
@@ -52,7 +53,7 @@ namespace DataLayer.Repository
         {
             if (result)
             {
-                IDbContextTransaction transactionProd = _ctx.Database.BeginTransaction();
+                using IDbContextTransaction transactionProd = _ctx.Database.BeginTransaction();
                 try
                 {
 

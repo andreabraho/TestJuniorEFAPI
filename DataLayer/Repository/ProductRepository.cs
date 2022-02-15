@@ -32,7 +32,7 @@ namespace DataLayer.Repository
                 throw new ArgumentNullException(nameof(cats));
 
 
-            IDbContextTransaction transaction = _ctx.Database.BeginTransaction();
+            using IDbContextTransaction transaction = _ctx.Database.BeginTransaction();
             try
             {
                 await _ctx.Products.AddAsync(product);

@@ -2,23 +2,8 @@
   <div v-if="!isLoadingProducts">
 
     <!-- Modal -->
-    <Modal
-      v-show="isModalVisible"
-      @close="closeModal"
-      >
-      <template v-slot:header>
-        This is a new modal header.
-      </template>
 
-      <template v-slot:body>
-        This is a new modal body.
-      </template>
-
-      <template v-slot:footer>
-        This is a new modal footer.
-      </template>
-    </Modal>
-
+    <new-modal :value="isModalVisible"></new-modal>
     
     <div
       class="modal fade"
@@ -27,7 +12,7 @@
       data-bs-keyboard="false"
       tabindex="-1"
       aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
+      aria-hidden="false"
     >
       <div class="modal-dialog">
         <div class="modal-content">
@@ -119,9 +104,8 @@ import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactor
 const ProductRepository = MyRepositoryFactory.get("products");
 import MyTable from "./Components/Table.vue";
 import PageButtons from "../../Generic/PageButtons.vue";
-import PageTitle from "../../Generic/PageTitle.vue"
-//import ModalDelete from "../../Generic/PageTitle.vue"
-import Modal from "../../Generic/Modal.vue"
+import PageTitle from "../../Generic/PageTitle.vue";
+import NewModal from "../../Generic/TestModal.vue"
 export default {
   name: "ProductList",
   props: {},
@@ -227,8 +211,7 @@ export default {
     MyTable,
     PageButtons,
     PageTitle,
-    //ModalDelete,
-    Modal
+    NewModal,
   },
   async created() {
     await this.load();

@@ -23,6 +23,13 @@ namespace ServicaLayer.BrandService
             _brandRepository = brandRepository;
             _categoryRepository = categoryRepository;
         }
+        /// <summary>
+        /// get all data needed for a brand page
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public BrandPageDTO GetBrandPage(int page, int pageSize)
         {
             if (pageSize <= 0)
@@ -41,7 +48,11 @@ namespace ServicaLayer.BrandService
 
             return brandPageModel;
         }
-        
+        /// <summary>
+        /// get detail data for a brand
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         async public Task<BrandDetailDTO> GetBrandDetail(int id)
         {
             
