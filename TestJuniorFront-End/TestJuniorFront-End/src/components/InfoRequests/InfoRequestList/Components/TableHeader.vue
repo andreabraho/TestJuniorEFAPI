@@ -8,8 +8,8 @@
       <div class="col-2">User</div>
       <div class="col-3">RequestText</div>
 
-      <div class="col-2 mw-10 position-relative orderbox mh-36 click-box"
-        v-debounce:200ms="changeOrder" debounce-events="click"
+      <div class="col-2 mw-10 position-relative orderbox mh-36 click-box disable-select"
+        v-debounce:150ms="changeOrder" debounce-events="click"
         >Data
           
         <i class="bi bi-caret-up-fill position-absolute top-0 end-0 i-g"
@@ -134,6 +134,8 @@ export default {
         border-left:1px solid gainsboro;
         
     }
-    
+    .disable-select{
+        user-select:none;
+    }
 
 </style>
