@@ -99,9 +99,13 @@ namespace DataLayer.Repository
                 if (await _ctx.SaveChangesAsync() <= 0)//if account insert fails set resul false so next streps are skipped
                     result = false;
 
-                brand.AccountId = account.Id;
+                if (result)//if account was inserted
+                {
+                    brand.AccountId = account.Id;
 
-                _ctx.Brands.Add(brand);
+                    _ctx.Brands.Add(brand);
+                }
+                
                 if (await _ctx.SaveChangesAsync() <= 0 && result)//if brand insert fails and account was insterted remove account and set result false
                 {
                     result = false;
@@ -150,7 +154,6 @@ namespace DataLayer.Repository
                 //                                        where BrandId=
                 //                                        " + id);
 
-
                 await _ctx.InfoRequestReplys.Where(x => x.InfoRequest.Product.BrandId == id).UpdateFromQueryAsync(x => new InfoRequestReply()
                 {
                     IsDeleted = true,
@@ -181,7 +184,12 @@ namespace DataLayer.Repository
 
             return result;
         }
-        public async Task<bool> ExistsEmail(string email)
+        /// <summary>
+        /// method that check if email already exists on database
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<bool> ValidateEmailExistence(string email)
         {
             var result=await _ctx.Accounts.FirstOrDefaultAsync(x=>x.Email == email);
             if (result == null)

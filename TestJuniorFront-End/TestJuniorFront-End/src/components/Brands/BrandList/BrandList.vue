@@ -21,20 +21,13 @@
     </div>
   </div>
 
-
-
-    <div class="row header">
-      <div class="col-2 h2 mt-3 mb-2">
-        Brand
-      </div>
-      <div class="col-8 mt-3 mb-2">
-
-      </div>
-      <div class="col-2 mt-3 mb-2">
+    <page-title title="Brand">
+      <template v-slot:button>
         <router-link to="/Brands/new" class="btn btn-outline-primary"
             ><span class="mt-3">Aggiungi brand</span> </router-link>
-      </div>
-    </div>
+      </template>
+    </page-title>
+
     <table class="table table-striped" >
         <thead>
             <tr>
@@ -72,6 +65,7 @@ const BrandRepository = MyRepositoryFactory.get("brands");
 import BrandRow from "./components/BrandRow.vue"
 import PageButtons from "../../Generic/PageButtons.vue"
 import MySkeletonTable from "../../Generic/MySkeletonTable.vue"
+import PageTitle from "../../Generic/PageTitle.vue"
 export default {
   data() {
     return {
@@ -128,15 +122,12 @@ export default {
   components:{
       BrandRow,
       PageButtons,
-      MySkeletonTable
+      MySkeletonTable,
+      PageTitle
   }
 };
 </script>
 
 <style scoped>
-.header{
-  border-bottom: 1px solid rgb(216, 216, 216);
-  padding-bottom: 1rem;
-  margin-bottom: 2rem;
-}
+
 </style>

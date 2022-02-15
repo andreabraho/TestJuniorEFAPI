@@ -40,11 +40,12 @@ namespace ServicaLayer.InfoRequestService
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             if (page <= 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
+            if(productNameSearch!=null)
             if(productNameSearch.Length==0 || productNameSearch.Length>255)
                 throw new ArgumentOutOfRangeException(nameof(productNameSearch));
-            if (productId<=0)
+            if (productId<0)
                 throw new ArgumentOutOfRangeException(nameof(productId));
-            if(idBrand<=0)
+            if(idBrand<0)
                 throw new ArgumentOutOfRangeException(nameof(idBrand));
 
             var pageModel = new InfoRequestPageDTO

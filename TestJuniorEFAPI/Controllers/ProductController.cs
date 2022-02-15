@@ -157,11 +157,11 @@ namespace TestJuniorEFAPI.Controllers
             {
                 result += "Select at least one category for the product \n";
             }
-            if (prodWCat.Product.Name.Length == 0 || prodWCat.Product.Name.Length>255)
+            if (prodWCat.Product.Name.Length == 0 || prodWCat.Product.Name.Length>255|| string.IsNullOrWhiteSpace(prodWCat.Product.Name))
             {
                 result += "Product name can't be empity and can't have more than 255 characters \n";
             }
-            if (prodWCat.Product.ShortDescription.Length == 0 || prodWCat.Product.ShortDescription.Length>255)
+            if (prodWCat.Product.ShortDescription.Length == 0 || prodWCat.Product.ShortDescription.Length>255 ||string.IsNullOrWhiteSpace(prodWCat.Product.ShortDescription))
             {
                 result += "Product short description can't be empity and can't have more than 255 characters \n";
             }

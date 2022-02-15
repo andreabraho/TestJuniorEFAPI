@@ -1,9 +1,8 @@
 <template>
   <div v-if="!isLoadingIR">
 
-    <div class="row mt-3 h2 header">
-      <p>Leads </p>
-    </div>
+    <page-title title="Leads">
+    </page-title>
 
     <my-table  :tlist="pageData.infoRequests" 
                     :brands="pageData.brands"
@@ -35,6 +34,7 @@ const IRRepository = MyRepositoryFactory.get("inforequests");
 import MyTable from "./Components/Table.vue"
 import PageButtons from "../../Generic/PageButtons.vue"
 import MySkeletonTable from "../../Generic/MySkeletonTable.vue"
+import PageTitle from "../../Generic/PageTitle.vue"
 export default {
   props:{
     
@@ -144,7 +144,8 @@ export default {
   components:{
     MyTable,
     PageButtons,
-    MySkeletonTable
+    MySkeletonTable,
+    PageTitle
   }
   
 };
@@ -154,9 +155,5 @@ export default {
 .text{
   word-wrap: break-word;
 }
-.header{
-  border-bottom: 1px solid rgb(216, 216, 216);
-  padding-bottom: 1rem;
-  margin-bottom: 2rem;
-}
+
 </style>

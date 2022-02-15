@@ -141,7 +141,7 @@ namespace ServicaLayer.BrandService
                 throw new ArgumentOutOfRangeException(nameof(id));
             return await _brandRepository.GetById(id).FirstOrDefaultAsync();
         }
-        public async Task<bool> ExistsEmail(string email)
+        public async Task<bool> ValidateExistsEmail(string email)
         {
             if (email == null)
                 throw new ArgumentNullException(nameof(email));
@@ -149,7 +149,7 @@ namespace ServicaLayer.BrandService
                 throw new ArgumentException(nameof(email));
             if (!IsValidEmail(email))
                 throw new ArgumentOutOfRangeException("email pattern not valid", nameof(email));
-            return await _brandRepository.ExistsEmail(email);
+            return await _brandRepository.ValidateEmailExistence(email);
         }
 
 

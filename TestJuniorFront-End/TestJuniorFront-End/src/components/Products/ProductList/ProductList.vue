@@ -1,8 +1,25 @@
 <template>
   <div v-if="!isLoadingProducts">
-    <!-- Button trigger modal -->
 
     <!-- Modal -->
+    <Modal
+      v-show="isModalVisible"
+      @close="closeModal"
+      >
+      <template v-slot:header>
+        This is a new modal header.
+      </template>
+
+      <template v-slot:body>
+        This is a new modal body.
+      </template>
+
+      <template v-slot:footer>
+        This is a new modal footer.
+      </template>
+    </Modal>
+
+    
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -48,19 +65,16 @@
         </div>
       </div>
     </div>
-
+    
     <div class="row">
-      <div class="row header mt-3">
-        <div class="col-2 h3 b mt-1">Prodotti</div>
-        <div class="col-8"></div>
-        <div class="col-2">
-          <div class="mt-2">
-            <router-link to="/Products/new" class="btn btn-outline-primary"
-              ><span class="mt-3">Aggiungi prodotto</span> </router-link
-            ><br />
-          </div>
-        </div>
-      </div>
+      <page-title title="Prodotti">
+      <template v-slot:button>
+        <router-link to="/Products/new" 
+                    class="btn btn-outline-primary">
+          <span class="mt-3">Aggiungi prodotto</span> 
+        </router-link>
+      </template>
+      </page-title>
 
       <div class="row ml-1 mt-3">
         <div>
@@ -105,20 +119,16 @@ import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactor
 const ProductRepository = MyRepositoryFactory.get("products");
 import MyTable from "./Components/Table.vue";
 import PageButtons from "../../Generic/PageButtons.vue";
+import PageTitle from "../../Generic/PageTitle.vue"
+//import ModalDelete from "../../Generic/PageTitle.vue"
+import Modal from "../../Generic/Modal.vue"
 export default {
   name: "ProductList",
   props: {},
   data() {
     return {
-      testProbe: {
-        name: "Andrea",
-        surname: "Braho",
-        marks: [1],
-        skills: [
-          { language: "C#", level: "ciuccio" },
-          { language: "Javascript", level: "Donkey" },
-        ],
-      },
+      showDialog:false,
+      isModalVisible:false,
       page: 1,
       pageSize: 25,
       /** rappresents all the data coming from the api */
@@ -216,6 +226,9 @@ export default {
   components: {
     MyTable,
     PageButtons,
+    PageTitle,
+    //ModalDelete,
+    Modal
   },
   async created() {
     await this.load();
@@ -226,9 +239,5 @@ export default {
 </script>
 
 <style scoped>
-.header {
-  border-bottom: 1px solid rgb(216, 216, 216);
-  padding-bottom: 1rem;
-  margin-bottom: 2rem;
-}
+
 </style>

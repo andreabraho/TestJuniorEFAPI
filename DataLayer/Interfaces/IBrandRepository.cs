@@ -13,7 +13,7 @@ namespace DataLayer.Interfaces
     {
         public Task<int> InsertWithProducts(Account account,Brand brand, ProdWithCat[] products);
         public Task<bool> DeleteAll(int id);
-        public Task<bool> ExistsEmail(string email);
+        public Task<bool> ValidateEmailExistence(string email);
 
     }
 }

@@ -134,14 +134,14 @@ namespace TestJuniorEFAPI.Controllers
         [HttpGet("ValidateMail/{email=}")]
         public async Task<IActionResult> ValidateMail(string email)
         {
-            if(email==null)
+            if(string.IsNullOrWhiteSpace(email))
                 return BadRequest(false);
-            if (email.Length == 0 || email.Length > 255)
+            if (email.Length == 0 || email.Length > 255 )
                 return BadRequest(false);
             if (!IsValidEmail(email))
                 return BadRequest(false);
 
-            return Ok(await _brandService.ExistsEmail(email));
+            return Ok(await _brandService.ValidateExistsEmail(email));
         }
 
         /// <summary>
@@ -168,14 +168,15 @@ namespace TestJuniorEFAPI.Controllers
         {
             string result = null;
 
-            if (brandInsertApiModel.Account.Email.Length == 0 || brandInsertApiModel.Account.Email.Length>255)
-                result += "Email can't be empity and can't have more than 255 charaters \n";
-            if (brandInsertApiModel.Account.Password.Length == 0 || brandInsertApiModel.Account.Password.Length>18)
-                result += "Password can't be empity or can't have more than 18 characters \n";
-            if (brandInsertApiModel.Brand.BrandName.Length == 0 || brandInsertApiModel.Brand.BrandName.Length >255)
-                result = "Brand name can't be empity or can't have more than 255 characters \n";
+            if (brandInsertApiModel.Account.Email.Length == 0 || brandInsertApiModel.Account.Email.Length>255 || string.IsNullOrWhiteSpace(brandInsertApiModel.Account.Email))
+                result += "Email can't be empity, can't have more than 255 charaters,can't have only white spaces \n";
+            if (brandInsertApiModel.Account.Password.Length == 0 || brandInsertApiModel.Account.Password.Length>18)//TODO ADD PATTERN
+                result += "Password can't be empity, can't have more than 18 characters \n";
+            if (brandInsertApiModel.Brand.BrandName.Length == 0 || brandInsertApiModel.Brand.BrandName.Length >255|| string.IsNullOrWhiteSpace(brandInsertApiModel.Brand.BrandName))
+                result = "Brand name can't be empity,can't have more than 255 characters,can't be only white spaces \n";
             if (!IsValidEmail(brandInsertApiModel.Account.Email))
                 result += "email pattern is not valid";
+
             foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
                 if (prod.CategoriesIds.Length == 0)
                 {
@@ -185,7 +186,7 @@ namespace TestJuniorEFAPI.Controllers
             
             foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
             {
-                if (prod.Product.Name.Length == 0)
+                if (prod.Product.Name.Length == 0 || string.IsNullOrWhiteSpace(prod.Product.Name))
                 {
                     result += "Product names can't be empity \n";
                     break;
@@ -193,7 +194,7 @@ namespace TestJuniorEFAPI.Controllers
             }
             foreach (ProdWithCat prod in brandInsertApiModel.prodsWithCats)
             {
-                if (prod.Product.ShortDescription.Length == 0)
+                if (prod.Product.ShortDescription.Length == 0 || string.IsNullOrWhiteSpace(prod.Product.ShortDescription))
                 {
                     result += "Products short description can't be empity \n";
                     break;

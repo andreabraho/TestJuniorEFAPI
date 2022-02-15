@@ -9,7 +9,8 @@
       <div class="col-3">RequestText</div>
 
       <div class="col-2 mw-10 position-relative orderbox mh-36 click-box"
-        @click="changeOrder()" >Data
+        v-debounce:200ms="changeOrder" debounce-events="click"
+        >Data
           
         <i class="bi bi-caret-up-fill position-absolute top-0 end-0 i-g"
         :class="[isAsc?'i-b':'i-g']"></i>
@@ -61,6 +62,7 @@
 
 
 <script>
+import debounce from 'lodash/debounce'
 export default {
   name: "TableHeader",
   props:{
@@ -79,24 +81,24 @@ export default {
   methods:{
       /** event that launches event selectnewBrand to tell the parent to change the brand filter
       ** payload the selected brand */
-      changeBrand(){
+      changeBrand: debounce(function(){
           this.$emit("selectNewBrand",parseInt(this.selectedBrand))
-      },
+      },150),
       /**method to change order asc or desc
        ** emit event changeOrder for to tell parent to change the order
         */
-      changeOrder(){
+      changeOrder:debounce(function(){
           this.isAsc=!this.isAsc
           this.$emit("changeOrder",this.isAsc)
-      },
+      },150),
       /**
        * eveng to change search filter
        ** emit changeSearch event to tell the parent to update the list with new search
        */
-      changeSearch(){
+      changeSearch:debounce(function(){
           this.$emit("changeSearch",this.search)
 
-      },
+      },150),
       
   },
   created(){

@@ -19,11 +19,21 @@ namespace TestJuniorEFAPI.Controllers
             _infoRequestService = infoRequestService;
             _logger = logger;
         }
+        /// <summary>
+        /// gets all data needed for info request page
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="brandId"></param>
+        /// <param name="prodNameSearch">search done by user</param>
+        /// <param name="isAsc"></param>
+        /// <param name="productId"></param>
+        /// <returns></returns>
         [Route("Page/{page:int=1}/{pageSize:int=10}")]
         public IActionResult GetPage(int page,int pageSize,int brandId,string prodNameSearch,bool isAsc,int productId)
         {
             if (page <= 0)
-                return NotFound("page not found");
+                return BadRequest("page not found");
             if (pageSize <= 0 || pageSize > 1000)
                 return BadRequest("page size can't be lower or equal than 0 or higher than 1000");
             if (brandId < 0)

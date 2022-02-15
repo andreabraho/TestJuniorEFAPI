@@ -4,7 +4,7 @@
       <div class="col-2"></div>
       <div class="col-7">{{ message }} <br><hr></div>
       <div class="col-2"></div>
-    </div>
+    </div>  
     
     <div class="row mb-5">
       <div class="col-2"></div>

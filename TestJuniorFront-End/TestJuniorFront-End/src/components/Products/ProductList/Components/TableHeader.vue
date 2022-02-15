@@ -71,6 +71,8 @@
 
 
 <script>
+import debounce from 'lodash/debounce'
+
 export default {
   name: "TableHeader",
   props:{
@@ -89,17 +91,17 @@ export default {
   methods:{
       /** event that launches event selectnewBrand to tell the parent to change the brand filter
       ** payload the selected brand */
-      changeBrand(){
+      changeBrand:debounce(function(){
           this.$emit("selectNewBrand",parseInt(this.selectedBrand))
-      },
+      },150),
       /** event that updated the order by value and launches event changeorder
       ** @orderBy to change the order of the list
       **payload orderBy and isAsc to tell the parent the new data to update the list on */
-      changeOrder(orderBy){
+      changeOrder:debounce(function(orderBy){
           this.orderBy=orderBy
           this.isAsc=!this.isAsc
           this.$emit("chageOrder",this.orderBy,this.isAsc)
-      }
+      },150)
   }
 };
 </script>

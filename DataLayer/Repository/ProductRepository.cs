@@ -75,7 +75,6 @@ namespace DataLayer.Repository
             if(id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id),"id can't be lower or equal than 0");
             var result = true;
-
             try
             {
                 //await _ctx.Database.ExecuteSqlRawAsync(@"UPDATE InfoRequestReply  
@@ -114,14 +113,12 @@ namespace DataLayer.Repository
 
                 await this.DeleteAsync(id);
 
-
                 result = true;
             }
             catch(Exception e)
             {
                 result= false;
             }
-
             return result;
         }
     }

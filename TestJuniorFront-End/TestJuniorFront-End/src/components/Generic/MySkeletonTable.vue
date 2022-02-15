@@ -113,7 +113,7 @@ export default {
   }
 };
 </script>
-
+ 
 <style>
 .table_loader {
   background-color: #fff;
