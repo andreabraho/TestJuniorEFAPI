@@ -135,13 +135,14 @@ namespace TestJuniorEFAPI.Controllers
         public async Task<IActionResult> ValidateMail(string email)
         {
             if(email==null)
-                return Ok(true);
+                return BadRequest(false);
+            if (email.Length == 0 || email.Length > 255)
+                return BadRequest(false);
+            if (!IsValidEmail(email))
+                return BadRequest(false);
+
             return Ok(await _brandService.ExistsEmail(email));
         }
-
-
-
-
 
         /// <summary>
         /// validates the model in input for brand Update api
@@ -154,7 +155,6 @@ namespace TestJuniorEFAPI.Controllers
             string result = null;
             if (brand.BrandName.Length == 0 && brand.BrandName.Length>255)
                 result = "Not valid Brand Name it was empity string or a string with more than 255 characters";
-            
             
             return result;
         }
@@ -210,6 +210,12 @@ namespace TestJuniorEFAPI.Controllers
 
             return result;
         }
+        /// <summary>
+        /// tells if email pattern is valid
+        /// https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address?page=1&tab=votes#tab-top
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         private bool IsValidEmail(string email)
         {
             var trimmedEmail = email.Trim();

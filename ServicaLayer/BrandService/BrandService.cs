@@ -143,6 +143,12 @@ namespace ServicaLayer.BrandService
         }
         public async Task<bool> ExistsEmail(string email)
         {
+            if (email == null)
+                throw new ArgumentNullException(nameof(email));
+            if (email.Length == 0 || email.Length > 255)
+                throw new ArgumentException(nameof(email));
+            if (!IsValidEmail(email))
+                throw new ArgumentOutOfRangeException("email pattern not valid", nameof(email));
             return await _brandRepository.ExistsEmail(email);
         }
 
@@ -207,9 +213,6 @@ namespace ServicaLayer.BrandService
                 }
             }
 
-
-
-
             return result;
         }
         /// <summary>
@@ -224,9 +227,14 @@ namespace ServicaLayer.BrandService
             if (brand.BrandName.Length == 0 && brand.BrandName.Length > 255)
                 result = "Not valid Brand Name it was empity string or a string with more than 255 characters";
 
-
             return result;
         }
+        /// <summary>
+        /// tells if email pattern is valid
+        /// https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address?page=1&tab=votes#tab-top
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         private bool IsValidEmail(string email)
         {
             var trimmedEmail = email.Trim();
