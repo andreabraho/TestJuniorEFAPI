@@ -12,8 +12,9 @@
 
     </div>
     <div class="col-8">
-      <form @submit.prevent="sendData">
-
+      
+      <form @submit.prevent="sendData" >
+        <div class="row">
          <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
             <input type="email" 
@@ -54,11 +55,11 @@
             <div class="form-text text-danger">{{errors.brandDescription}}</div>
             
           </div>
-          
+          </div>
           <!-- ---------------------------------------------------------------------------------- -->
           
           <div v-for="(product,index) in form.prodsWithCats"
-                class="border bg-light mt-5"
+                class="border bg-light mt-5 row p-2"
                 :key="index"
                 >
 
@@ -69,7 +70,7 @@
               @click="removeProduct(index)"></i></p>
           </div>
 
-          <div class="form-group row mt-2">
+          <div class="row mt-2">
             <label >Name</label>
             <input type="text" 
                   class="form-control"
@@ -104,7 +105,7 @@
                       class="form-control"
                       :class="[product.errors.price!=null?'error-input':'']"
                       v-model="product.product.price" 
-                      step="any"
+                      step=".01"
                       @blur="isProductPriceValid(product)">
             <div class="form-text text-danger">{{product.errors.price}}</div>
 
@@ -334,9 +335,9 @@ export default {
     /**method to check if price is valid adds also error message */
     isProductPriceValid(product){
       product.errors.price=null
-      if(product.product.price>=0 && product.product.price<1e18)
+      if(product.product.price>=0 && product.product.price<1e16)
         return true
-      product.errors.price="Price can't be lower than 0 or higher than 1e18"
+      product.errors.price="Price can't be lower than 0 or higher than 1e16"
       return false
     },
     /**method to check if categories are valid adds also error message */

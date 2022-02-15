@@ -215,10 +215,15 @@ namespace ServicaLayer.ProductService
             });
             return x;
         }
-
+        /// <summary>
+        /// get a product data needed for update
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>null or the product needed</returns>
         public GetUpdateProductDTO GetProductForUpdate(int id)
         {
-
+            if(id<=0)
+                throw new ArgumentException(nameof(id));
 
             var getUpdateProductDTO = _productRepository.GetById(id).Include(x => x.ProductCategories).Select(x=>new GetUpdateProductDTO
             {
