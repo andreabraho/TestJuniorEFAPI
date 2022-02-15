@@ -22,6 +22,17 @@ namespace ServicaLayer.InfoRequestService
             _infoRequestRepository=infoRequestRepository;
             _brandRepository = brandRepository;
         }
+        /// <summary>
+        /// get paging data for a page of info requests
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="idBrand">brand to filter on</param>
+        /// <param name="productNameSearch">search done by user</param>
+        /// <param name="isAsc"></param>
+        /// <param name="productId">product to filetr on</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public InfoRequestPageDTO GetPage(int page, int pageSize,int idBrand=0,string productNameSearch=null,bool isAsc=true,int productId=0)
         {
 
@@ -29,6 +40,12 @@ namespace ServicaLayer.InfoRequestService
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             if (page <= 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
+            if(productNameSearch.Length==0 || productNameSearch.Length>255)
+                throw new ArgumentOutOfRangeException(nameof(productNameSearch));
+            if (productId<=0)
+                throw new ArgumentOutOfRangeException(nameof(productId));
+            if(idBrand<=0)
+                throw new ArgumentOutOfRangeException(nameof(idBrand));
 
             var pageModel = new InfoRequestPageDTO
             {
@@ -58,7 +75,12 @@ namespace ServicaLayer.InfoRequestService
         }
 
 
-
+        /// <summary>
+        /// get all detail data needed for a info request detail page
+        /// </summary>
+        /// <param name="id">info request id</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         async public Task<InfoRequestDetailDTO> GetInfoRequestDetail(int id)
         {
             if (id <= 0)
@@ -90,7 +112,12 @@ namespace ServicaLayer.InfoRequestService
             return await query.FirstOrDefaultAsync();
         }
 
-
+        /// <summary>
+        /// calculate how many pages can be
+        /// </summary>
+        /// <param name="totalItems"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         private int CalculateTotalPages(int totalItems, int pageSize)
         {
             if (totalItems % pageSize == 0)
