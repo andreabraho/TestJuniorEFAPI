@@ -51,7 +51,7 @@ namespace TestJuniorEFAPI.Controllers
                 return BadRequest("there are no brand with id lower than 0");
 
 
-            return Ok( _productService.GetProductsForPage(page,pageSize,brandId,orderBy,isAsc));
+            return Ok( _productService.GetProductsForPage(page,pageSize,brandId,(OrderProduct)orderBy,isAsc));
         }
         /// <summary>
         /// product detail page

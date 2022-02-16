@@ -32,7 +32,7 @@ namespace ServicaLayer.ProductService
         /// <param name="brandId">optional,default 0,type int,if default does nothing , if different filters on brands</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public ProductPageDTO GetProductsForPage(int page,int pageSize,int brandId=0,int orderBy=1,bool isAsc=true)
+        public ProductPageDTO GetProductsForPage(int page,int pageSize,int brandId=0,OrderProduct orderBy= OrderProduct.BrandName, bool isAsc=true)
         {
             if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));

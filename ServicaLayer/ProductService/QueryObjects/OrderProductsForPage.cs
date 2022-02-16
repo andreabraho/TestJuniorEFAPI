@@ -8,23 +8,23 @@ namespace ServicaLayer.ProductService.QueryObjects
 {
     public static class OrderProductsForPage
     {
-        public static IQueryable<Product> OrderForPage(this IQueryable<Product> products,int orderBy,bool isAsc)
+        public static IQueryable<Product> OrderForPage(this IQueryable<Product> products,OrderProduct orderBy,bool isAsc)
         {
             switch (orderBy)
             {
-                case 1:
+                case OrderProduct.BrandName:
                     if (isAsc)
                         products = products.OrderBy(x => x.Brand.BrandName);
                     else
                         products = products.OrderByDescending(x => x.Brand.BrandName);
                     break;
-                case 2:
+                case OrderProduct.ProductName:
                     if (isAsc)
                         products = products.OrderBy(x => x.Name);
                     else
                         products = products.OrderByDescending(x => x.Name);
                     break;
-                case 3:
+                case OrderProduct.Price:
                     if (isAsc)
                         products = products.OrderBy(x => x.Price);
                     else

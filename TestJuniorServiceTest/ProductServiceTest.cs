@@ -56,7 +56,7 @@ namespace TestJuniorServiceTest
             catIds[2] = category3.Id;
 
             //execution
-             await _productService.AddProduct(product,catIds);
+             await _productService.UpsertProduct(product,catIds);
 
             //control
             var prodFromRepo= _productRepository.GetById(product.Id).Include(x=>x.ProductCategories).Include(x=>x.Brand).FirstOrDefault();
@@ -84,7 +84,7 @@ namespace TestJuniorServiceTest
         public async Task CreateNullProduct_Failure()
         {
 
-            var x =await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await _productService.AddProduct(null, null));
+            var x =await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await _productService.UpsertProduct(null, null));
             Assert.AreEqual("product",x.ParamName);   
 
         }
@@ -103,7 +103,7 @@ namespace TestJuniorServiceTest
             product.ShortDescription = Guid.NewGuid().ToString();
 
 
-            var x = await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await _productService.AddProduct(product, null));
+            var x = await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await _productService.UpsertProduct(product, null));
             Assert.AreEqual("categories", x.ParamName);
 
         }
@@ -123,7 +123,7 @@ namespace TestJuniorServiceTest
             catIds[1] = category2.Id;
             catIds[2] = category3.Id;
 
-            await _productService.AddProduct(product, catIds);
+            await _productService.UpsertProduct(product, catIds);
 
             var prodFromRepo = _productRepository.GetById(product.Id).Include(x => x.ProductCategories).Include(x => x.Brand).FirstOrDefault();
 
