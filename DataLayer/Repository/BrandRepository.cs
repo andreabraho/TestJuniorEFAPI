@@ -53,37 +53,6 @@ namespace DataLayer.Repository
             return brand.Id;
         }
 
-        
-
-        /// <summary>
-        /// method that insert products for a brand,in case one product fails transaction is rollback
-        /// </summary>
-        /// <param name="brand">brand wich products are inserted</param>
-        /// <param name="products">products to be inserted(with their categories)</param>
-        /// <param name="result"></param>
-        /// <returns></returns>
-        private async Task InsertProducts(Brand brand, ProdWithCat[] products, bool result)
-        {
-            if (result)
-            {
-                using IDbContextTransaction transactionProd = _ctx.Database.BeginTransaction();
-               
-            }
-        }
-        /// <summary>
-        /// method that insert a brand account and if the insert success inserts the brand,if something fails reverse the inserts
-        /// </summary>
-        /// <param name="account">account to be inserted</param>
-        /// <param name="brand">brand to be inserted</param>
-        /// <param name="result">bool value rappresenting the result</param>
-        /// <returns>true or false baed on operations result</returns>
-        private async Task<bool> InsertAccountAndBrand(Account account, Brand brand, bool result)
-        {
-            
-
-            return result;
-        }
-
         /// <summary>
         /// soft delete a brand and all data related to him
         /// </summary>
@@ -98,8 +67,6 @@ namespace DataLayer.Repository
             var result = true;
             try
             {
-
-
                 //await _ctx.Database.ExecuteSqlRawAsync(@"update InfoRequestReply  
                 //                                        Set InfoRequestReply.IsDeleted=1 
                 //                                        From InfoRequestReply as irr 
@@ -134,11 +101,9 @@ namespace DataLayer.Repository
                 {
                     IsDeleted = true,
                 });
-                
 
                 await _ctx.SaveChangesAsync();
                 await DeleteAsync(id);
-
             }
             catch (Exception e)
             {

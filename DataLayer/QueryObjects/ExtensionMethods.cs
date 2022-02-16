@@ -23,5 +23,12 @@ namespace DataLayer.QueryObjects
                 }).ToList(),
             }).ToList();
         }
+        public static IEnumerable<ProductCategory> MapToProdCategory(this int[] cats)
+        {
+            return cats.Select(c => new ProductCategory
+            {
+                CategoryId = c,
+            }).ToList();
+        }
     }
 }

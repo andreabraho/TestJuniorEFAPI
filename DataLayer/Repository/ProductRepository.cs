@@ -1,4 +1,5 @@
 ﻿using DataLayer.Interfaces;
+using DataLayer.QueryObjects;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -24,43 +25,23 @@ namespace DataLayer.Repository
         /// <exception cref="ArgumentNullException">cats null</exception>
         public async Task<int> InsertWithCat(Product product,int[] cats)
         {
-            bool result = true;
-
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
             if (cats == null)
                 throw new ArgumentNullException(nameof(cats));
 
-
-            using IDbContextTransaction transaction = _ctx.Database.BeginTransaction();
             try
             {
-                await _ctx.Products.AddAsync(product);
+                product.ProductCategories = cats.MapToProdCategory();
+                _ctx.Products.Add(product);
+                await _ctx.SaveChangesAsync();
 
-                if (await _ctx.SaveChangesAsync() <= 0)//if not inserted
-                    result = false;
-
-
-
-                if (cats.Length > 0 && result)//if there are categories and the product was inserted
-                {
-                    foreach (var cat in cats)
-                    {
-                        await _ctx.Products_Categories.AddAsync(new ProductCategory { CategoryId = cat, ProductId = product.Id });
-                    }
-                    await _ctx.SaveChangesAsync();
-
-                }
-
-                transaction.Commit();
             }
             catch (Exception ex)
             {
-                result = false;
-                transaction.Rollback();
+
             }
 
-           
             return product.Id;
         }
 
