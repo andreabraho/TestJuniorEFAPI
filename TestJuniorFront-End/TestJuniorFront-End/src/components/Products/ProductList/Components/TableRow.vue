@@ -12,7 +12,7 @@
            {{cat.name.split(" ")[0]}}  </span>
           
         </div>
-        <div class="col-1 ">${{item.price}}</div>
+        <div class="col-1 "><div class="align-middle"><span class="float-end"><span class="text-success">$</span>{{item.price.toFixed(2)}}</span></div></div>
         <div class="col-2 position-relative">
             
             <div class="position-absolute top-50 start-50 translate-middle">

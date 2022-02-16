@@ -84,23 +84,12 @@ namespace TestJuniorEFAPI.Controllers
             if (validation != null)
                 return BadRequest(validation);
 
-            if (prodWCat.Product.Id == 0)//is insert
-            {
-                var result = await _productService.AddProduct(prodWCat.Product, prodWCat.CategoriesIds);
-                if (result != 0)
-                    return Ok(result);
-                else
-                    return NoContent();
-            }
-            else//is update
-            {
-                var result = await _productService.UpdateProduct(prodWCat);
-                if (result>0)
-                    return Ok(result);
+            var result = await _productService.UpsertProduct(prodWCat.Product, prodWCat.CategoriesIds);
 
-                return Ok("No Changes");
-            }
-
+            if (result != 0)
+                return Ok(result);
+            else
+                return BadRequest("Server error");
         }
         
         /// <summary>
@@ -113,7 +102,6 @@ namespace TestJuniorEFAPI.Controllers
             var result = _productService.GetInsertProductDTO();
             
             return Ok(result);
-           
         }
         /// <summary>
         /// deletes a product and all data in rlation with him
@@ -142,8 +130,6 @@ namespace TestJuniorEFAPI.Controllers
                 return Ok(prod);
             return NotFound();
         }
-
-
         /// <summary>
         /// validates if the model for product upsert is valid
         /// </summary>

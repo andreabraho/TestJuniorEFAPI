@@ -106,81 +106,24 @@ namespace ServicaLayer.ProductService
             var productDetail = await query.FirstOrDefaultAsync();
             return productDetail;
         }
-
-
         /// <summary>
-        /// insert a product and categories associated to him
+        /// upsert a product 
         /// </summary>
-        /// <param name="product">product</param>
-        /// <param name="categories">list of in rappresenting the categories associated</param>
-        /// <returns>id of the product inserted</returns>
-        /// <exception cref="ArgumentNullException">null input</exception>
-        /// <exception cref="InvalidOperationException">Data are not valid</exception>
-        public async Task<int> AddProduct(Product product,int[] categories)
+        /// <param name="product">product data to be upserted</param>
+        /// <param name="categories"> categories of the product</param>
+        /// <returns>0 in case of error,n in case of success</returns>
+        /// <exception cref="ArgumentNullException">product null</exception>
+        /// <exception cref="ArgumentNullException">categories null</exception>
+        public async Task<int> UpsertProduct(Product product,int[] categories)
         {
-            if(product == null)
+            if (product == null)
                 throw new ArgumentNullException(nameof(product));
-            if(categories == null) 
+            if (categories == null)
                 throw new ArgumentNullException(nameof(categories));
 
-            ProdWithCat prodWithCat=new ProdWithCat();
-            prodWithCat.Product = product;
-            prodWithCat.CategoriesIds = categories;
-            if (UpSertProductValidation(prodWithCat) != null)
-                throw new InvalidOperationException("Data are not valid");
-
-            return await _productRepository.InsertWithCat(product, categories);
-
+            return await _productRepository.Upsert(product,categories);
         }
-        /// <summary>
-        /// update product data and his categories
-        /// </summary>
-        /// <param name="prodCat">modl that contains a product and an array of categories ids</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException">prodCat null</exception>
-        /// <exception cref="ArgumentNullException">product null</exception>
-        /// <exception cref="ArgumentNullException">categoryIds array null</exception>
-        /// <exception cref="InvalidOperationException">data ar enot valid</exception>
-        public async Task<int> UpdateProduct(ProdWithCat prodCat)
-        {
-            if (prodCat == null)
-                throw new ArgumentNullException(nameof(prodCat));
-            if (prodCat.Product == null)
-                throw new ArgumentNullException(nameof(prodCat.Product));
-            if (prodCat.CategoriesIds == null)
-                throw new ArgumentNullException(nameof(prodCat.CategoriesIds));
-
-            if (UpSertProductValidation(prodCat) != null)
-                throw new InvalidOperationException("Data are not valid");
-
-            var product = await _productRepository.GetById(prodCat.Product.Id).Include(x => x.ProductCategories).FirstOrDefaultAsync();
-            if (product != null)
-            {
-
-                List<ProductCategory> categories = prodCat.CategoriesIds.Select(x => new ProductCategory
-                {
-                    CategoryId = x,
-                    ProductId = prodCat.Product.Id
-                }).ToList();
-
-                product.ProductCategories = categories;
-
-                product.Name = prodCat.Product.Name ?? "";
-                product.Description = prodCat.Product.Description ?? "";
-                product.ShortDescription = prodCat.Product.ShortDescription ?? "";
-                product.Price = prodCat.Product.Price;
-
-                //product.BrandId = prodCat.Product.BrandId;//todo CAN BE UPDATED?
-                var result = await _productRepository.Update(product);
-                if (result > 0)
-                {
-                    return product.Id;
-                }
-            }
-
-
-            return 0;
-        }
+        
         /// <summary>
         /// delete a product and all data related
         /// </summary>

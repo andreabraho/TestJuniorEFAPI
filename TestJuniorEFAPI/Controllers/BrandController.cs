@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DataLayer.Repository;
 using System.Collections.Generic;
 using Domain.ModelsForApi;
+using Microsoft.AspNetCore.Http;
 
 namespace TestJuniorEFAPI.Controllers
 {
@@ -38,6 +39,7 @@ namespace TestJuniorEFAPI.Controllers
                 return BadRequest("page size can't be lower or equal than 0 or higher than 1000");
             
             return Ok(_brandService.GetBrandPage(page,pageSize));
+            
         }
         /// <summary>
         /// brand detail page
@@ -68,15 +70,16 @@ namespace TestJuniorEFAPI.Controllers
 
             string res = ValidateBrandInsert(testModel);
             if (res != null)
-                return BadRequest(res);
+                return ValidationProblem(res);
 
             int result = await _brandService.InsertBrand(testModel.Account, testModel.Brand, testModel.prodsWithCats);
             if (result>0)
                 return Ok(result);
-            return NoContent();
+
+            return NotFound(result);
         }
         /// <summary>
-        /// deletes the brand and all data related to him
+        /// deletes the brand and all main branch data related to him
         /// </summary>
         /// <param name="id">brand id</param>
         /// <returns></returns>
@@ -90,7 +93,7 @@ namespace TestJuniorEFAPI.Controllers
             if (result)
                 return Ok(result);
 
-            return NotFound(result);
+            return BadRequest(result);
         }
         /// <summary>
         /// updates a brand
@@ -102,13 +105,15 @@ namespace TestJuniorEFAPI.Controllers
         {
             if (brand == null)
                 BadRequest("brand was null");
-            if (ValidateBrandUpdate(brand) != null)
-                return BadRequest(ValidateBrandUpdate(brand));
 
+            var validationResult = ValidateBrandUpdate(brand);
+            if (validationResult != null)
+                return ValidationProblem(validationResult);
 
             if (await _brandService.EditBrand(brand))
                 return Ok(brand);
-            return NoContent();
+            
+            return StatusCode(StatusCodes.Status406NotAcceptable);
         }
         /// <summary>
         /// get the brand data for brand update

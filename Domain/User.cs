@@ -18,7 +18,6 @@ namespace Domain
         public int AccountId { get; set; }
         public Account Account { get; set; }
         public IEnumerable<InfoRequest> InfoRequests { get; set; }
-
         private void ValidateString(string str)
         {
             if(str.Length==0 || str.Length>255)

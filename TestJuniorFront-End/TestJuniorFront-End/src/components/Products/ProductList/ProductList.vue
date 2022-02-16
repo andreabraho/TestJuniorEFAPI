@@ -2,8 +2,6 @@
   <div v-if="!isLoadingProducts">
 
     <!-- Modal -->
-
-    <new-modal :value="isModalVisible"></new-modal>
     
     <div
       class="modal fade"
@@ -76,7 +74,6 @@
           <page-buttons
             class="d-flex justify-content-center"
             :page="page"
-            :probes="testProbe"
             :maxPages="pageData.totalPages"
             @changePage="changePage"
           ></page-buttons>
@@ -105,7 +102,6 @@ const ProductRepository = MyRepositoryFactory.get("products");
 import MyTable from "./Components/Table.vue";
 import PageButtons from "../../Generic/PageButtons.vue";
 import PageTitle from "../../Generic/PageTitle.vue";
-import NewModal from "../../Generic/TestModal.vue"
 export default {
   name: "ProductList",
   props: {},
@@ -211,7 +207,6 @@ export default {
     MyTable,
     PageButtons,
     PageTitle,
-    NewModal,
   },
   async created() {
     await this.load();

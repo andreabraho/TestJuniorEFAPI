@@ -39,6 +39,8 @@ namespace DataLayer.Repository
         public async Task<int> Update(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
+            entities.Update(entity);
+
             return await _ctx.SaveChangesAsync();
         }
         public async Task<int> DeleteAsync(int id)

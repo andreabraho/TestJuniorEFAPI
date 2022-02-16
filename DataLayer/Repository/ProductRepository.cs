@@ -12,14 +12,14 @@ namespace DataLayer.Repository
 
         public ProductRepository(MyContext context) : base(context) { }
         /// <summary>
-        /// insert a product and his categories
+        /// upsert a product and his categories
         /// </summary>
         /// <param name="product"></param>
         /// <param name="cats">list of int rappresenting his categories</param>
         /// <returns>id of the product inserted</returns>
         /// <exception cref="ArgumentNullException">product null</exception>
         /// <exception cref="ArgumentNullException">cats null</exception>
-        public async Task<int> InsertWithCat(Product product,int[] cats)
+        public async Task<int> Upsert(Product product,int[] cats)
         {
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
@@ -29,16 +29,23 @@ namespace DataLayer.Repository
             try
             {
                 product.ProductCategories = cats.MapToProdCategory();
-                _ctx.Products.Add(product);
-                await _ctx.SaveChangesAsync();
 
+                if (product.Id == 0)
+                    await _ctx.Products.AddAsync(product);
+                else
+                {
+                    _ctx.Products_Categories.RemoveRange(_ctx.Products_Categories.Where(x=>x.ProductId == product.Id));
+                    _ctx.Products.Update(product);
+                }
+                await _ctx.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-
+                product.Id = 0;
             }
 
             return product.Id;
+
         }
 
         /// <summary>
