@@ -54,7 +54,7 @@ namespace DataLayer.Repository
         }
 
         /// <summary>
-        /// soft delete a brand and all data related to him
+        /// soft delete a brand and all main branch data related to him
         /// </summary>
         /// <param name="id">brand id</param>
         /// <returns></returns>
@@ -67,13 +67,6 @@ namespace DataLayer.Repository
             var result = true;
             try
             {
-                //await _ctx.Database.ExecuteSqlRawAsync(@"update InfoRequestReply  
-                //                                        Set InfoRequestReply.IsDeleted=1 
-                //                                        From InfoRequestReply as irr 
-                //                                            join InfoRequest as ir On irr.InfoRequestId=ir.Id 
-                //                                            join Product as p On ir.ProductId=p.Id 
-                //                                        where p.BrandId=" + id
-                //                                        );
                 //await _ctx.Database.ExecuteSqlRawAsync(@"update InfoRequest
                 //                                        Set InfoRequest.IsDeleted=1
                 //                                        From InfoRequest as ir join Product as p On ir.ProductId=p.Id
@@ -84,16 +77,7 @@ namespace DataLayer.Repository
                 //                                        where BrandId=
                 //                                        " + id);
 
-                await _ctx.InfoRequestReplys.Where(x => x.InfoRequest.Product.BrandId == id).UpdateFromQueryAsync(x => new InfoRequestReply()
-                {
-                    IsDeleted = true,
-                });
-
                 await _ctx.InfoRequests.Where(x => x.Product.BrandId == id).UpdateFromQueryAsync(x => new InfoRequest()
-                {
-                    IsDeleted = true,
-                });
-                await _ctx.Products_Categories.Where(x => x.Product.BrandId == id).UpdateFromQueryAsync(x => new ProductCategory()
                 {
                     IsDeleted = true,
                 });

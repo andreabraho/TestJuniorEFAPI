@@ -46,7 +46,7 @@ namespace DataLayer.Repository
         }
 
         /// <summary>
-        /// soft delete a product and all data related to him
+        /// soft delete a product and all main branch data related to him
         /// </summary>
         /// <param name="id">product id</param>
         /// <returns>true or false based on operation success</returns>
@@ -58,14 +58,6 @@ namespace DataLayer.Repository
             var result = true;
             try
             {
-                //await _ctx.Database.ExecuteSqlRawAsync(@"UPDATE InfoRequestReply  
-                //                                        SET InfoRequestReply.IsDeleted=1 
-                //                                        FROM InfoRequestReply as irr 
-                //                                            join InfoRequest as ir On irr.InfoRequestId=ir.Id 
-                //                                            join Product as p On ir.ProductId=p.Id 
-                //                                        WHERE p.Id=" + id
-                //                                        );
-
                 //await _ctx.Database.ExecuteSqlRawAsync(@"UPDATE InfoRequest
                 //                                        SET InfoRequest.IsDeleted=1
                 //                                        FROM InfoRequest as ir join Product as p On ir.ProductId=p.Id
@@ -76,25 +68,15 @@ namespace DataLayer.Repository
                 //                                        SET IsDeleted=1
                 //                                        WHERE ProductId=" + id);
 
-                await _ctx.InfoRequestReplys.Where(x => x.InfoRequest.ProductId == id).UpdateFromQueryAsync(x => new InfoRequestReply()
-                {
-                    IsDeleted = true,
-                });
                 
                 await _ctx.InfoRequests.Where(x => x.ProductId == id).UpdateFromQueryAsync(x => new InfoRequest()
                 {
                     IsDeleted = true,
                 });
                 
-                await _ctx.Products_Categories.Where(x => x.ProductId == id).UpdateFromQueryAsync(x => new ProductCategory()
-                {
-                    IsDeleted = true,
-                });
                 await _ctx.SaveChangesAsync();
-
                 await this.DeleteAsync(id);
 
-                result = true;
             }
             catch(Exception e)
             {
