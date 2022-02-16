@@ -20,8 +20,8 @@ namespace DataLayer.QueryObjects
                 ProductCategories = p.CategoriesIds.Select(c => new ProductCategory
                 {
                     CategoryId = c,
-                })
-            });
+                }).ToList(),
+            }).ToList();
         }
     }
 }
