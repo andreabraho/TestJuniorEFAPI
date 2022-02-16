@@ -155,9 +155,9 @@ namespace TestJuniorEFAPI.Controllers
             {
                 result += "Price can't be lower than 0 or higher than 1e16";
             }
-            if (prodWCat.Product.BrandId == 0)
+            if (prodWCat.Product.BrandId < 0)
             {
-                result += "Brand id can't be 0";
+                result += "Brand id can't be < 0";
             }
             return result;
         }

@@ -34,15 +34,19 @@ namespace DataLayer.Repository
                     await _ctx.Products.AddAsync(product);
                 else
                 {
-                    _ctx.Products_Categories.RemoveRange(_ctx.Products_Categories.Where(x=>x.ProductId == product.Id));
-                    _ctx.Products.Update(product);
+                    if(_ctx.Products.Select(p => p.Id).Contains(product.Id))//si fa????
+                    {
+                        _ctx.Products_Categories.RemoveRange(_ctx.Products_Categories.Where(x => x.ProductId == product.Id));
+                        _ctx.Products.Update(product);
+                    }
+                    
                 }
                 await _ctx.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 product.Id = 0;
-            }
+            }     
 
             return product.Id;
 
