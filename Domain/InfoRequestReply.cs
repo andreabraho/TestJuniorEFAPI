@@ -9,12 +9,20 @@ namespace Domain
     /// </summary>
     public class InfoRequestReply:EntityBase
     {
-        public string ReplyText { get; set; }
+        private string _replyText;
+        public string ReplyText { get { return _replyText; }
+            set { ValidateReply(value);_replyText = value; } }
         public DateTime InsertDate { get; set; }
         public int InfoRequestId { get; set; }
         public InfoRequest InfoRequest { get; set; }
         public int? AccountId { get; set; }
         public Account Account { get; set; }
+
+        private void ValidateReply(string reply)
+        {
+            if (string.IsNullOrEmpty(reply) || reply.Length>255)
+                throw new ArgumentException(nameof(reply));
+        }
 
     }
 }
