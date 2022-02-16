@@ -1,4 +1,5 @@
 ﻿using DataLayer.Interfaces;
+using DataLayer.QueryObjects;
 using Domain;
 using Domain.ModelsForApi;
 using Microsoft.EntityFrameworkCore;
@@ -34,14 +35,26 @@ namespace DataLayer.Repository
             if (products == null)
                 throw new ArgumentNullException(nameof(products));
 
-            var result = true;
-            result = await InsertAccountAndBrand(account, brand, result);
+            brand.Account = account;
 
+            IEnumerable<Product> productsList = products.MapToProducts();
 
-            await InsertProducts(brand, products, result);
+            brand.Products = productsList;
 
+            try
+            {
+                _ctx.Brands.Add(brand);
+                await _ctx.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+            }
             return brand.Id;
         }
+
+        
+
         /// <summary>
         /// method that insert products for a brand,in case one product fails transaction is rollback
         /// </summary>
@@ -54,35 +67,7 @@ namespace DataLayer.Repository
             if (result)
             {
                 using IDbContextTransaction transactionProd = _ctx.Database.BeginTransaction();
-                try
-                {
-
-                    if (products.Length > 0 && result)
-                    {
-                        foreach (var product in products)
-                        {
-                            product.Product.BrandId = brand.Id;
-
-                            await _ctx.Products.AddAsync(product.Product);
-
-                            if (await _ctx.SaveChangesAsync() > 0 && product.CategoriesIds.Length > 0)//if product is inserted and there are categories
-                            {
-                                foreach (var catId in product.CategoriesIds)
-                                {
-                                    await _ctx.Products_Categories.AddAsync(new ProductCategory { CategoryId = catId, ProductId = product.Product.Id });
-                                }
-                                await _ctx.SaveChangesAsync();
-                            }
-                        }
-                    }
-
-
-                    transactionProd.Commit();
-                }
-                catch (Exception e)
-                {
-                    transactionProd.Rollback();
-                }
+               
             }
         }
         /// <summary>
@@ -94,30 +79,7 @@ namespace DataLayer.Repository
         /// <returns>true or false baed on operations result</returns>
         private async Task<bool> InsertAccountAndBrand(Account account, Brand brand, bool result)
         {
-            try
-            {
-                _ctx.Accounts.Add(account);
-                if (await _ctx.SaveChangesAsync() <= 0)//if account insert fails set resul false so next streps are skipped
-                    result = false;
-
-                if (result)//if account was inserted
-                {
-                    brand.AccountId = account.Id;
-
-                    _ctx.Brands.Add(brand);
-                }
-                
-                if (await _ctx.SaveChangesAsync() <= 0 && result)//if brand insert fails and account was insterted remove account and set result false
-                {
-                    result = false;
-                    _ctx.Accounts.Remove(account);
-                    await _ctx.SaveChangesAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                result = false;
-            }
+            
 
             return result;
         }
