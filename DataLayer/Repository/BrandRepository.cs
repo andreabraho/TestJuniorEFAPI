@@ -52,14 +52,13 @@ namespace DataLayer.Repository
             }
             return brand.Id;
         }
-
         /// <summary>
         /// soft delete a brand and all main branch data related to him
         /// </summary>
         /// <param name="id">brand id</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">id not valid</exception>
-        public async Task<bool> DeleteAll(int id)
+        public async Task<bool> DeleteBrandAndRelatedData(int id)
         {
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id), "id can't be lower or equal than 0");
@@ -76,7 +75,6 @@ namespace DataLayer.Repository
                 //                                        Set IsDeleted=1
                 //                                        where BrandId=
                 //                                        " + id);
-
                 await _ctx.InfoRequests.Where(x => x.Product.BrandId == id).UpdateFromQueryAsync(x => new InfoRequest()
                 {
                     IsDeleted = true,
@@ -93,7 +91,6 @@ namespace DataLayer.Repository
             {
                 result=false;
             }
-
             return result;
         }
         /// <summary>

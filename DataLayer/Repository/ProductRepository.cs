@@ -51,10 +51,11 @@ namespace DataLayer.Repository
         /// <param name="id">product id</param>
         /// <returns>true or false based on operation success</returns>
         /// <exception cref="ArgumentOutOfRangeException">id not valid</exception>
-        public async Task<bool> DeleteAll(int id)
+        public async Task<bool> DeleteProdAndRelatedData(int id)
         {
             if(id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id),"id can't be lower or equal than 0");
+            
             var result = true;
             try
             {
@@ -64,11 +65,6 @@ namespace DataLayer.Repository
                 //                                        WHERE p.Id=" + id
                 //                                            );
 
-                //await _ctx.Database.ExecuteSqlRawAsync(@"UPDATE Product_Category
-                //                                        SET IsDeleted=1
-                //                                        WHERE ProductId=" + id);
-
-                
                 await _ctx.InfoRequests.Where(x => x.ProductId == id).UpdateFromQueryAsync(x => new InfoRequest()
                 {
                     IsDeleted = true,
@@ -76,7 +72,6 @@ namespace DataLayer.Repository
                 
                 await _ctx.SaveChangesAsync();
                 await this.DeleteAsync(id);
-
             }
             catch(Exception e)
             {

@@ -192,7 +192,7 @@ namespace ServicaLayer.ProductService
             if(id<=0)
                 throw new ArgumentException(nameof(id));
 
-            return await _productRepository.DeleteAll(id);
+            return await _productRepository.DeleteProdAndRelatedData(id);
         }
         
         /// <summary>

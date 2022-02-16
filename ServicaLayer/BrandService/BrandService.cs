@@ -114,7 +114,7 @@ namespace ServicaLayer.BrandService
             if(id<=0)
                 throw new ArgumentOutOfRangeException(nameof(id));
             
-            return await _brandRepository.DeleteAll(id);
+            return await _brandRepository.DeleteBrandAndRelatedData(id);
         }
         /// <summary>
         /// edit data of a brand
