@@ -36,7 +36,9 @@ export default {
     return Repository.put(`${resource}/upsert`, payload);
   },
   createProduct(payload) {
+    return Repository.post(`/cqrs/product/upsert`, payload);
+  },
+  createProduct2(payload) {
     return Repository.post(`${resource}/upsert`, payload);
   },
-  
 };

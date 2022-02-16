@@ -1,6 +1,8 @@
+using CqrsServices.Queries;
 using DataLayer.Interfaces;
 using DataLayer.Repository;
 using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -64,6 +66,7 @@ namespace TestJuniorEFAPI
             services.AddScoped<InfoRequestService>();
             services.AddControllers().AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddMediatR(typeof(GetProductDetailById).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
