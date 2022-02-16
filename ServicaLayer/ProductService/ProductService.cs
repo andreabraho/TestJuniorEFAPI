@@ -120,10 +120,11 @@ namespace ServicaLayer.ProductService
                 throw new ArgumentNullException(nameof(product));
             if (categories == null)
                 throw new ArgumentNullException(nameof(categories));
+            if (UpSertProductValidation(product, categories) != null)
+                throw new ArgumentException();
 
             return await _productRepository.Upsert(product,categories);
         }
-        
         /// <summary>
         /// delete a product and all data related
         /// </summary>
@@ -137,7 +138,6 @@ namespace ServicaLayer.ProductService
 
             return await _productRepository.DeleteProdAndRelatedData(id);
         }
-        
         /// <summary>
         /// get all data needed for product upsert page
         /// </summary>
@@ -200,27 +200,27 @@ namespace ServicaLayer.ProductService
         /// </summary>
         /// <param name="prodWCat"></param>
         /// <returns>null is it is valid,string with error if not</returns>
-        private string UpSertProductValidation(ProdWithCat prodWCat)
+        private string UpSertProductValidation(Product product,int[] cats)
         {
             string result = null;
 
-            if (prodWCat.CategoriesIds.Length == 0)
+            if (cats.Length == 0)
             {
                 result += "Select at least one category for the product \n";
             }
-            if (prodWCat.Product.Name.Length == 0 || prodWCat.Product.Name.Length > 255 ||string.IsNullOrWhiteSpace(prodWCat.Product.Name))
+            if (string.IsNullOrWhiteSpace(product.Name)||product.Name.Length == 0 || product.Name.Length > 255)
             {
                 result += "Product name can't be empity and can't have more than 255 characters \n";
             }
-            if (prodWCat.Product.ShortDescription.Length == 0 || prodWCat.Product.ShortDescription.Length > 255|| string.IsNullOrWhiteSpace(prodWCat.Product.ShortDescription))
+            if (string.IsNullOrWhiteSpace(product.ShortDescription)||product.ShortDescription.Length == 0 || product.ShortDescription.Length > 255)
             {
                 result += "Product short description can't be empity and can't have more than 255 characters \n";
             }
-            if (prodWCat.Product.Price < 0 || prodWCat.Product.Price > (decimal)1e16)
+            if (product.Price < 0 || product.Price > (decimal)1e16)
             {
                 result += "Price can't be lower than 0 or higher than 1e16";
             }
-            if (prodWCat.Product.BrandId == 0)
+            if (product.BrandId < 0)
             {
                 result += "Brand id can't be 0";
             }

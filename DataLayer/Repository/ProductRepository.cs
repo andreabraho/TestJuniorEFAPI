@@ -39,7 +39,11 @@ namespace DataLayer.Repository
                         _ctx.Products_Categories.RemoveRange(_ctx.Products_Categories.Where(x => x.ProductId == product.Id));
                         _ctx.Products.Update(product);
                     }
-                    
+                    else
+                    {
+                        product.Id = 0;
+                    }
+
                 }
                 await _ctx.SaveChangesAsync();
             }
@@ -76,7 +80,7 @@ namespace DataLayer.Repository
                 {
                     IsDeleted = true,
                 });
-                
+
                 await _ctx.SaveChangesAsync();
                 await this.DeleteAsync(id);
             }
