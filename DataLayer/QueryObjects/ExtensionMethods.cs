@@ -17,10 +17,7 @@ namespace DataLayer.QueryObjects
                 ShortDescription = p.Product.ShortDescription,
                 Description = p.Product.Description,
                 Price = p.Product.Price,
-                ProductCategories = p.CategoriesIds.Select(c => new ProductCategory
-                {
-                    CategoryId = c,
-                }).ToList(),
+                ProductCategories = p.CategoriesIds.MapToProdCategory()
             }).ToList();
         }
         public static IEnumerable<ProductCategory> MapToProdCategory(this int[] cats)
