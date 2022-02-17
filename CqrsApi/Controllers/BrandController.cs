@@ -1,4 +1,7 @@
-﻿using CqrsServices.Queries.BrandQueries;
+﻿using CqrsServices.Commands.BrandCommands;
+using CqrsServices.Queries.BrandQueries;
+using Domain;
+using Domain.ModelsForApi;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -50,9 +53,52 @@ namespace CqrsApi.Controllers
                 return NotFound();
         }
 
+        /// <summary>
+        /// inserts brand with and array of products each one with different categories
+        /// </summary>
+        /// <param name="testModel">model containing all needed data to insert the brand with products </param>
+        /// <returns></returns>
+        [HttpPost("Insert")]
+        public async Task<IActionResult> InsertBrand(BrandInsertApiModel testModel)
+        {
+            var response = await _mediator.Send(new InsertBrand.Command(testModel.Account, testModel.Brand, testModel.prodsWithCats));
+            if(response>0)
+                return Ok(response);
+            else
+                return NotFound();
+        }
 
+        /// <summary>
+        /// deletes the brand and all main branch data related to him
+        /// </summary>
+        /// <param name="id">brand id</param>
+        /// <returns></returns>
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> DeleteBrandAndRelations(int id)
+        {
+            var response=await _mediator.Send(new BrandDelete.Command(id));
+            if(response)
+                return Ok(response);
+            else 
+                return BadRequest(response);
+        }
+        /// <summary>
+        /// updates a brand
+        /// </summary>
+        /// <param name="brand"></param>
+        /// <returns></returns>
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateBrand(Brand brand)
+        {
+            if (brand == null)
+                BadRequest("brand was null");
 
-
+            var response=await _mediator.Send(new BrandUpdate.Command(brand));
+            if (response)
+                return Ok(brand.Id);
+            else
+                return BadRequest(response);
+        }
 
     }
 }
