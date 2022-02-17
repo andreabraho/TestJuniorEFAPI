@@ -1,4 +1,7 @@
+using CqrsServices.Filter;
 using CqrsServices.Queries;
+using CqrsServices.Validation;
+using CQRSTest.Behaviours;
 using DataLayer.Interfaces;
 using DataLayer.Repository;
 using Domain;
@@ -27,7 +30,7 @@ namespace CqrsApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(o => o.Filters.Add(typeof(ResponseMappingFilter)));
             services.AddDbContextPool<MyContext>(optionsBuilder =>
             {
                 string ConnectionString = Configuration.GetConnectionString("Default");
@@ -53,6 +56,9 @@ namespace CqrsApi
             services.AddControllers().AddNewtonsoftJson(options =>
                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddMediatR(typeof(GetProductDetailById).Assembly);
+            services.AddValidators();
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

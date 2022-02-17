@@ -11,7 +11,7 @@ namespace Domain
     {
         private string _name;
         public string Name { get { return _name; }
-            set { ValidateGenericString(value);_name = value; } }
+            set { /*ValidateGenericString(value);*/_name = value; } }
         private string _shortDescription;
         public string ShortDescription { get { return _shortDescription; }
             set { ValidateGenericString(value);_shortDescription = value; } }

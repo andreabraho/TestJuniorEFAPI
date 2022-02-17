@@ -1,17 +1,16 @@
-﻿using CqrsServices.Validation;
+﻿using CqrsServices;
+using CqrsServices.Validation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CqrsServices.Behaviours
+namespace CQRSTest.Behaviours
 {
     public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TResponse : CQRSResponse, new()
+        where TRequest : MediatR.IRequest<TResponse>
     {
         private readonly ILogger<ValidationBehaviour<TRequest, TResponse>> logger;
         private readonly IValidationHandler<TRequest> validationHandler;

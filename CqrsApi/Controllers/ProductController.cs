@@ -44,10 +44,7 @@ namespace TestJuniorEFAPI.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Id != 0)
-                    return Ok(result.Id);
-                else
-                    return BadRequest();
+                    return Ok(result);
             }
             catch(Exception e)
             {
