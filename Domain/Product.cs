@@ -24,7 +24,6 @@ namespace Domain
         public IEnumerable<ProductCategory> ProductCategories { get; set; }
         public IEnumerable<InfoRequest> InfoRequests { get; set; }
         public string GetFakeImage() => "https://via.placeholder.com/728x90.png?text="+ShortDescription.Substring(0, ShortDescription.Length<10?ShortDescription.Length:10);
-    
         private void ValidateGenericString(string str)
         {
             if(string.IsNullOrWhiteSpace(str) || str.Length > 255)

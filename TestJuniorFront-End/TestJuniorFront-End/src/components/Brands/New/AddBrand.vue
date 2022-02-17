@@ -2,10 +2,17 @@
   <div v-if="!isLoading" class="row">
 
     <div class="row mb-3 mt-3">
-      <div class="col-2"></div>
+      <div class="col-2">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="isToastVisible">
+        {{toastErrorMessage}}
+        <button type="button" class="btn-close" @click="hideToast"></button>
+      </div>
+      </div>
       
       <div class="col-8"><p class="h2">Create New Brand</p></div>
-      <div class="col-2"></div>
+      <div class="col-2">
+      
+      </div>
     </div>
 
     <div class="col-2">
@@ -177,7 +184,9 @@ export default {
         password:null,
         brandName:null,
         brandDescription:null
-      }
+      },
+      isToastVisible:false,
+      toastErrorMessage:"OPS !! ERRORS"
     }
   },
   methods:{
@@ -192,8 +201,14 @@ export default {
     /**sends data to api if form is correct */
     async sendData(){
       if(await this.formCheck()){
-        const {data} =await BrandRepository.createBrand(this.form)
-        this.$router.push("/brands/" + data);
+        await BrandRepository.createBrand(this.form)
+          .then(data=>{
+            data=data.data
+            this.$router.push("/brands/" + data);
+          })
+          .catch(err=>{
+            this.showToast(err)
+          })
       }
     },
     /**add a product on form prodWithCatfield with default values */
@@ -224,12 +239,10 @@ export default {
       this.resetBrandErrors()
 
       if(await this.validateEmail()){//if email is valid
-        console.log("email valid")
         /**fill the prod error array if needed */
 
         if(!this.isPasswordValid() || !this.isBrandNameValid() || !this.isBrandDescriptionValid()   || this.checkIfProdsHaveErrors()){//if there are brand error or prod have errors
           console.log(!this.isPasswordValid() , !this.isBrandNameValid() , !this.isBrandDescriptionValid()   , this.checkIfProdsHaveErrors())
-          console.log("false inside email")
           this.checkProdErrors()
           
           return false
@@ -366,12 +379,26 @@ export default {
         brandDescription:null
 
       }
-    }
+    },
+    hideToast(){
+      this.isToastVisible=false
+    },
+    showToast(error){
+      this.toastErrorMessage=error
+      this.isToastVisible=true
+      this.scrollToTop()
+    },
+    scrollToTop() {
+    window.scrollTo(0,0);
+  }
       
   },
   async created(){
     this.$emit("setActiveLink",2)
     await this.load()
+  },
+  mounted(){
+    
   }
 
 }

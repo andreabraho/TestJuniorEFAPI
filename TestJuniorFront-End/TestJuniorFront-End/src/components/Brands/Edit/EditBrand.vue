@@ -1,6 +1,18 @@
 <template>
     <div class="row">
-        <div class="row">Brand Update</div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8 h2 my-5"> Brand Update</div>
+            <div class="col-2">
+                <div class="alert  alert-danger alert1" role="alert" v-if="isAlertShown">
+                    {{alertMessage}}
+                </div>
+                <div class="alert  alert-danger alert2" role="alert" v-if="isAlert2Shown">
+                    {{alert2Message}}
+                    <i class="bi bi-bookmark-x position-absolute top-0 end-0" @click="hideAlert2"></i>
+                </div>
+            </div>
+            </div>
         <div class="row">
             <p v-for="(error,index) in errors" :key="index">{{error}}</p>
         </div>
@@ -29,8 +41,10 @@
             </form>
 
         </div>
-        <div class="col-2"></div>
-
+        <div class="col-2">
+            
+        </div>
+        
 
 
 
@@ -50,6 +64,7 @@
 <script>
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const BrandRepository = MyRepositoryFactory.get("brands");
+
 export default ({
     data(){
         return {
@@ -60,24 +75,37 @@ export default ({
                 description:""
             },
             isLoading:true,
-            errors:[]
+            errors:[],
+            alertMessage:"OPS!!! A error Happened yoyo!!",
+            isAlertShown:false,
+            alert2Message:"OPS!!! Big Error DUDE",
+            isAlert2Shown:false
         }
     },
     methods:{
         async load(){
             this.isLoading=true
             this.id=this.$route.params.id
-            const { data } = await BrandRepository.getDataForEdit(this.id);
-            console.log(data)
-            this.form.brandName=data.brandName
-            this.form.description=data.description
-            this.form.id=data.id
-            this.isLoading=false
+            await BrandRepository.getDataForEdit(this.id)
+            .then(data=>{
+                data=data.data
+                this.form.brandName=data.brandName
+                this.form.description=data.description
+                this.form.id=data.id
+                this.isLoading=false
+            })
+            .catch(err=>{
+                this.alert2Message=err
+                this.isAlert2Shown=true
+            });
         },
         async sendData(){
             if(this.checkForm){
-                await BrandRepository.editBrand(this.form);
-                this.$router.push("/brands/"+this.id)
+                await BrandRepository.editBrand(this.form)
+                    .then(()=>this.$router.push("/brands/"+this.id))
+                    .catch(err=>{
+                        this.showAlert(err)
+                    });
             }
             
         },
@@ -90,14 +118,33 @@ export default ({
                 return false
 
             return true
-        }
-
-
+        },
+        showAlert(err){
+            this.alertMessage=err
+            this.isAlertShown=true
+            this.scrollToTop()
+            setTimeout(() => this.hideAlert(2000), 6000)
+        },
+        hideAlert(){
+            this.isAlertShown=false
+        },
+        scrollToTop() {
+            window.scrollTo(0,0);
+        },
+        showAlert2(err){
+            this.alert2Message=err
+            this.showAlert2=true
+        },
+        hideAlert2(){
+            this.isAlert2Shown=false
+        },
     },
     async created(){
         await this.load()
-    this.$emit("setActiveLink",2)
-
+        this.$emit("setActiveLink",2)
+    },
+    beforeCreate(){
+        
     }
 })
 </script>
