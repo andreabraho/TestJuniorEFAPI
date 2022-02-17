@@ -60,5 +60,31 @@ namespace TestJuniorEFAPI.Controllers
                 return BadRequest();
 
         }
+
+
+        /// <summary>
+        /// method that gets all data neccessary to insert a product
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Insert")]
+        public IActionResult GetCatListBrandList()
+        {
+            var result = _productService.GetInsertProductDTO();
+
+            return Ok(result);
+        }
+        /// <summary>
+        /// return the product data needed for update
+        /// </summary>
+        /// <param name="id">id of the product to be returned</param>
+        /// <returns></returns>
+        [HttpGet("Update/{id}")]
+        public IActionResult UpdateProductAsync(int id)
+        {
+            var prod = _productService.GetProductForUpdate(id);
+            if (prod != null)
+                return Ok(prod);
+            return NotFound();
+        }
     }
 }
