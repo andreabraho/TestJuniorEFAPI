@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServicaLayer", "ServicaLaye
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestJuniorServiceTest", "TestJuniorServiceTest\TestJuniorServiceTest.csproj", "{7F52083C-BA17-497B-BDC2-7DDB41058364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsServices", "CqrsServices\CqrsServices.csproj", "{1E3AF141-D539-4A70-8370-0A406A33603B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CqrsServices", "CqrsServices\CqrsServices.csproj", "{1E3AF141-D539-4A70-8370-0A406A33603B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsApi", "CqrsApi\CqrsApi.csproj", "{A197F1C3-2BDE-4066-BAEF-A693D15360C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{1E3AF141-D539-4A70-8370-0A406A33603B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E3AF141-D539-4A70-8370-0A406A33603B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E3AF141-D539-4A70-8370-0A406A33603B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A197F1C3-2BDE-4066-BAEF-A693D15360C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A197F1C3-2BDE-4066-BAEF-A693D15360C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A197F1C3-2BDE-4066-BAEF-A693D15360C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A197F1C3-2BDE-4066-BAEF-A693D15360C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

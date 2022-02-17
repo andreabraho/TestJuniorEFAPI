@@ -1,5 +1,4 @@
 ﻿using DataLayer.Interfaces;
-using Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -7,45 +6,34 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CqrsServices.Commands
+namespace CqrsServices.Commands.ProductCommands
 {
-    public static class UpsertProduct
+    public static class DeleteProduct
     {
-        public class Command: IRequest<Response>
+        public class Command : IRequest<Response>
         {
-            public Product Product { get; set; }
-            public int[] CategoriesIds { get; set; }
-            public Command(Product product,int[] categoriesIds)
+            public int Id { get; set; }
+            public Command(int id)
             {
-                Product = product;
-                CategoriesIds = categoriesIds;
+                Id = id;
             }
-
         }
-
         public class Handaler : IRequestHandler<Command, Response>
         {
             private readonly IProductRepository _productRepository;
             public Handaler(IProductRepository productRepository)
             {
-                _productRepository= productRepository;
+                _productRepository=productRepository;
             }
-
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                var result=await _productRepository.Upsert(request.Product,request.CategoriesIds);
-                return new Response { Id=result};
+                return new Response { Result = await _productRepository.DeleteProdAndRelatedData(request.Id) };
             }
         }
 
-
-
-
-
-
         public class Response
         {
-            public int Id { get; set; }
+            public bool Result { get; set; }
         }
     }
 }
