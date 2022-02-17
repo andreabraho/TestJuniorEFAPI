@@ -100,7 +100,12 @@
         </form>
 
       </div>
-      <div class="col-4 "></div>
+      <div class="col-4 ">
+
+        <div class="alert alert-danger" role="alert">
+          {{alertMessage}}
+        </div>
+      </div>
     
   </div>
 </template>
@@ -108,6 +113,8 @@
 <script>
 import { MyRepositoryFactory } from "../../../../repositories/MyRepositoryFactory.js";
 const ProductRepository = MyRepositoryFactory.get("products");
+import $ from 'jquery'
+
 export default {
   data() {
     return {
@@ -134,6 +141,7 @@ export default {
         price:null,
         categories:null
       },
+      alertMessage:"Ops!! There was an error!!"
     };
   },
   methods: {
@@ -155,17 +163,27 @@ export default {
     /**sends data to api if data pass validation */
     async sendData() {
       if (this.formCheck()) {
-        var x;
+        
         if (this.id != 0){
-          x=await ProductRepository.editProduct(this.form);
-          this.id = x.data;
+          await ProductRepository.editProduct(this.form)
+            .then(data=>{
+              this.id = data.data;
+              this.$router.push("/products/" + this.id);
+            })
+            .catch(function (error) {
+              this.showAlert(error);
+            }).bind(this);
         }
         else {
-          x = await ProductRepository.createProduct(this.form);
-          this.id = x.data;
+          await ProductRepository.createProduct(this.form)
+          .then(data=>{
+            this.id = data.data;
+            this.$router.push("/products/" + this.id);
+          })
+          .catch(err=>{
+            this.showAlert(err);return null})
         }
 
-        this.$router.push("/products/" + this.id);
       }
     },
     /**updates form data with data coming from api */
@@ -248,12 +266,28 @@ export default {
         price:null,
         categories:null
       }
-    }
+    },
+    showAlert(err){
+      this.alertMessage=err
+      $('.alert').show()
+      this.scrollToTop()
+      setTimeout(() => this.hideAlert(2000), 6000)
+    },
+    hideAlert(num){
+      $('.alert').slideUp(num)
+    },
+    scrollToTop() {
+    window.scrollTo(0,0);
+  }
   },
   async created() {
+
     await this.load();
     this.$emit("setActiveLink", 1);
+     $('.alert').hide()
+
   },
+  
 };
 </script>
 

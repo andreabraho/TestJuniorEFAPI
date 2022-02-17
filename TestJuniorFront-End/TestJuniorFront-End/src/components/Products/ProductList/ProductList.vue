@@ -1,8 +1,7 @@
 <template>
   <div v-if="!isLoadingProducts">
-
     <!-- Modal -->
-    
+
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -102,6 +101,8 @@ const ProductRepository = MyRepositoryFactory.get("products");
 import MyTable from "./Components/Table.vue";
 import PageButtons from "../../Generic/PageButtons.vue";
 import PageTitle from "../../Generic/PageTitle.vue";
+import $ from 'jquery'
+
 export default {
   name: "ProductList",
   props: {},
@@ -201,6 +202,9 @@ export default {
       if (res.data) this.$toast.top("Deleted succesfully");
       if (!res.data) this.$toast.top("Not deleted upsi");
     },
+    toggleAlert(){
+      $('.alert').slideUp(500)
+    }
   },
   computed: {},
   components: {

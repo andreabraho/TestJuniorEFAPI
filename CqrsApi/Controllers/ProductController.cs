@@ -4,6 +4,7 @@ using CqrsServices.Queries;
 using CqrsServices.Queries.ProductQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace TestJuniorEFAPI.Controllers
@@ -40,11 +41,19 @@ namespace TestJuniorEFAPI.Controllers
         [HttpPut("Upsert")]
         public async Task<IActionResult> Upsert(UpsertProduct.Command command)
         {
-            var result = await _mediator.Send(command);
-            if(result.Id!=0)
-                return Ok(result.Id);
-            else
-                return BadRequest();
+            try
+            {
+                var result = await _mediator.Send(command);
+                if (result.Id != 0)
+                    return Ok(result.Id);
+                else
+                    return BadRequest();
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
         /// <summary>
         /// deletes a product and all data in rlation with him
