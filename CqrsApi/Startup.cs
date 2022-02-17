@@ -50,6 +50,8 @@ namespace CqrsApi
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IInfoRequestRepository, InfoRequestRepository>();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                   options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddMediatR(typeof(GetProductDetailById).Assembly);
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

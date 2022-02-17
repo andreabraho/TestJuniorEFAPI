@@ -99,6 +99,69 @@ namespace CqrsApi.Controllers
             else
                 return BadRequest(response);
         }
+        /// <summary>
+        /// get the brand data for brand update
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("Update/{id}")]
+        public async Task<IActionResult> GetBrand(int id)
+        {
+            if (id <= 0)
+                return BadRequest("id can't be lower or equal than 0");
 
+            var response=await _mediator.Send(new GetBrandForUpdate.Query(id));
+            if(response!=null)
+                return Ok(response);
+            else
+                return NotFound();
+            
+        }
+        /// <summary>
+        /// check if the email is valid
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>true or false</returns>
+        [HttpGet("ValidateMail/{email=}")]
+        public async Task<IActionResult> ValidateMail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return BadRequest(false);
+            if (email.Length == 0 || email.Length > 255)
+                return BadRequest(false);
+            if (!IsValidEmail(email))
+                return BadRequest(false);
+
+            var response=await _mediator.Send(new ValidateEmail.Query(email));
+            if (response)
+                return Ok(response);
+            else
+                return BadRequest();
+            
+        }
+        /// <summary>
+        /// tells if email pattern is valid
+        /// https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address?page=1&tab=votes#tab-top
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        private bool IsValidEmail(string email)
+        {
+            var trimmedEmail = email.Trim();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false;
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

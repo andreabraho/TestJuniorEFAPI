@@ -1,6 +1,7 @@
 ﻿using CqrsServices.Commands;
 using CqrsServices.Commands.ProductCommands;
 using CqrsServices.Queries;
+using CqrsServices.Queries.ProductQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -67,11 +68,13 @@ namespace TestJuniorEFAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("Insert")]
-        public IActionResult GetCatListBrandList()
+        public async Task<IActionResult> GetCatListBrandList()
         {
-            var result = _productService.GetInsertProductDTO();
-
-            return Ok(result);
+            var response = await _mediator.Send(new GetDataForInsert.Query());
+            if (response != null)
+                return Ok(response);
+            else
+                return NotFound();
         }
         /// <summary>
         /// return the product data needed for update
@@ -79,12 +82,13 @@ namespace TestJuniorEFAPI.Controllers
         /// <param name="id">id of the product to be returned</param>
         /// <returns></returns>
         [HttpGet("Update/{id}")]
-        public IActionResult UpdateProductAsync(int id)
+        public async Task<IActionResult> UpdateProductAsync(int id)
         {
-            var prod = _productService.GetProductForUpdate(id);
-            if (prod != null)
-                return Ok(prod);
-            return NotFound();
+            var response = await _mediator.Send(new GetDataForUpdate.Query(id));
+            if (response != null)
+                return Ok(response);
+            else
+                return NotFound();
         }
     }
 }
