@@ -1,4 +1,5 @@
 ﻿using CqrsServices.Commands;
+using CqrsServices.Commands.ProductCommands;
 using CqrsServices.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

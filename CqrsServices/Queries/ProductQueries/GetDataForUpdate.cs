@@ -55,7 +55,7 @@ namespace CqrsServices.Queries.ProductQueries
                 return response;
             }
         }
-        public class Response
+        public class Response:CQRSResponse
         {
             public Product Product { get; set; }
             public int[] CategoriesAssociated { get; set; }

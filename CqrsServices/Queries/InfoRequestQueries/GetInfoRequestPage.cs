@@ -73,7 +73,7 @@ namespace CqrsServices.Queries.InfoRequestQueries
             }
         }
 
-        public class Response
+        public class Response:CQRSResponse
         {
             /// <summary>
             /// page needed

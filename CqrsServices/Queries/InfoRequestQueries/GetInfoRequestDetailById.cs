@@ -66,7 +66,7 @@ namespace CqrsServices.Queries.InfoRequestQueries
         /// all data needed in info request detail page
         /// model used to create the object that will be returned in Produc API InfoRequest/Detail/{id}
         /// </summary>
-        public class Response
+        public class Response:CQRSResponse
         {
             /// <summary>
             /// info request id

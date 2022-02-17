@@ -71,7 +71,7 @@ namespace CqrsServices.Queries
 
 
         //response data we want to return
-        public class Response
+        public class Response:CQRSResponse
         {
             public int Id { get; set; }
             public int BrandId { get; set; }

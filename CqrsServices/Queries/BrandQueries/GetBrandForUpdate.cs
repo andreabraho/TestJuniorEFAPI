@@ -12,7 +12,7 @@ namespace CqrsServices.Queries.BrandQueries
 {
     public static class GetBrandForUpdate
     {
-        public class Query : IRequest<Brand>
+        public class Query : IRequest<Response>
         {
             public int Id { get; set; }
             public Query(int id)
@@ -22,17 +22,21 @@ namespace CqrsServices.Queries.BrandQueries
         }
 
 
-        public class Handaler : IRequestHandler<Query, Brand>
+        public class Handaler : IRequestHandler<Query, Response>
         {
             private readonly IBrandRepository _brandRepository;
             public Handaler(IBrandRepository brandRepository)
             {
                 _brandRepository = brandRepository;
             }
-            public async Task<Brand> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _brandRepository.GetById(request.Id).FirstOrDefaultAsync();
+                return new Response { Brand = await _brandRepository.GetById(request.Id).FirstOrDefaultAsync() };
             }
+        }
+        public class Response:CQRSResponse
+        {
+            public Brand Brand { get; set; }
         }
     }
 }

@@ -70,7 +70,7 @@ namespace CqrsServices.Queries.BrandQueries
         /// Rappresents a class that contains all data neccessary for a brand detail page
         /// model used to create the object that will be returned in Produc API brand/Detail/{id}
         /// </summary>
-        public class Response
+        public class Response:CQRSResponse
         {
 
             /// <summary>

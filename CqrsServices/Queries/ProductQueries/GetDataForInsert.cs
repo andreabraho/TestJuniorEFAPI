@@ -49,7 +49,7 @@ namespace CqrsServices.Queries.ProductQueries
             }
         }
 
-        public class Response
+        public class Response:CQRSResponse
         {
             public IEnumerable<BrandForInsertDTO> Brands { get; set; }
             public IEnumerable<CatForInsertDTO> Categories { get; set; }

@@ -31,7 +31,7 @@ namespace CqrsServices.Commands.ProductCommands
             }
         }
 
-        public class Response
+        public class Response : CQRSResponse
         {
             public bool Result { get; set; }
         }

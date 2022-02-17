@@ -12,7 +12,7 @@ namespace CqrsServices.Commands.BrandCommands
 {
     public static class InsertBrand
     {
-        public class Command : IRequest<int>
+        public class Command : IRequest<Response>
         {
             public Account Account { get; set; }
             public Brand Brand { get; set; }
@@ -26,7 +26,7 @@ namespace CqrsServices.Commands.BrandCommands
         }
 
 
-        public class Handaler : IRequestHandler<Command, int>
+        public class Handaler : IRequestHandler<Command, Response>
         {
             private readonly IBrandRepository _brandRepository;
             public Handaler(IBrandRepository brandRepository)
@@ -34,10 +34,15 @@ namespace CqrsServices.Commands.BrandCommands
                 _brandRepository=brandRepository;
             }
 
-            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                return await _brandRepository.InsertWithProducts(request.Account, request.Brand, request.ProdWithCats);
+                return new Response { Id=await _brandRepository.InsertWithProducts(request.Account, request.Brand, request.ProdWithCats) };
             }
+        }
+
+        public class Response : CQRSResponse
+        {
+            public int Id { get; set; } 
         }
     }
 }

@@ -62,7 +62,7 @@ namespace CqrsApi.Controllers
         public async Task<IActionResult> InsertBrand(BrandInsertApiModel testModel)
         {
             var response = await _mediator.Send(new InsertBrand.Command(testModel.Account, testModel.Brand, testModel.prodsWithCats));
-            if(response>0)
+            if(response.Id>0)
                 return Ok(response);
             else
                 return NotFound();
@@ -77,7 +77,7 @@ namespace CqrsApi.Controllers
         public async Task<IActionResult> DeleteBrandAndRelations(int id)
         {
             var response=await _mediator.Send(new BrandDelete.Command(id));
-            if(response)
+            if(response.Result)
                 return Ok(response);
             else 
                 return BadRequest(response);
@@ -94,7 +94,7 @@ namespace CqrsApi.Controllers
                 BadRequest("brand was null");
 
             var response=await _mediator.Send(new BrandUpdate.Command(brand));
-            if (response)
+            if (response.Result)
                 return Ok(brand.Id);
             else
                 return BadRequest(response);
@@ -133,7 +133,7 @@ namespace CqrsApi.Controllers
                 return BadRequest(false);
 
             var response=await _mediator.Send(new ValidateEmail.Query(email));
-            if (response)
+            if (response.Result)
                 return Ok(response);
             else
                 return BadRequest();

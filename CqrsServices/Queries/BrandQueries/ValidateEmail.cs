@@ -10,7 +10,7 @@ namespace CqrsServices.Queries.BrandQueries
 {
     public static class ValidateEmail
     {
-        public class Query : IRequest<bool>
+        public class Query : IRequest<Response>
         {
             public string Email { get; set; }
             public Query(string email)
@@ -21,20 +21,21 @@ namespace CqrsServices.Queries.BrandQueries
         }
 
 
-        public class Handaler : IRequestHandler<Query, bool>
+        public class Handaler : IRequestHandler<Query, Response>
         {
             private readonly IBrandRepository _brandRepository;
             public Handaler(IBrandRepository brandRepository)
             {
                 _brandRepository = brandRepository;
             }
-            public async Task<bool> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _brandRepository.ValidateEmailExistence(request.Email);
+                return new Response { Result = await _brandRepository.ValidateEmailExistence(request.Email) };
             }
         }
-
-
-
+        public class Response : CQRSResponse
+        {
+            public bool Result { get; set; }
+        }
     }
 }

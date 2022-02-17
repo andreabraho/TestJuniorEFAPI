@@ -51,7 +51,7 @@ namespace CqrsServices.Queries.BrandQueries
             }
         }
 
-        public class Response
+        public class Response:CQRSResponse
         {
             public int Page { get; set; }
             public int PageSize { get; set; }

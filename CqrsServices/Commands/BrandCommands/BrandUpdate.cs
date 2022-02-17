@@ -13,35 +13,41 @@ namespace CqrsServices.Commands.BrandCommands
 {
     public static class BrandUpdate
     {
-        public class Command : IRequest<bool>
+        public class Command : IRequest<Response>
         {
             public Brand Brand { get; set; }
             public Command(Brand brand)
             {
                 Brand=brand;
             }
-            public class Handaler : IRequestHandler<Command, bool>
+            
+        }
+        public class Handaler : IRequestHandler<Command, Response>
+        {
+            private readonly IBrandRepository _brandRepository;
+            public Handaler(IBrandRepository brandRepository)
             {
-                private readonly IBrandRepository _brandRepository;
-                public Handaler(IBrandRepository brandRepository)
-                {
-                    _brandRepository= brandRepository;
-                }
-
-                public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
-                {
-                    Brand BrandFromRepo =await _brandRepository.GetById(request.Brand.Id).FirstOrDefaultAsync();
-                    if (BrandFromRepo == null)
-                        throw new NullReferenceException("id not valid");
-
-                    BrandFromRepo.BrandName = request.Brand.BrandName;
-                    BrandFromRepo.Description = request.Brand.Description;
-                    if (await _brandRepository.Update(BrandFromRepo) > 0)
-                        return true;
-                    else
-                        return false;
-                }
+                _brandRepository = brandRepository;
             }
+
+            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
+            {
+                Brand BrandFromRepo = await _brandRepository.GetById(request.Brand.Id).FirstOrDefaultAsync();
+                if (BrandFromRepo == null)
+                    throw new NullReferenceException("id not valid");
+
+                BrandFromRepo.BrandName = request.Brand.BrandName;
+                BrandFromRepo.Description = request.Brand.Description;
+                if (await _brandRepository.Update(BrandFromRepo) > 0)
+                    return new Response { Result = true };
+                else
+                    return new Response { Result = false };
+            }
+        }
+        public class Response : CQRSResponse
+        {
+            public bool Result { get; set; }
+
         }
     }
 }
