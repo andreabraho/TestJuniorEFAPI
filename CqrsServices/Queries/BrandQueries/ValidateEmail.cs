@@ -1,4 +1,5 @@
-﻿using DataLayer.Interfaces;
+﻿using CqrsServices.Validation;
+using DataLayer.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,43 @@ namespace CqrsServices.Queries.BrandQueries
             }
 
         }
+        public class Validator : IValidationHandler<Query>
+        {
+            public async Task<ValidationResult> Validate(Query request)
+            {
+                if (string.IsNullOrWhiteSpace(request.Email))
+                    return ValidationResult.Fail("Email can't be Null or Empity");
+                if (request.Email.Length > 255)
+                    return ValidationResult.Fail("Email can't have more than 255 Characters");
+                if (!IsValidEmail(request.Email))
+                    return ValidationResult.Fail("Email pattern not valid");
 
+                return ValidationResult.Success;
+            }
+            private bool IsValidEmail(string email)
+            {
+                var trimmedEmail = email.Trim();
 
-        public class Handaler : IRequestHandler<Query, Response>
+                if (trimmedEmail.EndsWith("."))
+                {
+                    return false;
+                }
+                try
+                {
+                    var addr = new System.Net.Mail.MailAddress(email);
+                    return addr.Address == trimmedEmail;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public class Handler : IRequestHandler<Query, Response>
         {
             private readonly IBrandRepository _brandRepository;
-            public Handaler(IBrandRepository brandRepository)
+            public Handler(IBrandRepository brandRepository)
             {
                 _brandRepository = brandRepository;
             }
