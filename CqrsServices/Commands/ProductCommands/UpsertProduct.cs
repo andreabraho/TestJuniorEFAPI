@@ -71,34 +71,31 @@ namespace CqrsServices.Commands.ProductCommands
 
 
 
-
-
-
-
         private static string UpSertProductValidation(Product product, int[] cats)
         {
             string result = null;
-
+            
             if (cats.Length == 0)
-            {
                 result += "Select at least one category for the product \n";
-            }
-            if (string.IsNullOrWhiteSpace(product.Name) || product.Name.Length == 0 || product.Name.Length > 255)
-            {
-                result += "Product name can't be empity and can't have more than 255 characters \n";
-            }
-            if (string.IsNullOrWhiteSpace(product.ShortDescription) || product.ShortDescription.Length == 0 || product.ShortDescription.Length > 255)
-            {
-                result += "Product short description can't be empity and can't have more than 255 characters \n";
-            }
+
+            if (string.IsNullOrWhiteSpace(product.Name))
+                result += "Product name can't be empity or null \n";
+            else
+                if (product.Name.Length > 255)
+                    result += "Product name can't have more than 255 characters \n";
+
+            if(string.IsNullOrWhiteSpace(product.ShortDescription))
+                result += "Product short description can't be empity or null \n";
+            else
+                if (product.ShortDescription.Length == 0 || product.ShortDescription.Length > 255)
+                    result += "Product short description can't have more than 255 characters \n";
+            
             if (product.Price < 0 || product.Price > (decimal)1e16)
-            {
                 result += "Price can't be lower than 0 or higher than 1e16";
-            }
+
             if (product.BrandId < 0)
-            {
-                result += "Brand id can't be 0";
-            }
+                result += "Brand id can't be 0 or lower than";
+
             return result;
         }
     }
