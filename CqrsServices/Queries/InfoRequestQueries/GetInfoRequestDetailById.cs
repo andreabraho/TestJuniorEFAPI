@@ -1,4 +1,5 @@
-﻿using DataLayer.Interfaces;
+﻿using CqrsServices.Validation;
+using DataLayer.Interfaces;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +22,16 @@ namespace CqrsServices.Queries.InfoRequestQueries
                 Id = id;
             }
         }
+        public class Validator : IValidationHandler<Query>
+        {
+            public async Task<ValidationResult> Validate(Query request)
+            {
+                if (request.Id <= 0)
+                    ValidationResult.Fail("Id can't be lower or equal than 0");
 
-
+                return ValidationResult.Success;
+            }
+        }
 
         public class Handaler : IRequestHandler<Query, Response>
         {
