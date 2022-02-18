@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 
 namespace ServicaLayer.ProductService
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
         private readonly IBrandRepository _brandRepository;
         private readonly IRepository<Category> _categoryRepository;
-        public ProductService(IProductRepository productRepository,IBrandRepository brandRepository, IRepository<Category> categoryRepository)
+        public ProductService(IProductRepository productRepository, IBrandRepository brandRepository, IRepository<Category> categoryRepository)
         {
-            _productRepository=productRepository;
-            _brandRepository=brandRepository;
-            _categoryRepository=categoryRepository;
+            _productRepository = productRepository;
+            _brandRepository = brandRepository;
+            _categoryRepository = categoryRepository;
         }
         /// <summary>
         /// get all info needed for a brand list page
@@ -32,13 +32,13 @@ namespace ServicaLayer.ProductService
         /// <param name="brandId">optional,default 0,type int,if default does nothing , if different filters on brands</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public ProductPageDTO GetProductsForPage(int page,int pageSize,int brandId=0,OrderProduct orderBy= OrderProduct.BrandName, bool isAsc=true)
+        public ProductPageDTO GetProductsForPage(int page, int pageSize, int brandId = 0, OrderProduct orderBy = OrderProduct.BrandName, bool isAsc = true)
         {
             if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             if (page <= 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
-            if(brandId < 0)
+            if (brandId < 0)
                 throw new ArgumentOutOfRangeException(nameof(brandId));
 
             var productPageModel = new ProductPageDTO
@@ -51,13 +51,13 @@ namespace ServicaLayer.ProductService
                     Id = b.Id,
                     Name = b.BrandName
                 })
-                
+
             };
             var query = _productRepository.GetAll();
 
             query = query.FilterProducts(brandId);
 
-            query=query.OrderForPage(orderBy,isAsc);
+            query = query.OrderForPage(orderBy, isAsc);
 
             query = query.Page(page, pageSize);
 
@@ -65,16 +65,16 @@ namespace ServicaLayer.ProductService
 
             productPageModel.TotalPages = CalculateTotalPages(productPageModel.TotalProducts, pageSize);
 
-            return productPageModel; 
+            return productPageModel;
         }
-        
+
         /// <summary>
         /// get all detail need for a product detail page
         /// </summary>
         /// <param name="id">rappresents the id of the product witch detail are needed</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        
+
         async public Task<ProductDetailDTO> GetProductDetail(int id)
         {
             if (id <= 0)
@@ -84,7 +84,7 @@ namespace ServicaLayer.ProductService
             {
                 Id = p.Id,
                 Name = p.Name,
-                BrandId=p.Brand.Id,
+                BrandId = p.Brand.Id,
                 BrandName = p.Brand.BrandName,
 
                 productsCategory = p.ProductCategories.Select(c => new CategoryProductDTO
@@ -114,7 +114,7 @@ namespace ServicaLayer.ProductService
         /// <returns>0 in case of error,n in case of success</returns>
         /// <exception cref="ArgumentNullException">product null</exception>
         /// <exception cref="ArgumentNullException">categories null</exception>
-        public async Task<int> UpsertProduct(Product product,int[] categories)
+        public async Task<int> UpsertProduct(Product product, int[] categories)
         {
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
@@ -123,7 +123,7 @@ namespace ServicaLayer.ProductService
             if (UpSertProductValidation(product, categories) != null)
                 throw new ArgumentException();
 
-            return await _productRepository.Upsert(product,categories);
+            return await _productRepository.Upsert(product, categories);
         }
         /// <summary>
         /// delete a product and all data related
@@ -133,7 +133,7 @@ namespace ServicaLayer.ProductService
         /// <exception cref="ArgumentException"> id not valid</exception>
         public async Task<bool> DeleteProduct(int id)
         {
-            if(id<=0)
+            if (id <= 0)
                 throw new ArgumentException(nameof(id));
 
             return await _productRepository.DeleteProdAndRelatedData(id);
@@ -142,9 +142,9 @@ namespace ServicaLayer.ProductService
         /// get all data needed for product upsert page
         /// </summary>
         /// <returns></returns>
-        public  GetInsertProductDTO GetInsertProductDTO()
+        public GetInsertProductDTO GetInsertProductDTO()
         {
-            var x=new GetInsertProductDTO();
+            var x = new GetInsertProductDTO();
             x.Brands = _brandRepository.GetAll().Select(brand => new BrandForInsertDTO
             {
                 Id = brand.Id,
@@ -165,23 +165,23 @@ namespace ServicaLayer.ProductService
         /// <returns>null or the product needed</returns>
         public GetUpdateProductDTO GetProductForUpdate(int id)
         {
-            if(id<=0)
+            if (id <= 0)
                 throw new ArgumentException(nameof(id));
 
-            var getUpdateProductDTO = _productRepository.GetById(id).Include(x => x.ProductCategories).Select(x=>new GetUpdateProductDTO
+            var getUpdateProductDTO = _productRepository.GetById(id).Include(x => x.ProductCategories).Select(x => new GetUpdateProductDTO
             {
-                AllBrands=_brandRepository.GetAll().Select(brand=>new BrandForInsertDTO
+                AllBrands = _brandRepository.GetAll().Select(brand => new BrandForInsertDTO
                 {
-                    Id=brand.Id,
-                    Name=brand.BrandName
+                    Id = brand.Id,
+                    Name = brand.BrandName
                 }),
-                AllCategories=_categoryRepository.GetAll().Select(cat=>new CatForInsertDTO
+                AllCategories = _categoryRepository.GetAll().Select(cat => new CatForInsertDTO
                 {
-                    Name=cat.Name,
-                    Id=cat.Id,
+                    Name = cat.Name,
+                    Id = cat.Id,
                 }),
-                CategoriesAssociated=x.ProductCategories.Select(cat=>cat.CategoryId).ToArray(),
-                Product= _productRepository.GetById(id).FirstOrDefault()
+                CategoriesAssociated = x.ProductCategories.Select(cat => cat.CategoryId).ToArray(),
+                Product = _productRepository.GetById(id).FirstOrDefault()
 
             }).FirstOrDefault();
 
@@ -200,7 +200,7 @@ namespace ServicaLayer.ProductService
         /// </summary>
         /// <param name="prodWCat"></param>
         /// <returns>null is it is valid,string with error if not</returns>
-        private string UpSertProductValidation(Product product,int[] cats)
+        private string UpSertProductValidation(Product product, int[] cats)
         {
             string result = null;
 
@@ -208,11 +208,11 @@ namespace ServicaLayer.ProductService
             {
                 result += "Select at least one category for the product \n";
             }
-            if (string.IsNullOrWhiteSpace(product.Name)||product.Name.Length == 0 || product.Name.Length > 255)
+            if (string.IsNullOrWhiteSpace(product.Name) || product.Name.Length == 0 || product.Name.Length > 255)
             {
                 result += "Product name can't be empity and can't have more than 255 characters \n";
             }
-            if (string.IsNullOrWhiteSpace(product.ShortDescription)||product.ShortDescription.Length == 0 || product.ShortDescription.Length > 255)
+            if (string.IsNullOrWhiteSpace(product.ShortDescription) || product.ShortDescription.Length == 0 || product.ShortDescription.Length > 255)
             {
                 result += "Product short description can't be empity and can't have more than 255 characters \n";
             }
@@ -229,5 +229,5 @@ namespace ServicaLayer.ProductService
 
 
     }
-    
+
 }

@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace ServicaLayer.InfoRequestService
 {
-    public class InfoRequestService
+    public class InfoRequestService : IInfoRequestService
     {
         IRepository<InfoRequest> _infoRequestRepository;
         IRepository<Brand> _brandRepository;
         public InfoRequestService(IRepository<InfoRequest> infoRequestRepository, IRepository<Brand> brandRepository)
         {
-            _infoRequestRepository=infoRequestRepository;
+            _infoRequestRepository = infoRequestRepository;
             _brandRepository = brandRepository;
         }
         /// <summary>
@@ -33,26 +33,26 @@ namespace ServicaLayer.InfoRequestService
         /// <param name="productId">product to filetr on</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public InfoRequestPageDTO GetPage(int page, int pageSize,int idBrand=0,string productNameSearch=null,bool isAsc=true,int productId=0)
+        public InfoRequestPageDTO GetPage(int page, int pageSize, int idBrand = 0, string productNameSearch = null, bool isAsc = true, int productId = 0)
         {
 
             if (pageSize <= 0)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
             if (page <= 0)
                 throw new ArgumentOutOfRangeException(nameof(page));
-            if(productNameSearch!=null)
-            if(productNameSearch.Length==0 || productNameSearch.Length>255)
-                throw new ArgumentOutOfRangeException(nameof(productNameSearch));
-            if (productId<0)
+            if (productNameSearch != null)
+                if (productNameSearch.Length == 0 || productNameSearch.Length > 255)
+                    throw new ArgumentOutOfRangeException(nameof(productNameSearch));
+            if (productId < 0)
                 throw new ArgumentOutOfRangeException(nameof(productId));
-            if(idBrand<0)
+            if (idBrand < 0)
                 throw new ArgumentOutOfRangeException(nameof(idBrand));
 
             var pageModel = new InfoRequestPageDTO
             {
                 Page = page,
                 PageSize = pageSize,
-                TotalinfoRequests = _infoRequestRepository.GetAll().FilterIR(idBrand, productNameSearch,productId).Count(),
+                TotalinfoRequests = _infoRequestRepository.GetAll().FilterIR(idBrand, productNameSearch, productId).Count(),
                 Brands = _brandRepository.GetAll().Select(b => new BrandForPageDTO
                 {
                     Id = b.Id,
@@ -62,11 +62,11 @@ namespace ServicaLayer.InfoRequestService
 
             var query = _infoRequestRepository.GetAll();
 
-            query = query.FilterIR(idBrand, productNameSearch,productId);
-           
+            query = query.FilterIR(idBrand, productNameSearch, productId);
+
             query = query.OrderInfoRequest(isAsc);
 
-            query=query.Page(page,pageSize);
+            query = query.Page(page, pageSize);
 
             pageModel.infoRequests = query.MapIrForPaging();
 
@@ -96,7 +96,7 @@ namespace ServicaLayer.InfoRequestService
                     BrandName = ir.Product.Brand.BrandName,
                     Name = ir.Product.Name,
                 },
-                RequestText=ir.RequestText,
+                RequestText = ir.RequestText,
                 Name = ir.Name,
                 LastName = ir.LastName,
                 Email = ir.Email,
@@ -106,7 +106,7 @@ namespace ServicaLayer.InfoRequestService
                     Id = r.Id,
                     ReplyText = r.ReplyText,
                     User = r.Account.AccountType == 1 ? r.Account.Brand.BrandName : ir.Name + " " + ir.LastName,
-                    Date=r.InsertDate,
+                    Date = r.InsertDate,
                 }),
             });
 

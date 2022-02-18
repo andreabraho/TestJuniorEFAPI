@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace ServicaLayer.BrandService
 {
-    public class BrandService
+    public class BrandService : IBrandService
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IRepository<Category> _categoryRepository;
-        public BrandService(IBrandRepository brandRepository,IRepository<Category> categoryRepository)
+        public BrandService(IBrandRepository brandRepository, IRepository<Category> categoryRepository)
         {
             _brandRepository = brandRepository;
             _categoryRepository = categoryRepository;
@@ -38,12 +38,12 @@ namespace ServicaLayer.BrandService
                 throw new ArgumentOutOfRangeException(nameof(page));
             var brandPageModel = new BrandPageDTO
             {
-                Brands = _brandRepository.GetAll().OrderByDescending(x => x.Id).Page(page,pageSize).MapBrandForBrandPage(),
+                Brands = _brandRepository.GetAll().OrderByDescending(x => x.Id).Page(page, pageSize).MapBrandForBrandPage(),
                 Page = page,
                 PageSize = pageSize,
                 TotalBrand = _brandRepository.GetAll().Count(),
             };
-            
+
             brandPageModel.TotalPages = CalculateTotalPages(brandPageModel.TotalBrand, pageSize);
 
             return brandPageModel;
@@ -55,7 +55,7 @@ namespace ServicaLayer.BrandService
         /// <returns></returns>
         async public Task<BrandDetailDTO> GetBrandDetail(int id)
         {
-            
+
             var query = _brandRepository.GetById(id).Select(b => new BrandDetailDTO
             {
                 Id = b.Id,
@@ -89,18 +89,18 @@ namespace ServicaLayer.BrandService
         /// <param name="prodsWithCat">products and list of categories id associated</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">account, brand , prods array null</exception>
-        public async Task<int> InsertBrand(Account account,Brand brand, ProdWithCat[] prodsWithCat)
+        public async Task<int> InsertBrand(Account account, Brand brand, ProdWithCat[] prodsWithCat)
         {
-            if(account == null)
+            if (account == null)
                 throw new ArgumentNullException(nameof(account));
-            if(brand == null)
+            if (brand == null)
                 throw new ArgumentNullException(nameof(brand));
-            if(prodsWithCat == null)
+            if (prodsWithCat == null)
                 throw new ArgumentNullException(nameof(prodsWithCat));
-            if(ValidateBrandInsert(new BrandInsertApiModel { Account = account, Brand = brand,prodsWithCats=prodsWithCat }) != null)
+            if (ValidateBrandInsert(new BrandInsertApiModel { Account = account, Brand = brand, prodsWithCats = prodsWithCat }) != null)
                 throw new InvalidOperationException("Data are not valid");
 
-            return await _brandRepository.InsertWithProducts(account,brand, prodsWithCat);
+            return await _brandRepository.InsertWithProducts(account, brand, prodsWithCat);
         }
 
         /// <summary>
@@ -111,9 +111,9 @@ namespace ServicaLayer.BrandService
         /// <exception cref="ArgumentOutOfRangeException">id not valid</exception>
         public async Task<bool> DeleteAll(int id)
         {
-            if(id<=0)
+            if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id));
-            
+
             return await _brandRepository.DeleteBrandAndRelatedData(id);
         }
         /// <summary>
@@ -125,11 +125,11 @@ namespace ServicaLayer.BrandService
         /// <exception cref="NullReferenceException">brand id is not valid</exception>
         public async Task<bool> EditBrand(Brand brand)
         {
-            if(brand == null)
+            if (brand == null)
                 throw new ArgumentNullException(nameof(brand));
             if (ValidateBrandUpdate(brand) != null)
                 throw new InvalidOperationException("brand data was not valid");
-            Brand BrandFromRepo=_brandRepository.GetById(brand.Id).FirstOrDefault();
+            Brand BrandFromRepo = _brandRepository.GetById(brand.Id).FirstOrDefault();
             if (BrandFromRepo == null)
                 throw new NullReferenceException("id not valid");
 
@@ -148,7 +148,7 @@ namespace ServicaLayer.BrandService
         /// <exception cref="ArgumentOutOfRangeException">brand id is not valid</exception>
         public async Task<Brand> GetBrand(int id)
         {
-            if(id <=0)
+            if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id));
             return await _brandRepository.GetById(id).FirstOrDefaultAsync();
         }
@@ -252,7 +252,7 @@ namespace ServicaLayer.BrandService
 
             if (trimmedEmail.EndsWith("."))
             {
-                return false; 
+                return false;
             }
             try
             {
@@ -305,7 +305,7 @@ namespace ServicaLayer.BrandService
 
         public BrandDetailDTO GetBrandDetail2(int id)//in progress
         {
-            
+
             var query = _brandRepository.GetById(id).Select(b => new BrandDetailDTO
             {
                 Id = b.Id,
@@ -326,6 +326,6 @@ namespace ServicaLayer.BrandService
 
         }
 
-        
+
     }
 }
