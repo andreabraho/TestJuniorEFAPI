@@ -1,4 +1,5 @@
-﻿using DataLayer.Interfaces;
+﻿using CqrsServices.Validation;
+using DataLayer.Interfaces;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,21 @@ namespace CqrsServices.Commands.BrandCommands
             }
             
         }
+
+        public class Validator : IValidationHandler<Command>
+        {
+            public async Task<ValidationResult> Validate(Command request)
+            {
+                if (request.Brand == null)
+                    return ValidationResult.Fail("Brand can't be null");
+
+                var result=ValidateBrandUpdate(request.Brand);
+                if(result!=null)
+                    return ValidationResult.Fail(result);
+                return ValidationResult.Success;
+            }
+        }
+
         public class Handaler : IRequestHandler<Command, Response>
         {
             private readonly IBrandRepository _brandRepository;
@@ -29,7 +45,6 @@ namespace CqrsServices.Commands.BrandCommands
             {
                 _brandRepository = brandRepository;
             }
-
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
                 Brand BrandFromRepo = await _brandRepository.GetById(request.Brand.Id).FirstOrDefaultAsync();
@@ -48,6 +63,25 @@ namespace CqrsServices.Commands.BrandCommands
         {
             public bool Result { get; set; }
 
+        }
+
+        /// <summary>
+        /// validates the model in input for brand Update api
+        /// </summary>
+        /// <param name="brand"></param>
+        /// <returns>null if the model is valid,
+        /// string with error if not</returns>
+        private static string ValidateBrandUpdate(Brand brand)
+        {
+            string result = null;
+            if (string.IsNullOrWhiteSpace(brand.BrandName))
+            {
+                result = "Brand name can't be null o empity";
+            }else
+            if (brand.BrandName.Length > 255)
+                result = "Not valid Brand Name can't have more than 255 characters";
+
+            return result;
         }
     }
 }

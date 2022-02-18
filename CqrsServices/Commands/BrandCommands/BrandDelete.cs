@@ -1,4 +1,5 @@
-﻿using DataLayer.Interfaces;
+﻿using CqrsServices.Validation;
+using DataLayer.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,16 @@ namespace CqrsServices.Commands.BrandCommands
                 Id=id;
             }
         }
+        public class Validator : IValidationHandler<Command>
+        {
+            public async Task<ValidationResult> Validate(Command request)
+            {
+                if (request.Id<= 0)
+                    return ValidationResult.Fail("Id can't be lower or equal than 0");
+                return ValidationResult.Success;
+            }
+        }
+
         public class Handaler : IRequestHandler<Command, Response>
         {
             private readonly IBrandRepository _brandRepository;
