@@ -14,7 +14,7 @@ namespace CqrsServices.Queries
 {
     public static class GetProductPage
     {
-        public class Query : IRequest<Response>
+        public class Query : IRequest<Response>//input 
         {
             public int Page { get; set; }
             public int PageSize { get; set; }

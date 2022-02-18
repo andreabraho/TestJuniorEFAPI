@@ -31,10 +31,8 @@ namespace CqrsApi.Controllers
         async public Task<IActionResult> GetBrandDetail(int id)
         {
             var response = await _mediator.Send(new GetBrandDetailById.Query(id));
-            if(response!=null)
-                return Ok(response);
-            else
-                return NotFound();
+                
+            return Ok(response);
         }
         /// <summary>
         /// get all info needed for a brand page
@@ -46,11 +44,8 @@ namespace CqrsApi.Controllers
         public async Task<IActionResult> GetBrandPage(int page, int pageSize)
         {
             var response =await _mediator.Send(new GetBrandPage.Query(page, pageSize));
-
-            if (response != null)
-                return Ok(response);
-            else
-                return NotFound();
+                
+            return Ok(response);
         }
 
         /// <summary>
@@ -62,10 +57,8 @@ namespace CqrsApi.Controllers
         public async Task<IActionResult> InsertBrand(BrandInsertApiModel testModel)
         {
             var response = await _mediator.Send(new InsertBrand.Command(testModel.Account, testModel.Brand, testModel.prodsWithCats));
-            if(response.Id>0)
-                return Ok(response);
-            else
-                return NotFound();
+                
+            return Ok(response);
         }
 
         /// <summary>
@@ -77,10 +70,8 @@ namespace CqrsApi.Controllers
         public async Task<IActionResult> DeleteBrandAndRelations(int id)
         {
             var response=await _mediator.Send(new BrandDelete.Command(id));
-            if(response.Result)
-                return Ok(response);
-            else 
-                return BadRequest(response);
+                
+            return Ok(response);
         }
         /// <summary>
         /// updates a brand
@@ -94,10 +85,8 @@ namespace CqrsApi.Controllers
                 BadRequest("brand was null");
 
             var response=await _mediator.Send(new BrandUpdate.Command(brand));
-            if (response.Result)
-                return Ok(brand.Id);
-            else
-                return BadRequest(response);
+                
+            return Ok(response);
         }
         /// <summary>
         /// get the brand data for brand update
@@ -127,8 +116,10 @@ namespace CqrsApi.Controllers
         {
             if (string.IsNullOrWhiteSpace(email))
                 return BadRequest(false);
-            if (email.Length == 0 || email.Length > 255)
+
+            if (email.Length > 255)
                 return BadRequest(false);
+
             if (!IsValidEmail(email))
                 return BadRequest(false);
 

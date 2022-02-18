@@ -181,6 +181,7 @@ export default {
             this.$router.push("/products/" + this.id);
           })
           .catch(err=>{
+            console.log(err)
             this.showAlert(err);return null})
         }
       }

@@ -55,6 +55,7 @@ namespace CqrsApi
             services.AddScoped<IInfoRequestRepository, InfoRequestRepository>();
             services.AddControllers().AddNewtonsoftJson(options =>
                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddMediatR(typeof(GetProductDetailById).Assembly);
             services.AddValidators();
 

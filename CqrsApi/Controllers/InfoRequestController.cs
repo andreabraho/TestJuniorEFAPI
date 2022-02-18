@@ -24,10 +24,8 @@ namespace CqrsApi.Controllers
         async public Task<IActionResult> GetInfoRequestDetail(int id)
         {
             var response = await _mediator.Send(new GetInfoRequestDetailById.Query(id));
-            if(response!=null)
-               return Ok(response);
-            else
-                return NotFound();
+               
+            return Ok(response);
         }
         /// <summary>
         /// gets all data needed for info request page
@@ -43,10 +41,8 @@ namespace CqrsApi.Controllers
         public async Task<IActionResult> GetPage(int page, int pageSize, int brandId, string prodNameSearch, bool isAsc, int productId)
         {
             var response= await _mediator.Send(new GetInfoRequestPage.Query(page, pageSize, brandId, prodNameSearch, isAsc, productId));
-            if (response != null)
-                return Ok(response);
-            else
-                return NotFound();
+                
+            return Ok(response);
 
         }
     }

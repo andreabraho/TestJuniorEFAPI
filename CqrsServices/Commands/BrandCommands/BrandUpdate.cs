@@ -54,7 +54,7 @@ namespace CqrsServices.Commands.BrandCommands
                 BrandFromRepo.BrandName = request.Brand.BrandName;
                 BrandFromRepo.Description = request.Brand.Description;
                 if (await _brandRepository.Update(BrandFromRepo) > 0)
-                    return new Response { Result = true };
+                    return new Response { Result = true,BrandId=BrandFromRepo.Id };
                 else
                     return new Response { Result = false };
             }
@@ -62,6 +62,7 @@ namespace CqrsServices.Commands.BrandCommands
         public class Response : CQRSResponse
         {
             public bool Result { get; set; }
+            public int BrandId { get; set; }
 
         }
 

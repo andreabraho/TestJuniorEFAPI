@@ -21,21 +21,16 @@ namespace TestJuniorEFAPI.Controllers
         [Route("page/{page:int}/{pagesize:int}")]
         public async Task<IActionResult> GetPage(int page, int pageSize, int brandId, int orderBy, bool isAsc)
         {
-
             var response = await _mediator.Send(new GetProductPage.Query(page, pageSize, brandId, orderBy, isAsc));
-            if(response!=null)
-                return Ok(response);
-            else
-                return BadRequest();
+               
+            return Ok(response);
         }
         [HttpGet("Detail/{id}")]
         public async Task<IActionResult> Detail(int id)
         {
             var response=await _mediator.Send(new GetProductDetailById.Query(id));
-            if(response!=null)
-                return Ok(response);
-            else
-                return NotFound();
+                
+            return Ok(response);
         }
         [HttpPost("Upsert")]
         [HttpPut("Upsert")]
@@ -44,13 +39,13 @@ namespace TestJuniorEFAPI.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                    return Ok(result);
+
+                return Ok(result);
             }
             catch(Exception e)
             {
                 return BadRequest(e.Message);
             }
-            
         }
         /// <summary>
         /// deletes a product and all data in rlation with him
@@ -60,12 +55,11 @@ namespace TestJuniorEFAPI.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> DeleteProductAsync(int id)
         {
-            var result =await _mediator.Send(new DeleteProduct.Command(id));
-            if (result.Result)
-                return Ok(result.Result);
-            else
-                return BadRequest();
 
+
+            var result =await _mediator.Send(new DeleteProduct.Command(id));
+
+            return Ok(result.Result);
         }
 
 
@@ -77,10 +71,8 @@ namespace TestJuniorEFAPI.Controllers
         public async Task<IActionResult> GetCatListBrandList()
         {
             var response = await _mediator.Send(new GetDataForInsert.Query());
-            if (response != null)
-                return Ok(response);
-            else
-                return NotFound();
+                
+            return Ok(response);
         }
         /// <summary>
         /// return the product data needed for update
@@ -91,10 +83,8 @@ namespace TestJuniorEFAPI.Controllers
         public async Task<IActionResult> UpdateProductAsync(int id)
         {
             var response = await _mediator.Send(new GetDataForUpdate.Query(id));
-            if (response != null)
-                return Ok(response);
-            else
-                return NotFound();
+                
+            return Ok(response);
         }
     }
 }
