@@ -1,4 +1,5 @@
-﻿using DataLayer.Interfaces;
+﻿using CqrsServices.Validation;
+using DataLayer.Interfaces;
 using DataLayer.QueryObjects;
 using Domain;
 using MediatR;
@@ -30,14 +31,38 @@ namespace CqrsServices.Queries
             }
             
         }
+        public class Validator : IValidationHandler<Query>
+        {
+            public async Task<ValidationResult> Validate(Query request)
+            {
+                string result = null;
+                result = ValidatePage(request);
 
+                if (result != null)
+                    return ValidationResult.Fail(result);
 
-        public class Handaler : IRequestHandler<Query, Response>
+                return ValidationResult.Success;
+            }
+
+            private static string ValidatePage(Query request)
+            {
+                string result = null;
+                if (request.PageSize <= 0)
+                    result += "Page size can't be equal or lower than 0";
+                if (request.Page <= 0)
+                    result += "Page can't be equal or lower than 0";
+                if (request.BrandId < 0)
+                    result += "Brand Id can't be equal or lower than 0";
+                return result;
+            }
+        }
+
+        public class Handler : IRequestHandler<Query, Response>
         {
             private readonly IProductRepository _productRepository;
             private readonly IBrandRepository _brandRepository;
             private readonly IRepository<Category> _categoryRepository;
-            public Handaler(IProductRepository productRepository, IBrandRepository brandRepository, IRepository<Category> categoryRepository)
+            public Handler(IProductRepository productRepository, IBrandRepository brandRepository, IRepository<Category> categoryRepository)
             {
                 _productRepository = productRepository;
                 _brandRepository = brandRepository;

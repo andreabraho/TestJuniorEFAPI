@@ -1,4 +1,5 @@
-﻿using DataLayer.Interfaces;
+﻿using CqrsServices.Validation;
+using DataLayer.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,7 +25,16 @@ namespace CqrsServices.Queries
             }
         }
 
-
+        public class Validator : IValidationHandler<Query>
+        {
+            public async Task<ValidationResult> Validate(Query request)
+            {
+                if (request.Id <= 0)
+                    return ValidationResult.Fail("Id Requerst can't be lower of equal than 0");
+                
+                return ValidationResult.Success;
+            }
+        }
 
         //handaler all business logic added to execute,return a response
 

@@ -16,19 +16,19 @@ namespace CqrsServices.Queries.ProductQueries
         {
 
         }
-        public class Handaler : IRequestHandler<Query, Response>
+
+        public class Handler : IRequestHandler<Query, Response>
         {
 
             private readonly IProductRepository _productRepository;
             private readonly IBrandRepository _brandRepository;
             private readonly IRepository<Category> _categoryRepository;
-            public Handaler(IProductRepository productRepository, IBrandRepository brandRepository, IRepository<Category> categoryRepository)
+            public Handler(IProductRepository productRepository, IBrandRepository brandRepository, IRepository<Category> categoryRepository)
             {
                 _productRepository = productRepository;
                 _brandRepository = brandRepository;
                 _categoryRepository = categoryRepository;
             }
-
 
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
